@@ -173,12 +173,12 @@ mroPara <- function(obj, conf.levels = 1.96, nonparallel = NULL) {
     out
 }
 
-print.mrocalc2 <- function(x) {
+print.mrocalc2 <- function(x, ...) {
     cat("For grab things try format(object)\n")
     cat("For summary analysis try summary(object)\n")
 }
 
-format.mrocalc <- function(x) {
+format.mrocalc <- function(x, ...) {
     OBJ.n <- deparse(substitute(x))
     Root <- paste0(OBJ.n, "$")
     Title <- paste0(Root, names(x))
@@ -211,15 +211,15 @@ chisq.mro.by <- function(bymro) {
          pv = pchisq(sum(chiv), df = p * (n - 1), lower.tail = FALSE))
 }
 
-barplot.mrocalc <- function(obj, Order = NULL, horiz = FALSE, title = NULL, 
-                            bbar.col = "Alice Blue", fbar.col = "red",
-                            dl.col = "Dark Khaki", comi.col = "green",
-                            coni.col = "black", Par = FALSE ,
-                            label.las = NULL, ...) {
+barplot.mrocalc <- function(height, Order = NULL, horiz = FALSE,
+                            title = NULL, bbar.col = "Alice Blue",
+                            fbar.col = "red", dl.col = "Dark Khaki",
+                            comi.col = "green", coni.col = "black",
+                            Par = FALSE, label.las = NULL, ...) {
     mc <- match.call()
-    objName <- obj$Topic
+    objName <- height$Topic
     
-    obj <- obj$Mromoecalc
+    obj <- height$Mromoecalc
 
     if (! Par)
         par(col = "black", font = 1, cex = 1)
@@ -227,10 +227,10 @@ barplot.mrocalc <- function(obj, Order = NULL, horiz = FALSE, title = NULL,
     if (is.null(label.las))
         label.las <- if (horiz) 3 else 1
     
-    n <- length(obj$est)
+    n <- length(height$est)
     Od <-
         if (! is.null(Order))
-            order(obj$est, decreasing = Order == "decreasing")
+            order(height$est, decreasing = Order == "decreasing")
         else
             seq_len(n)
 
@@ -238,18 +238,18 @@ barplot.mrocalc <- function(obj, Order = NULL, horiz = FALSE, title = NULL,
     gray <- rep(1, n)
     dev.hold()
     if (! horiz) {
-        Label <- names(obj$est)[Od]
+        Label <- names(height$est)[Od]
         xmedian <- barplot(gray, col = bbar.col, horiz = horiz)
         xmedian <- as.vector(xmedian)
         dis <- width / 2
         x1 <- xmedian - dis
         x2 <- xmedian + dis
-        height <- obj$est[Od]
+        height <- height$est[Od]
         rect(x1, 0, x2, height, col = fbar.col)
-        compL <- obj$compL[Od]
-        compU <- obj$compU[Od]
-        confL <- obj$confL[Od]
-        confU <- obj$confU[Od]
+        compL <- height$compL[Od]
+        compU <- height$compU[Od]
+        confL <- height$confL[Od]
+        confU <- height$confU[Od]
         segments(xmedian, pmax(confL,0),
                  xmedian, pmin(confU,1), 
                  lty = 1,col = coni.col)
@@ -268,19 +268,19 @@ barplot.mrocalc <- function(obj, Order = NULL, horiz = FALSE, title = NULL,
     } else {
         par(lty = 1)
         Od <- rev(Od)
-        Label <- names(obj$est)[Od]
+        Label <- names(height$est)[Od]
         xmedian <- barplot(gray, width = width, col = "Alice Blue",
                            horiz = horiz, ...)
         xmedian <- as.vector(xmedian)
         dis <- width / 2
         x1 <- xmedian - dis
         x2 <- xmedian + dis
-        height <- obj$est[Od]
+        height <- height$est[Od]
         rect(0, x1, height, x2, col = "red")
-        compL <- obj$compL[Od]
-        compU <- obj$compU[Od]
-        confL <- obj$confL[Od]
-        confU <- obj$confU[Od]
+        compL <- height$compL[Od]
+        compU <- height$compU[Od]
+        confL <- height$confL[Od]
+        confU <- height$confU[Od]
         segments(confL, xmedian, confU, xmedian)
         segments(compL, xmedian, compU, xmedian, col = "green", lwd = 4)
         abline(v = compL, col = "Dark Khaki", lty = 3)
@@ -299,7 +299,7 @@ barplot.mrocalc <- function(obj, Order = NULL, horiz = FALSE, title = NULL,
                    mc = mc))
 }
 
-plot.mrobarchart <- function(x = list()) {
+plot.mrobarchart <- function(x = list(), ...) {
     if (length(x) > 5)
         stop("too much to read")
     if (length(x) == 2) {
@@ -314,24 +314,24 @@ plot.mrobarchart <- function(x = list()) {
        eval(x[[i]]$mc)
 }
 
-plot.bymrocalc <- function(bm7obj, show = NULL, ...) {
+plot.bymrocalc <- function(x, show = NULL, ...) {
     pl <- match.call()
     out <- list()
     if (is.null(show)) {
-        n <- length(bm7obj)
-        for (i in seq_along(bm7obj)) {
+        n <- length(x)
+        for (i in seq_along(x)) {
             opar <- par(mfrow = c(1, n))
             dev.hold()
-            barplot(bm7obj[[i]], ...)
-            mtext(names(bm7obj)[i])
+            barplot(x[[i]], ...)
+            mtext(names(x)[i])
             dev.flush()
         }
     } else {
         par(mfrow = c(1, length(show)))
         for (j in show) {
             dev.hold()
-            barplot(bm7obj[[j]], ...)
-            mtext(names(bm7obj)[j])
+            barplot(x[[j]], ...)
+            mtext(names(x)[j])
             dev.flush()
         }
     }
@@ -339,7 +339,6 @@ plot.bymrocalc <- function(bm7obj, show = NULL, ...) {
     out$mc <- pl
     invisible(out)
 }
-
 
 crossTab <- function(bymro) {
     rn <- dimnames(bymro)[[1]]
@@ -391,13 +390,13 @@ between <- function(bymro) {
 
 # TODO: Consider using hcl() for colouring,
 #       ensuring more distinct colourings
-barplot.between <- function(obj, FUN = heat.colors, ...) {
-    k <- length(obj)
-    Dframe <- t(as.data.frame(unclass(obj[seq(1, k, by = 2)])))
+barplot.between <- function(height, FUN = heat.colors, ...) {
+    k <- length(height)
+    Dframe <- t(as.data.frame(unclass(height[seq(1, k, by = 2)])))
     jump.num <- 7
     var.num <- k/2
     Mat <- t(Dframe[1 + jump.num *0:(var.num-1),])
-    colnames(Mat) <- names(obj)[seq(1, k, by = 2)]
+    colnames(Mat) <- names(height)[seq(1, k, by = 2)]
     dev.hold()
     p <- barplot(Mat, beside = TRUE, col = FUN(ncol(Dframe)),
                  ylim = 0:1, ylab = "Proportion",
@@ -416,40 +415,40 @@ barplot.between <- function(obj, FUN = heat.colors, ...) {
     invisible(p)
 }
 
-summary.bymrocalc <- function(bymro, comp = "basic") {
+summary.bymrocalc <- function(object, comp = "basic", ...) {
     cat("Proportions:\n")
-    tabprops <- crossTab(bymro)
+    tabprops <- crossTab(object)
     cat("\n")
     print(tabprops, digits = 3)
     cat("--------------------------------------------------------\n")
     if (comp == "within") {
-        class(bymro) <- "within"
-        summary(bymro)
+        class(object) <- "within"
+        summary(object)
     }
     if (comp == "between"){
-        src <- between(bymro)
-        summary(src, bymro)
+        src <- between(object)
+        summary(src, object)
     } 
 }
 
-summary.within <- function(bymro) {
-    Title <- paste0(names(dimnames(bymro)),
+summary.within <- function(object, ...) {
+    Title <- paste0(names(dimnames(object)),
                     ":",
-                    dimnames(bymro)[[1]])
-    Multicom.Group <- vector("list", length(bymro))
-    for (i in seq_along(bymro)) {
+                    dimnames(object)[[1]])
+    Multicom.Group <- vector("list", length(object))
+    for (i in seq_along(object)) {
         cat(Title[i] , "\n")  
         # TODO: Magic numbers, use names instead
-        WithinVars <- as.data.frame(bymro[[i]]$Mromoecalc[c(2, 12, 14, 15)])
+        WithinVars <- as.data.frame(object[[i]]$Mromoecalc[c(2, 12, 14, 15)])
         print(round(WithinVars, 3))
         cat("\n")
         cat("Chisq test for uniformity: chisq =",
-            chisq.mro(bymro[[i]]),
+            chisq.mro(object[[i]]),
             " , df =",
-            length(bymro[[i]]$Mromoecalc$est),
+            length(object[[i]]$Mromoecalc$est),
             " p-value =",
-            pchisq(q = chisq.mro(bymro[[i]]),
-                   df = length(bymro[[i]]$Mromoecalc$est),
+            pchisq(q = chisq.mro(object[[i]]),
+                   df = length(object[[i]]$Mromoecalc$est),
                    lower.tail = FALSE),
             "\n")
         cat("\n")
@@ -457,8 +456,8 @@ summary.within <- function(bymro) {
                    Title[i], " distribution"),"\n")
         cat("(rowname - colname)","\n")
         cat("\n")
-        print(round(bymro[[i]]$Multicom, 3))
-        Multicom.Group[[i]] <- bymro[[i]]$Multicom
+        print(round(object[[i]]$Multicom, 3))
+        Multicom.Group[[i]] <- object[[i]]$Multicom
         cat("\n")
         cat("----------------------------------------------------------------------")
         cat("\n")
@@ -468,7 +467,7 @@ summary.within <- function(bymro) {
                    Multicom.Group = Multicom.Group))
 }
 
-summary.between <- function(Source,bymro) {
+summary.between <- function(Source, bymro) {
     k <- length(Source)
     Title <- names(Source)[seq(1, k, by = 2)] 
     G <- chisq.mro.by(bymro)
@@ -504,9 +503,9 @@ summary.between <- function(Source,bymro) {
                    BetweenVariables = BetweenVariables))
 }
 
-summary.mrocalc <- function(mropara) {
-    list(df = mropara$Mromoecalc$fit$df,
-         Mromoecalc = round(summary(mropara$Mromoecalc)$coef, 3),
-         Multicom = round(mropara$Multicom, 3))
+summary.mrocalc <- function(object, ...) {
+    list(df = object$Mromoecalc$fit$df,
+         Mromoecalc = round(summary(object$Mromoecalc)$coef, 3),
+         Multicom = round(object$Multicom, 3))
 }
 
