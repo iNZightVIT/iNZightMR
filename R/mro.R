@@ -123,13 +123,20 @@ by.mro <- function(mro.obj, formula, FUN, ...) {
         Indice <- as.data.frame(fastNumchange(as.matrix(Indice)))
         names(Indice) <- Name
     }
+
+    if (substitute(FUN) == "mroPara") {
+        out <- by(Dframe, Indice, FUN,
+                  nonparallel = names(mro.obj)[1])
+        class(out) <- c("by", "bymrocalc")
+        return(out)
+    }
+
     out <-
         if (formula != "~1")
             by(Dframe, Indice, FUN, ...)
         else
             FUN(Dframe, ...)
-    if (substitute(FUN) == "mroPara") 
-        class(out) <- c("by", "bymrocalc")
+
     out
 }
 
@@ -227,10 +234,10 @@ barplot.mrocalc <- function(height, Order = NULL, horiz = FALSE,
     if (is.null(label.las))
         label.las <- if (horiz) 3 else 1
     
-    n <- length(height$est)
+    n <- length(obj$est)
     Od <-
         if (! is.null(Order))
-            order(height$est, decreasing = Order == "decreasing")
+            order(obj$est, decreasing = Order == "decreasing")
         else
             seq_len(n)
 
@@ -238,18 +245,18 @@ barplot.mrocalc <- function(height, Order = NULL, horiz = FALSE,
     gray <- rep(1, n)
     dev.hold()
     if (! horiz) {
-        Label <- names(height$est)[Od]
+        Label <- names(obj$est)[Od]
         xmedian <- barplot(gray, col = bbar.col, horiz = horiz)
         xmedian <- as.vector(xmedian)
         dis <- width / 2
         x1 <- xmedian - dis
         x2 <- xmedian + dis
-        height <- height$est[Od]
+        height <- obj$est[Od]
         rect(x1, 0, x2, height, col = fbar.col)
-        compL <- height$compL[Od]
-        compU <- height$compU[Od]
-        confL <- height$confL[Od]
-        confU <- height$confU[Od]
+        compL <- obj$compL[Od]
+        compU <- obj$compU[Od]
+        confL <- obj$confL[Od]
+        confU <- obj$confU[Od]
         segments(xmedian, pmax(confL,0),
                  xmedian, pmin(confU,1), 
                  lty = 1,col = coni.col)
@@ -268,19 +275,19 @@ barplot.mrocalc <- function(height, Order = NULL, horiz = FALSE,
     } else {
         par(lty = 1)
         Od <- rev(Od)
-        Label <- names(height$est)[Od]
+        Label <- names(obj$est)[Od]
         xmedian <- barplot(gray, width = width, col = "Alice Blue",
                            horiz = horiz, ...)
         xmedian <- as.vector(xmedian)
         dis <- width / 2
         x1 <- xmedian - dis
         x2 <- xmedian + dis
-        height <- height$est[Od]
+        height <- ob$est[Od]
         rect(0, x1, height, x2, col = "red")
-        compL <- height$compL[Od]
-        compU <- height$compU[Od]
-        confL <- height$confL[Od]
-        confU <- height$confU[Od]
+        compL <- obj$compL[Od]
+        compU <- obj$compU[Od]
+        confL <- obj$confL[Od]
+        confU <- obj$confU[Od]
         segments(confL, xmedian, confU, xmedian)
         segments(compL, xmedian, compU, xmedian, col = "green", lwd = 4)
         abline(v = compL, col = "Dark Khaki", lty = 3)
@@ -316,28 +323,26 @@ plot.mrobarchart <- function(x = list(), ...) {
 
 plot.bymrocalc <- function(x, show = NULL, ...) {
     pl <- match.call()
-    out <- list()
     if (is.null(show)) {
         n <- length(x)
+        dev.hold()
         for (i in seq_along(x)) {
             opar <- par(mfrow = c(1, n))
-            dev.hold()
             barplot(x[[i]], ...)
             mtext(names(x)[i])
-            dev.flush()
         }
+        dev.flush()
     } else {
         par(mfrow = c(1, length(show)))
+        dev.hold()
         for (j in show) {
-            dev.hold()
             barplot(x[[j]], ...)
             mtext(names(x)[j])
-            dev.flush()
         }
+        dev.flush()
     }
     par(mfrow = c(1, 1))
-    out$mc <- pl
-    invisible(out)
+    invisible(list(mc = pl))
 }
 
 crossTab <- function(bymro) {
@@ -372,7 +377,7 @@ between <- function(bymro) {
         groupNames <- matrix(rn[index],
                              nrow = ncol(index), ncol = 2, byrow = TRUE)
         groupNames <- paste0(groupNames[, 1], " - ", groupNames[, 2])
-        est <- Groups[index[1, ], 1]- Groups[index[2,], 1]
+        est <- Groups[index[1, ], 1] - Groups[index[2,], 1]
         ses <- sqrt(Groups[index[1, ], 2]^2 + Groups[index[2, ], 2]^2) 
         confL <- est - 1.96 * ses
         confU <- est + 1.96 * ses
@@ -509,3 +514,160 @@ summary.mrocalc <- function(object, ...) {
          Multicom = round(object$Multicom, 3))
 }
 
+
+calc2 <- function(expr, base) {
+  con <- all.names(substitute(expr))
+  vn <- all.vars(substitute(expr))
+  out <- list()
+  out2 <- list()
+  
+  if (length(con) == 1) {
+    out$lhs <- vn
+    out2 <- mroPara(returnMro(out$lhs, base), nonparallel = out$lhs)
+    
+  }
+  
+  # y~x | d
+  if (any(con == "|") & any(con == "~")) {
+    new.expr <- terms(expr)
+    List <- as.character(attr(new.expr, "variables")[[3]])
+    out$lhs <- vn[1]
+    out$rhs <- eval(parse(text = paste("~", List[2])))
+    out$condition <- eval(parse(text = paste("~", List[3])))
+    return(out)
+  }
+  
+  if (con[1] == "~") {
+    print("formula")
+    out$lhs <- vn[1]
+    out$rhs <- eval(parse(text = paste("~", deparse(expr[[3]]))))
+    out2$within <- by(returnMro(out$lhs, base), out$rhs, 
+                      mroPara, nonparallel = deparse(substitute(expr)))
+    out2$between <- between(out2$within)
+    class(out2) <- "A"
+  }
+  
+  
+  if (con[1] == "|") {
+    out$lhs <- vn[1]
+    condition <- as.character(substitute(expr))[3]
+    out$condition <- eval(parse(text = paste("~", condition)))
+    out2$within <- by(returnMro(out$lhs, base), out$condition, mroPara, nonparallel = deparse(substitute(expr)))
+    out2$between <- between(out2$within)
+    class(out2) <- "B"
+  }
+  
+  
+  
+  print(out)
+  out2
+}
+
+summary.A <- function(x) {
+  summary(x$within, comp = "within")
+}
+
+summary.B <- function(y) {
+  summary(y$within, comp = "between")
+}
+
+plot.A <- function(x, ...) {
+  plot(x$within, show = 1:length(x$within))
+}
+
+plot.B <- function(y, ...) {
+  barplot(y$between, main = paste("Proportion of", y$within[[1]]$Topic, sep = " "))
+}
+
+
+returnMro <- function(callname, listmro) {
+  whole <- names(listmro)
+  # index = which(callname==whole)
+  index <- whole %in% as.character(callname)
+  if (sum(index) != 1) 
+    stop(paste(as.character(callname), "does not exist in "), substitute(listmro)) 
+  else index <- whole %in% c(as.character(callname), "Labels", "df")
+  out <- listmro[index]
+  class(out) <- "mro"
+  out
+}
+
+
+
+mro2 <- function(frm, data, Labels = NULL, inverse = FALSE, combi = NULL, ...) {
+  # y ~ v1 + v2 + v3 length is 3, ~v1 + v2 + v3 is length of two.
+  if (length(frm[[2]])) 
+    
+  classnames <- as.character(frm[[2]])
+  
+  
+  display <- with(data, {
+    
+    # grab variable name from the formual (frm) in the data file (data))
+    mro.mat <- model.frame(frm[-2], data, na.action = na.pass, ...)
+    
+    details <- attributes(mro.mat)
+    
+    variables <- attr(details$terms, "variables")
+    
+    # test binary level
+    if (all(unique(sapply(mro.mat, nlevels)) == 2)) {
+      mro.mat <- sapply(mro.mat, fastBinaryChange, inverse)
+      ### mro function treat NA response as absent response in the original data set
+    } else {
+      if (sum(which(sapply(mro.mat, nlevels) == 2)) == 0) 
+        stop("Hard to detect binary pattern")
+      # use the levels of the first variables that have 2 levels
+      index <- which(sapply(mro.mat, nlevels) == 2)[[1]]
+      Commonlevels <- levels(mro.mat[, index])
+      mro.mat <- sapply(mro.mat, fastBinarychange, opts = Commonlevels)
+      ### mro function treat NA response as absent response in the original data set
+      mro.mat[is.na(mro.mat)] <- 0
+    }
+    
+    labelname <- {
+      if (is.null(Labels)) {
+        Labels <- attr(details$terms, "term.labels")
+      }
+      if (mode(Labels) == "function") {
+        Labels <- Labels(attr(details$terms, "term.labels"))
+      }
+      Labels
+    }
+    
+    
+    ifelse(is.list(labelname), {
+      colnames(mro.mat) <- labelname$Varname
+    }, {
+      colnames(mro.mat) <- labelname
+    })
+    
+    if (!is.null(combi)) {
+      combination.index <- combn(ncol(mro.mat), combi)
+      com.mro.mat <- c()
+      com.lablename <- c()
+      for (j in 1:ncol(combination.index)) {
+        com.mro.mat <- cbind(com.mro.mat, 
+        mro.mat[, combination.index[1, j]] * mro.mat[, combination.index[2, j]])
+        com.lablename <- append(com.lablename, 
+                                paste(labelname[combination.index[1, j]], 
+                                labelname[combination.index[2, j]], sep = ":"))
+      }
+      colnames(com.mro.mat) <- com.lablename
+      mro.mat <- com.mro.mat
+      labelname <- com.lablename
+    }
+    
+    Ix <- order(colSums(mro.mat), decreasing = T)
+    mro.mat <- mro.mat[, Ix]
+    labelname <- labelname[Ix]
+    
+    out <- list(mro.mat = mro.mat, Labels = labelname, df = data)
+    if (!is.null(classnames)) 
+      names(out)[1] <- classnames
+    
+    class(out) <- "mro"
+    out
+  })
+  display
+} 

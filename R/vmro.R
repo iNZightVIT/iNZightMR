@@ -1,0 +1,165 @@
+rm.na <- function(variable) {
+    sum(is.na(variable)) > 0
+}
+
+
+calcmissing <- function(obj, ...) {
+    UseMethod("calcmissing")
+}
+
+## can sortby variable,row,column,both
+## see the vmv package tablemissing function 
+calcmissing.data.frame <- function(data, sortby = "variable", show = 3) {
+    index.column <- sapply(data, rm.na)
+    x <- data[, index.column]
+    x1 <- as.numeric(apply(x, 2, function(x) length(which(is.na(x)))))
+    x1 <- c(x1, nrow(x))
+    z1 <- ifelse(is.na(x), 0, 1)
+    tab <- table(apply(z1, 1, paste, collapse = ","))
+    tab <- tab[order(names(tab), decreasing = TRUE)]
+    tab <- data.frame(combination = names(tab), count = as.numeric(tab))
+    tabp <- t(apply(tab, 1, function(x) {
+        as.numeric(unlist(strsplit(x, ",", fixed = TRUE)))
+    }))
+    tabp <- as.data.frame(tabp)
+    tabp <- rbind(tabp, x1)
+    names(tabp) <- c(names(x), "Total")
+    row.names(tabp) <- c(seq_len(nrow(tab)), "Total")
+    if (sortby == "variable") {
+        tabfinal <- tabp
+    }
+    if (sortby == "row") {
+        tabfinal <- tabp[-nrow(tabp), ]
+        tabfinal <- tabfinal[order(tabfinal$Total, decreasing = TRUE), 
+            ]
+        tabfinal <- rbind(tabfinal, tabp[nrow(tabp), ])
+    }
+    if (sortby == "column") {
+        tabfinal <- tabp[, -ncol(tabp)]
+        vals <- unlist(tabfinal[nrow(tabfinal), ])
+        tabfinal <- tabfinal[order(vals, decreasing = TRUE)]
+        tabfinal <- cbind(tabfinal, Total = tabp$Total)
+    }
+    if (sortby == "both") {
+        tabf <- tabp[-nrow(tabp), ]
+        tabf <- tabf[order(tabf$Total, decreasing = TRUE), ]
+        tabf <- rbind(tabf, tabp[nrow(tabp), ])
+        tabfinal <- tabf[, -ncol(tabf)]
+        vals <- unlist(tabfinal[nrow(tabfinal), ])
+        tabfinal <- tabfinal[order(vals, decreasing = TRUE)]
+        tabfinal <- cbind(tabfinal, Total = tabf$Total)
+    }
+    
+    finaltable <- tabfinal
+    
+    Name <- names(finaltable)
+    i <- nrow(finaltable)
+    j <- ncol(finaltable)
+    numMiss <- x1
+    percMiss <- numMiss / numMiss[j]
+    
+    TolTab <- rbind(numMiss, percMiss)
+    colnames(TolTab) <- Name
+    
+    if(show == 1) 
+        return(list(TolTab, finaltable[, -i]))
+    if(show == 2)
+        return(rbind(TolTab, finaltable))
+    if(show == 3)
+        print(TolTab)
+    finaltable
+}
+
+### accecpted a whole mr.object , which is first mro.mat, second element lables,
+## third element the input data frame.
+calcmissing.mro <- function(mro, ...) {
+    mat <- mro[[1]]
+    mat[mat == 0] <- NA
+    calcmissing(as.data.frame(mat), ...)
+}
+
+
+plotcombn <- function(obj) {
+    dev.hold()
+
+    layout(rbind(c(0, 0, 0, 0, 0),
+                 c(0, 4, 4, 4, 0),
+                 c(0, 0, 0, 0, 0),
+                 c(0, 2, 0, 5, 0),
+                 c(0, 0, 0, 0, 0),
+                 c(0, 1, 0, 3, 0),
+                 c(0, 0, 0, 0, 0)),
+           heights = c(lcm(1), lcm(1), lcm(1), lcm(5), lcm(1), 1, lcm(1)),
+           widths = c(lcm(0.5), 1, lcm(0.1), lcm(3), lcm(0.5)))
+    
+    finaltable <- calcmissing(obj, "both", show = 3)
+    x <- finaltable
+    row.x <- nrow(x)
+    col.x <- ncol(x)
+    row.num <- row.x - 1
+    col.num <- col.x - 1
+    total <- x[row.x, col.x]
+    p2 <- 1 - x[row.x, 1:col.num] / total
+    p3 <- x[1:row.num, col.x] / total
+    
+    x.fit <- finaltable[1:row.num, 1:col.num]
+    
+    opa <- par(mar = rep(0, 4))
+    plot(2 * col.num,min(row.num, 30), type = "n", xlim = c(0, 2 * col.num),
+         ylim = c(0,min(row.num, 30)), axes = FALSE, xlab = "", ylab = "")
+    x1 <- seq(0, 2 * col.num - 2, by = 2)
+    x2 <- seq(2, 2 * col.num, by = 2)
+    y1 <- min(row.num, 30) - 1
+    y2 <- min(row.num, 30)
+    cols <- c("gray", "red")
+    # showing maximum first 30 combinations
+    for (i in 0:(min(row.num, 30) - 1)) {
+        index <- as.numeric(x.fit[i + 1, ]) + 1
+        rect(x1, y1 - i, x2, y2 - i, col = cols[index], border = "Alice Blue")
+    }
+  
+    plot(2 * col.num, 1, type = "n",
+         xlim = c(0, 2 * col.num), ylim = c(0, 1.3),
+         axes = FALSE, xlab = "", ylab = "")
+    xmed <- seq(1, 2 * col.num, by = 2)
+    ### x value is not fixed.... the "% of present" is not fixed.....
+    text(col.num^(1 / 10), 1.2, "% Present", cex = 2)      
+    rect(xmed - 0.3, 0, xmed + 0.3, 1, col = "gray")
+    rect(xmed - 0.3, 0, xmed + 0.3, p2, col = "red")
+    las <- ifelse(col.num > 10, 2, 1)
+    axis(1, xmed, colnames(x.fit), tick = FALSE, srt = 45, las = las)
+    
+    ## 3rd blue bars, the relative length 
+    cons <- min(row.num, 30)
+    p3 <- p3[1:cons]
+    bb <- p3[length(p3):1]
+    plot(max(bb), cons, type = "n",
+         xlim = c(0, max(bb)), ylim = c(0, cons),
+         xlab = "",ylab = "",axes = FALSE)
+    ymed <- seq(0.5, cons - 0.5, by = 1) 
+    
+    
+    border <- ifelse(bb == max(bb), "red", NA) 
+    ## significant small use "yellow" represent
+    border[bb < (max(bb) / 100)] <- "yellow"
+    rect(0, ymed - 0.2, bb, ymed + 0.2, col = "blue",border = border)
+    mtext("Pattern")
+    mtext("Frequency",line=-1.5)
+    
+    # 4th plot--title control
+    plot.new()
+    if (inherits(obj, "data.frame"))
+        text(.5, .5, "Missing Value Plot", cex = 1.5, font = 2)
+    if (inherits(obj, "mro"))
+        text(.5, .5, "Combination Plot", cex = 1.5, font = 2)
+    
+    # 5th plot -- legend control
+    plot.new()
+    legend(0, 0.5, c("Missing", "Present"), fill = c("gray", "red"),
+           col = c("red", "gray"), cex = 1.1)
+    par(opa)
+    par(mfrow = c(1, 1))
+
+    dev.flush()
+    x
+}
