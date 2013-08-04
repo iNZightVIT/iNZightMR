@@ -282,7 +282,7 @@ barplot.mrocalc <- function(height, Order = NULL, horiz = FALSE,
         dis <- width / 2
         x1 <- xmedian - dis
         x2 <- xmedian + dis
-        height <- ob$est[Od]
+        height <- obj$est[Od]
         rect(0, x1, height, x2, col = "red")
         compL <- obj$compL[Od]
         compU <- obj$compU[Od]

@@ -56,18 +56,23 @@ calcmissing.data.frame <- function(data, sortby = "variable", show = 3) {
     i <- nrow(finaltable)
     j <- ncol(finaltable)
     numMiss <- x1
-    percMiss <- numMiss / numMiss[j]
+    percMiss <- round(numMiss / numMiss[j], 3)
     
     TolTab <- rbind(numMiss, percMiss)
     colnames(TolTab) <- Name
-    
-    if(show == 1) 
+    TolTab <- as.data.frame(TolTab)
+    TolTab[1, ] <- as.character(TolTab[1, ])
+
+    if (show == 1) 
         return(list(TolTab, finaltable[, -i]))
-    if(show == 2)
+    if (show == 2)
         return(rbind(TolTab, finaltable))
-    if(show == 3)
+    if (show == 3)
         print(TolTab)
-    finaltable
+    cat("\n")
+    print(data.frame(finaltable,
+          Percentage=round(finaltable[,"Total"]/max(finaltable[,"Total"]),3)))
+    invisible(finaltable)
 }
 
 ### accecpted a whole mr.object , which is first mro.mat, second element lables,
@@ -80,6 +85,9 @@ calcmissing.mro <- function(mro, ...) {
 
 
 plotcombn <- function(obj) {
+    if (! inherits(obj, "data.frame") && ! inherits(obj, "mro"))
+        stop("Invalid input. Must be 'data.frame' or 'mro'")
+
     dev.hold()
 
     layout(rbind(c(0, 0, 0, 0, 0),
@@ -126,22 +134,26 @@ plotcombn <- function(obj) {
     text(col.num^(1 / 10), 1.2, "% Present", cex = 2)      
     rect(xmed - 0.3, 0, xmed + 0.3, 1, col = "gray")
     rect(xmed - 0.3, 0, xmed + 0.3, p2, col = "red")
-    las <- ifelse(col.num > 10, 2, 1)
-    axis(1, xmed, colnames(x.fit), tick = FALSE, srt = 45, las = las)
+    if (col.num <= 10)
+        axis(1, xmed, colnames(x.fit), tick = FALSE)
+    else
+        text(xmed, -0.025, srt = 65, adj = 1,
+             labels = colnames(x.fit), xpd = NA)
     
     ## 3rd blue bars, the relative length 
     cons <- min(row.num, 30)
     p3 <- p3[1:cons]
     bb <- p3[length(p3):1]
+    bb[which(bb == max(bb))] <- max(bb[-which(bb == max(bb))]) * 1.1
     plot(max(bb), cons, type = "n",
          xlim = c(0, max(bb)), ylim = c(0, cons),
          xlab = "",ylab = "",axes = FALSE)
     ymed <- seq(0.5, cons - 0.5, by = 1) 
     
-    
-    border <- ifelse(bb == max(bb), "red", NA) 
+    border <- rep(NA, length(bb))
+    border[length(bb)] <- "red" 
     ## significant small use "yellow" represent
-    border[bb < (max(bb) / 100)] <- "yellow"
+    #border[bb < (max(bb) / 100)] <- "yellow"
     rect(0, ymed - 0.2, bb, ymed + 0.2, col = "blue",border = border)
     mtext("Pattern")
     mtext("Frequency",line=-1.5)
@@ -155,11 +167,13 @@ plotcombn <- function(obj) {
     
     # 5th plot -- legend control
     plot.new()
-    legend(0, 0.5, c("Missing", "Present"), fill = c("gray", "red"),
-           col = c("red", "gray"), cex = 1.1)
+    legend.name <- c("Missing", "Present", "NotSelected", "Selected")
+    legend.index <- ifelse(class(obj) == "mro", 3, 1)
+    legend(0, 0.5, legend.name[c(legend.index, legend.index + 1)],
+           fill = c("gray", "red"), col = c("red", "gray"), xpd = NA)
     par(opa)
     par(mfrow = c(1, 1))
 
     dev.flush()
-    x
+    invisible(x)
 }
