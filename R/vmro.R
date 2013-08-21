@@ -2,14 +2,14 @@ rm.na <- function(variable) {
     sum(is.na(variable)) > 0
 }
 
-
 calcmissing <- function(obj, ...) {
     UseMethod("calcmissing")
 }
 
 ## can sortby variable,row,column,both
 ## see the vmv package tablemissing function 
-calcmissing.data.frame <- function(data, sortby = "variable", show = 3) {
+calcmissing.data.frame <- function(data, sortby = "variable",
+                                   MRO.case = FALSE) {
     index.column <- sapply(data, rm.na)
     x <- data[, index.column]
     x1 <- as.numeric(apply(x, 2, function(x) length(which(is.na(x)))))
@@ -55,23 +55,25 @@ calcmissing.data.frame <- function(data, sortby = "variable", show = 3) {
     Name <- names(finaltable)
     i <- nrow(finaltable)
     j <- ncol(finaltable)
-    numMiss <- x1
+    index <- order(x1[-j], decreasing = FALSE)
+    numMiss <- x1[c(index, j)]
     percMiss <- round(numMiss / numMiss[j], 3)
     
     TolTab <- rbind(numMiss, percMiss)
+    if (MRO.case)
+        rownames(TolTab) <- c("nSelect", "%Select")
     colnames(TolTab) <- Name
     TolTab <- as.data.frame(TolTab)
+    TolTab[2, ] <- paste0(round(TolTab[2, ] * 100, 2), "%")
     TolTab[1, ] <- as.character(TolTab[1, ])
 
-    if (show == 1) 
-        return(list(TolTab, finaltable[, -i]))
-    if (show == 2)
-        return(rbind(TolTab, finaltable))
-    if (show == 3)
-        print(TolTab)
+    finaltable <- finaltable[, c(index, j)]
+    colnames(finaltable)[j] <- "Freq"
+    print(TolTab)
     cat("\n")
     print(data.frame(finaltable,
-          Percentage=round(finaltable[,"Total"]/max(finaltable[,"Total"]),3)))
+          Percentage = round(finaltable[,"Freq"] /
+                             max(finaltable[, "Freq"]), 3)))
     invisible(finaltable)
 }
 
@@ -80,11 +82,15 @@ calcmissing.data.frame <- function(data, sortby = "variable", show = 3) {
 calcmissing.mro <- function(mro, ...) {
     mat <- mro[[1]]
     mat[mat == 0] <- NA
-    calcmissing(as.data.frame(mat), ...)
+    calcmissing(as.data.frame(mat), MRO.case = TRUE, ...)
 }
 
-
 plotcombn <- function(obj) {
+    Subtitle <- NULL
+    if (inherits(obj, "Sub")) {
+        Subtitle <- class(obj)[3]
+        class(obj) <- "mro"
+    }
     if (! inherits(obj, "data.frame") && ! inherits(obj, "mro"))
         stop("Invalid input. Must be 'data.frame' or 'mro'")
 
@@ -100,7 +106,7 @@ plotcombn <- function(obj) {
            heights = c(lcm(1), lcm(1), lcm(1), lcm(5), lcm(1), 1, lcm(1)),
            widths = c(lcm(0.5), 1, lcm(0.1), lcm(3), lcm(0.5)))
     
-    finaltable <- calcmissing(obj, "both", show = 3)
+    finaltable <- calcmissing(obj, "row")
     x <- finaltable
     row.x <- nrow(x)
     col.x <- ncol(x)
@@ -110,11 +116,11 @@ plotcombn <- function(obj) {
     p2 <- 1 - x[row.x, 1:col.num] / total
     p3 <- x[1:row.num, col.x] / total
     
-    x.fit <- finaltable[1:row.num, 1:col.num]
+    x.fit <- finaltable[seq_len(row.num), seq_len(col.num)]
     
     opa <- par(mar = rep(0, 4))
     plot(2 * col.num,min(row.num, 30), type = "n", xlim = c(0, 2 * col.num),
-         ylim = c(0,min(row.num, 30)), axes = FALSE, xlab = "", ylab = "")
+         ylim = c(0, min(row.num, 30)), axes = FALSE, xlab = "", ylab = "")
     x1 <- seq(0, 2 * col.num - 2, by = 2)
     x2 <- seq(2, 2 * col.num, by = 2)
     y1 <- min(row.num, 30) - 1
@@ -154,26 +160,30 @@ plotcombn <- function(obj) {
     border[length(bb)] <- "red" 
     ## significant small use "yellow" represent
     #border[bb < (max(bb) / 100)] <- "yellow"
-    rect(0, ymed - 0.2, bb, ymed + 0.2, col = "blue",border = border)
+    rect(0, ymed - 0.2, bb, ymed + 0.2, col = "blue", border = border)
     mtext("Pattern")
-    mtext("Frequency",line=-1.5)
+    mtext("Frequency", line = -1.5)
     
     # 4th plot--title control
     plot.new()
     if (inherits(obj, "data.frame"))
         text(.5, .5, "Missing Value Plot", cex = 1.5, font = 2)
-    if (inherits(obj, "mro"))
+    if (is.null(Subtitle) && inherits(obj, "mro"))
         text(.5, .5, "Combination Plot", cex = 1.5, font = 2)
+    if (! is.null(Subtitle) && inherits(obj, "mro"))
+        text(.5, .3, paste("Combination Plot", Subtitle, sep = "---"),
+             cex = 1.5, font = 1)
     
     # 5th plot -- legend control
     plot.new()
     legend.name <- c("Missing", "Present", "NotSelected", "Selected")
-    legend.index <- ifelse(class(obj) == "mro", 3, 1)
+    legend.index <- ifelse(class(obj)[1] == "mro", 3, 1)
     legend(0, 0.5, legend.name[c(legend.index, legend.index + 1)],
            fill = c("gray", "red"), col = c("red", "gray"), xpd = NA)
     par(opa)
-    par(mfrow = c(1, 1))
 
     dev.flush()
     invisible(x)
 }
+
+
