@@ -9,6 +9,5 @@ Authors@R: c(person("Simon", "Potter", role = c("aut", "cre"),
 Depends: R (>= 2.13)
 Imports: iNZightRegression
 Suggests: iNZight
-Enhances: iNZight
 Description: Interaction and analysis of Multiple Response Data
 License: GPL-2
