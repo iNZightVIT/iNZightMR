@@ -161,8 +161,8 @@ plotcombn <- function(obj) {
     ## significant small use "yellow" represent
     #border[bb < (max(bb) / 100)] <- "yellow"
     rect(0, ymed - 0.2, bb, ymed + 0.2, col = "blue", border = border)
-    mtext("Pattern")
-    mtext("Frequency", line = -1.5)
+    mtext("Pattern", line = 1)
+    mtext("Frequency", line = -0.5)
     
     # 4th plot--title control
     plot.new()
