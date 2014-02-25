@@ -9,7 +9,7 @@ calcmissing <- function(obj, ...) {
 ## can sortby variable,row,column,both
 ## see the vmv package tablemissing function 
 calcmissing.data.frame <- function(data, sortby = "variable",
-                                   MRO.case = FALSE) {
+                                   MRO.case = FALSE, print = TRUE, final = TRUE) {
     index.column <- sapply(data, rm.na)
     x <- data[, index.column]
     x1 <- as.numeric(apply(x, 2, function(x) length(which(is.na(x)))))
@@ -69,12 +69,27 @@ calcmissing.data.frame <- function(data, sortby = "variable",
 
     finaltable <- finaltable[, c(index, j)]
     colnames(finaltable)[j] <- "Freq"
-    print(TolTab)
-    cat("\n")
-    print(data.frame(finaltable,
-          Percentage = round(finaltable[,"Freq"] /
+
+    if (print) {
+        print(TolTab)
+        cat("\n")
+        print(data.frame(finaltable,
+                         Percentage = round(finaltable[,"Freq"] /
                              max(finaltable[, "Freq"]), 3)))
-    invisible(finaltable)
+        ret <- finaltable
+    } else {
+        out1 <- capture.output(TolTab)
+        out2 <- "\n"
+        out3 <- capture.output(data.frame(finaltable,
+                                          Percentage = round(finaltable[, "Freq"] /
+                                              max(finaltable[, "Freq"]), 3)))
+        ret <- c(out1, out2, out3)
+    }
+
+    if (final)
+        return(finaltable)
+    else
+        return(ret)
 }
 
 ### accecpted a whole mr.object , which is first mro.mat, second element lables,
@@ -106,7 +121,7 @@ plotcombn <- function(obj) {
            heights = c(lcm(1), lcm(1), lcm(1), lcm(5), lcm(1), 1, lcm(1)),
            widths = c(lcm(0.5), 1, lcm(0.1), lcm(3), lcm(0.5)))
     
-    finaltable <- calcmissing(obj, "row")
+    finaltable <- calcmissing(obj, "row", print = FALSE)
     x <- finaltable
     row.x <- nrow(x)
     col.x <- ncol(x)
