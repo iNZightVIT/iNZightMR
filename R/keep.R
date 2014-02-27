@@ -181,7 +181,8 @@ mroPara <- function(obj, conf.levels = 1.96, nonparallel = NULL) {
   estP <- colMeans(obj)
   SesDiff <- ses.diff(obj)
   
-  covs <- cov(obj) / n
+  #covs <- cov(obj) / n
+  covs <- cov(obj)
   variance <- diag(covs) #*(n-1)/n
   mromoecalc2 <- moecalc(x = SesDiff, est = estP)            
   mromoecalc2$fit$df <- n
@@ -408,31 +409,9 @@ barplot.b2 <- function(x, which = NULL, ...) {
   par(mfrow=c(1,1))
 }
 
-# not using
-plot.b2 <- function(x, which = NULL, ...) {
-  obj <- x
-  if (! is.null(which) && length(which) == 1)
-    return(barplot.between(obj[[1]]))
-  if (! is.null(which))
-    obj <- obj[which]
-  Name <- names(obj)
-  k <- length(obj)
-  fake <- k %% 2 
-  Lead <- fake + k
-  layout(cbind(matrix(1:Lead, nrow = Lead / 2, ncol = 2, byrow = TRUE),
-               Lead + 1), widths = c(1, 1, 0.5), heights = rep(1, Lead / 2))
-  for(i in 1:Lead) {
-    barplot.between(obj[[i]], main = Name[i], LEG = FALSE)  
-  }
-  plot.new()
-  legend(0, 0.5, rownames(obj[[1]][[1]]),
-         fill = heat.colors(length(rownames(obj[[1]][[1]]))))
-  title(xlab = "online", outer = TRUE)
-  #legend("right",fill=c("yes","no"),col=heat.colors(1:4))
-  par(mfrow=c(1,1))
-}
 
-# not using
+
+
 # TODO: Consider using hcl() for colouring,
 barplot.between <- function(height, LEG = TRUE, FUN = heat.colors, ...) {
   #if (inherits(height, "b2")) 
@@ -445,14 +424,17 @@ barplot.between <- function(height, LEG = TRUE, FUN = heat.colors, ...) {
   colnames(Mat) <- names(height)[seq(1, k, by = 2)]
   dev.hold()
   p <-
-    if (LEG) {
-      opar <- par(oma = c(4, 2, 7, 12))
+    if (LEG) {na
+      layout(matrix(c(2,2,2,2,1), 1, 5, byrow = TRUE))
+      plot.new()
+      plot.window(0:1, 0:1)
+      par(oma = )
+      legend("center", rownames(Mat), title = "Group", fill = FUN(nrow(Mat)),bty="n")
       tmp <- barplot(Mat, beside = TRUE, col = FUN(ncol(Dframe)),
                      ylim = 0:1, ylab = "Proportion", ...)
-      legend(par("usr")[2] + 2, 0.6, rownames(Mat),
-             fill = FUN(nrow(Mat)), xpd = NA)
-      title(main = "Proportion comparison between case",
-            outer = TRUE)
+      #legend(par("usr")[2] + 2, 0.6, rownames(Mat),
+      #       fill = FUN(nrow(Mat)), xpd = NA)
+      title(main = "Proportion comparison between case")
       tmp
     } else {
       barplot(Mat, beside = TRUE, col = FUN(ncol(Dframe)),
@@ -471,8 +453,7 @@ barplot.between <- function(height, LEG = TRUE, FUN = heat.colors, ...) {
     segments(p[, i], ConfL[i, ], p[, i], ConfU[i, ])
   }
   dev.flush()
-  if (LEG)
-    par(opar)
+  par(mfrow = c(1,1))
   invisible(p)
 }
 #       ensuring more distinct colourings
