@@ -181,8 +181,7 @@ mroPara <- function(obj, conf.levels = 1.96, nonparallel = NULL) {
   estP <- colMeans(obj)
   SesDiff <- ses.diff(obj)
   
-  #covs <- cov(obj) / n
-  covs <- cov(obj)
+  covs <- cov(obj) / n
   variance <- diag(covs) #*(n-1)/n
   mromoecalc2 <- moecalc(x = SesDiff, est = estP)            
   mromoecalc2$fit$df <- n
