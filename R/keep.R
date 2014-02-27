@@ -117,7 +117,6 @@ fastNumchange <- function(x, style = fivenum(x)) {
     cut(x, style + c(-1, 0, 0, 0, 0))
 } 
 
-
 by.mro <- function(mro.obj, formula, FUN, ...) {
   Data <- mro.obj$df
   Dframe <- mro.obj[[1]]
@@ -217,6 +216,98 @@ chisq.mro.by <- function(bymro) {
        pv = pchisq(sum(chiv), df = p * (n - 1), lower.tail = FALSE)[1])
 }
 
+barplot.mrocalc <- function(height, Order = NULL, horiz = FALSE,
+                            title = NULL, bbar.col = "Alice Blue",
+                            fbar.col = "red", dl.col = "Dark Khaki",
+                            comi.col = "green", coni.col = "black",
+                            Par = FALSE, label.las = NULL, ...) {
+  mc <- match.call()
+  objName <- height$Topic
+  
+  obj <- height$Mromoecalc
+  
+  if (! Par)
+    par(col = "black", font = 1, cex = 1)
+  
+  if (is.null(label.las))
+    label.las <- if (horiz) 3 else 1
+  
+  n <- length(obj$est)
+  Od <-
+    if (! is.null(Order))
+      order(obj$est, decreasing = Order == "decreasing")
+  else
+    seq_len(n)
+  
+  width <- 1
+  gray <- rep(1, n)
+  dev.hold()
+  if (! horiz) {
+    Label <- names(obj$est)[Od]
+    xmedian <- barplot(gray, col = bbar.col, horiz = horiz)
+    xmedian <- as.vector(xmedian)
+    dis <- width / 2
+    x1 <- xmedian - dis
+    x2 <- xmedian + dis
+    height <- obj$est[Od]
+    rect(x1, 0, x2, height, col = fbar.col)
+    compL <- obj$compL[Od]
+    compU <- obj$compU[Od]
+    confL <- obj$confL[Od]
+    confU <- obj$confU[Od]
+    segments(xmedian, pmax(confL, 0),
+             xmedian, pmin(confU, 1), 
+             lty = 1,col = coni.col)
+    segments(xmedian, pmax(compL, 0),
+             xmedian, pmin(compU, 1),
+             col = comi.col, lwd = 4,lty = 1)
+    abline(h = pmax(compL, 0), col = dl.col, lty = 3)
+    abline(h = pmin(compU, 1), col = dl.col, lty = 3)
+    axis(1, xmedian, Label, las = label.las)
+    if (! is.null(title))
+      do.call("title", title)
+    else
+      graphics::title(main = paste("Proportions in categories of",
+                                   objName),
+                      ylab = "Proportion", xlab = objName)
+  } else {
+    par(lty = 1)
+    Od <- rev(Od)
+    Label <- names(obj$est)[Od]
+    xmedian <- barplot(gray, width = width, col = "Alice Blue",
+                       horiz = horiz, ...)
+    xmedian <- as.vector(xmedian)
+    dis <- width / 2
+    x1 <- xmedian - dis
+    x2 <- xmedian + dis
+    height <- obj$est[Od]
+    rect(0, x1, height, x2, col = "red")
+    compL <- obj$compL[Od]
+    compU <- obj$compU[Od]
+    confL <- obj$confL[Od]
+    confU <- obj$confU[Od]
+    segments(confL, xmedian, confU, xmedian)
+    segments(compL, xmedian, compU, xmedian, col = "green", lwd = 4)
+    abline(v = compL, col = "Dark Khaki", lty = 3)
+    abline(v = compU, col = "Dark Khaki", lty = 3)
+    axis(2, xmedian, Label, las = label.las)
+    if (! is.null(title))
+      do.call("title", title)
+    else
+      graphics::title(main = paste("Proportions in categories of",
+                                   objName),
+                      xlab = "Proportion", ylab = objName)
+  }
+  box()
+  dev.flush()
+  invisible(list(xmedian = xmedian,
+                 mc = mc))
+}
+
+
+
+
+
 crossTab <- function(bymro) {
   k <- length(bymro)
   rn <- 
@@ -289,11 +380,108 @@ between <- function(bymro) {
       out[[i]] <- between(In)
     }
     names(out) <- bigname
-    class(out) <- c("between", "b2")
+    class(out) <- c("b2", "between")
     out
   }
 }
 
+barplot.b2 <- function(x, which = NULL, ...) {
+  obj <- x
+  if (! is.null(which) && length(which) == 1)
+    return({barplot.between(obj[[which]]);title(xlab = names(obj[which]))})
+  if (! is.null(which))
+    obj <- obj[which]
+  Name <- names(obj)
+  k <- length(obj)
+  fake <- k %% 2 
+  Lead <- fake + k
+  layout(cbind(matrix(1:Lead, nrow = Lead / 2, ncol = 2, byrow = TRUE),
+               Lead + 1), widths = c(1, 1, 0.5), heights = rep(1, Lead / 2))
+  for(i in 1:Lead) {
+    barplot.between(obj[[i]], main = Name[i], LEG = FALSE)  
+  }
+  plot.new()
+  legend(0, 0.5, rownames(obj[[1]][[1]]),
+         fill = heat.colors(length(rownames(obj[[1]][[1]]))))
+  title(xlab = "online", outer = TRUE)
+  #legend("right",fill=c("yes","no"),col=heat.colors(1:4))
+  par(mfrow=c(1,1))
+}
+
+# not using
+plot.b2 <- function(x, which = NULL, ...) {
+  obj <- x
+  if (! is.null(which) && length(which) == 1)
+    return(barplot.between(obj[[1]]))
+  if (! is.null(which))
+    obj <- obj[which]
+  Name <- names(obj)
+  k <- length(obj)
+  fake <- k %% 2 
+  Lead <- fake + k
+  layout(cbind(matrix(1:Lead, nrow = Lead / 2, ncol = 2, byrow = TRUE),
+               Lead + 1), widths = c(1, 1, 0.5), heights = rep(1, Lead / 2))
+  for(i in 1:Lead) {
+    barplot.between(obj[[i]], main = Name[i], LEG = FALSE)  
+  }
+  plot.new()
+  legend(0, 0.5, rownames(obj[[1]][[1]]),
+         fill = heat.colors(length(rownames(obj[[1]][[1]]))))
+  title(xlab = "online", outer = TRUE)
+  #legend("right",fill=c("yes","no"),col=heat.colors(1:4))
+  par(mfrow=c(1,1))
+}
+
+# not using
+# TODO: Consider using hcl() for colouring,
+barplot.between <- function(height, LEG = TRUE, FUN = heat.colors, ...) {
+  #if (inherits(height, "b2")) 
+  #    return(plot.b2(height, LEG = LEG))
+  k <- length(height)
+  Dframe <- t(as.data.frame(unclass(height[seq(1, k, by = 2)])))
+  jump.num <- 7
+  var.num <- k / 2
+  Mat <- t(Dframe[1 + jump.num * 0:(var.num - 1), ])
+  colnames(Mat) <- names(height)[seq(1, k, by = 2)]
+  dev.hold()
+  p <-
+    if (LEG) {
+      opar <- par(oma = c(4, 2, 7, 12))
+      tmp <- barplot(Mat, beside = TRUE, col = FUN(ncol(Dframe)),
+                     ylim = 0:1, ylab = "Proportion", ...)
+      legend(par("usr")[2] + 2, 0.6, rownames(Mat),
+             fill = FUN(nrow(Mat)), xpd = NA)
+      title(main = "Proportion comparison between case",
+            outer = TRUE)
+      tmp
+    } else {
+      barplot(Mat, beside = TRUE, col = FUN(ncol(Dframe)),
+              ylim = 0:1, ylab = "Proportion",
+              #legend = colnames(Dframe), 
+              ...)
+    }
+  box()
+  ConfL <- Dframe[4 + jump.num * 0:(var.num - 1), ]
+  ConfU <- Dframe[5 + jump.num * 0:(var.num - 1), ]
+  CompL <- Dframe[6 + jump.num * 0:(var.num - 1), ]
+  CompU <- Dframe[7 + jump.num * 0:(var.num - 1), ]
+  for (i in seq_len(k / 2)) {
+    segments(p[, i], CompL[i, ], p[, i], CompU[i, ],
+             col = "green", lwd = 4)
+    segments(p[, i], ConfL[i, ], p[, i], ConfU[i, ])
+  }
+  dev.flush()
+  if (LEG)
+    par(opar)
+  invisible(p)
+}
+#       ensuring more distinct colourings
+
+
+
+
+
+## use but problem
 summary.bymrocalc <- function(object, comp = "basic", ...) {
   cat("Proportions:\n")
   tabprops <- crossTab(object)
@@ -432,4 +620,406 @@ summary.mrocalc <- function(object, ...) {
   list(df = object$Mromoecalc$fit$df,
        Mromoecalc = round(summary(object$Mromoecalc)$coef, 3),
        Multicom = round(object$Multicom, 3))
+}
+
+
+
+mro2 <- function(frm, data, Labels = NULL, inverse = FALSE, combi = NULL, ...) {
+  # y ~ v1 + v2 + v3 length is 3, ~v1 + v2 + v3 is length of two.
+  if (length(frm[[2]])) 
+    classnames <- as.character(frm[[2]])
+  
+  display <- with(data, {
+    # grab variable name from the formual (frm) in the data file (data))
+    mro.mat <- model.frame(frm[-2], data, na.action = na.pass, ...)
+    Ind <- as.logical(rowSums(is.na(mro.mat)))
+    mro.mat <- mro.mat[! Ind, ]
+    data <- data[! Ind, ]
+    rownames(data) <- NULL
+    details <- attributes(mro.mat)
+    variables <- attr(details$terms, "variables")
+    
+    # test binary level
+    if (all(unique(sapply(mro.mat, nlevels)) == 2)) {
+      mro.mat <- sapply(mro.mat, fastBinaryChange, inverse)
+      ### mro function treat NA response as absent response in the original data set
+    } else if (sum(which(sapply(mro.mat, nlevels) == 2)) == 0) {
+      stop("Hard to detect binary pattern")
+    } else {
+      # use the levels of the first variables that have 2 levels
+      index <- which(sapply(mro.mat, nlevels) == 2)[[1]]
+      Commonlevels <- levels(mro.mat[, index])
+      mro.mat <- sapply(mro.mat, fastBinaryChange, opts = Commonlevels)
+      
+    }
+    
+    labelname <-
+      if (is.null(Labels)) {
+        attr(details$terms, "term.labels")
+      } else if (mode(Labels) == "function") {
+        Labels(attr(details$terms, "term.labels"))
+      } else {
+        Labels
+      }
+    
+    colnames(mro.mat) <-
+      if (is.list(labelname))
+        labelname$Varname
+    else
+      labelname
+    
+    if (!is.null(combi)) {
+      combination.index <- combn(ncol(mro.mat), combi)
+      com.mro.mat <- c()
+      com.lablename <- c()
+      for (j in 1:ncol(combination.index)) {
+        com.mro.mat <- cbind(com.mro.mat, 
+                             mro.mat[, combination.index[1, j]] * mro.mat[, combination.index[2, j]])
+        com.lablename <- append(com.lablename, 
+                                paste(labelname[combination.index[1, j]], 
+                                      labelname[combination.index[2, j]], sep = ":"))
+      }
+      colnames(com.mro.mat) <- com.lablename
+      mro.mat <- com.mro.mat
+      labelname <- com.lablename
+    }
+    
+    Ix <- order(colSums(mro.mat), decreasing = TRUE)
+    mro.mat <- mro.mat[, Ix]
+    labelname <- labelname[Ix]
+    
+    out <- list(mro.mat = mro.mat, Labels = labelname, df = data)
+    if (!is.null(classnames)) 
+      names(out)[1] <- classnames
+    
+    class(out) <- "mro"
+    out
+  })
+  display
+}
+
+# debt to exist
+subset.mro <- function(mro, subset) {
+  r <- eval(substitute(subset), mro$df, parent.frame())
+  #remove NA value
+  rmna <- which(is.na(r))
+  r <- r[-rmna]
+  mro$df <- mro$df[-rmna, ]
+  mro[[1]] <- mro[[1]][-rmna, ]
+  mro$df <- mro$df[r, ]
+  mro[[1]] <- mro[[1]][r, ]
+  class(mro) <- c(class(mro), "Sub", deparse(substitute(subset)))
+  mro
+}
+
+
+
+mrbarchart <- function(obj,Order = NULL, horiz = FALSE, title=NULL , 
+                       bbar.col="Alice Blue",fbar.col="red", dl.col="Dark Khaki",
+                       comi.col="green" , coni.col="black", tick=FALSE,
+                       Par=FALSE , label.las = NULL, step=5, type=1, srt=NULL, ...) {
+  #browser()                
+  mc <- match.call()
+  objName=obj$Topic
+  
+  obj = obj$Mromoecalc
+  
+  if(!Par) par(col="black",font=1,cex=1)
+  
+  if( is.null(label.las)) label.las=ifelse(horiz,3,1)
+  
+  
+  if (!is.null(Order)) {
+    if (Order == "decreasing")
+      Od = order(obj$est, decreasing = T)
+    if (Order == "increasing")
+      Od = order(obj$est, decreasing = F)
+  }
+  n = length(obj$est)
+  if (is.null(Order))
+    Od = 1:n
+  
+  width = 1
+  
+  gray = rep(1, n) 
+  if (!horiz) {
+    if(step>0){
+      #par(lty=0) 
+      Od = Od
+      Label = names(obj$est)[Od]
+      xmedian = barplot(gray,col = bbar.col, horiz = horiz , axes=FALSE,ylim=c(-0.02,1.02))
+      box(lwd=2)
+      #rect(par("usr")[1],par("usr")[4],par("usr")[2],par("usr")[4]+0.05,xpd=TRUE,col="Dark Salmon",lwd=2)
+    }
+    if(step>1){
+      xmedian = as.vector(xmedian)
+      dis = width/2
+      x1 = xmedian - dis
+      x2 = xmedian + dis
+      height = obj$est[Od]
+      rect(x1, 0, x2, height, col = fbar.col)
+    }
+    if(step>2){
+      compL = obj$compL[Od]
+      compU = obj$compU[Od]
+      confL = obj$confL[Od]
+      confU = obj$confU[Od]
+      segments(xmedian, pmax(confL,0), xmedian, pmin(confU,1),lty=1,col=coni.col)
+      segments(xmedian, pmax(compL,0), xmedian, pmin(compU,1), col = comi.col, lwd = 4,lty=1)
+    }
+    if(step>3) {
+      abline(h = pmax(compL,0), col = dl.col, lty = 3)
+      abline(h = pmin(compU,1), col = dl.col, lty = 3)
+    }
+    if(step>4){
+      if(type==1) axis(2,las=2)
+      if(type==3) axis(4,labels=FALSE,las=2)
+      if(type==4) axis(2,labels=FALSE,las=2)
+      if(type==6) axis(4,las=2)
+    }
+    if(step>5) {
+      if(is.null(srt)) axis(1, xmedian, Label, las = label.las,tick=tick)
+      else text(xmedian,par("usr")[3]-0.025,srt=srt,adj=1,labels=Label,xpd=NA)
+    }
+    
+    if(step>6){
+      ##  title 
+      if (!is.null(title))   do.call("title",title)         # title=  list(...)      or NULL
+      else do.call("title",list(main=paste("Proportions in categories of",objName,sep=" "),ylab="Proportion",xlab=objName))
+    }
+    
+  } else {
+    par(lty=1)
+    Od = Od[length(Od):1]
+    Label = names(obj$est)[Od]
+    xmedian = barplot(gray, width = width, col = "Alice Blue", horiz = horiz, 
+                      ...)
+    xmedian = as.vector(xmedian)
+    dis = width/2
+    x1 = xmedian - dis
+    x2 = xmedian + dis
+    height = obj$est[Od]
+    rect(0, x1, height, x2, col = "red")
+    compL = obj$compL[Od]
+    compU = obj$compU[Od]
+    confL = obj$confL[Od]
+    confU = obj$confU[Od]
+    segments(confL, xmedian, confU, xmedian)
+    segments(compL, xmedian, compU, xmedian, col = "green", lwd = 4)
+    abline(v = compL, col = "Dark Khaki", lty = 3)
+    abline(v = compU, col = "Dark Khaki", lty = 3)
+    axis(2, xmedian, Label, las = label.las)
+    
+    if (!is.null(title))   do.call("title",title)         # title=  list(...)      or NULL
+    else do.call("title",list(main=paste("Proportions in categories of",objName,sep=" "),xlab="Proportion",ylab=objName))
+  }
+  box()
+  
+  invisible(list(xmedian=xmedian,mc=mc))
+}
+
+
+barchart3=function(bymrocalc,which=1:length(bymrocalc)) {
+  # weired thing!!!!!!!!!!!
+  s = attr(bymrocalc,"dim")
+  
+  
+  # take out name 
+  namespace = attr(bymrocalc,"dimnames")
+  if(length(namespace)<2) {nameVec = namespace[[1]];h=1}
+  else {
+    #nameVec = outer(namespace[[1]],namespace[[2]],paste,sep=" & ")
+    #nameVec = as.vector(t(nameVec)) 
+    nameVec=apply(merge(namespace[1],namespace[2]),1,function(x) paste(x[1],x[2],sep=" & "))
+    h = 2
+  }  
+  
+  bymrocalc=unclass(bymrocalc)
+  names(bymrocalc)=nameVec
+  # reorder the bymrocalc
+  k = length(bymrocalc)
+  
+  reorder = 1:k
+  if(k>2 & h >1) reorder = c(seq(1,k,by=2),seq(2,k,by=2))
+  if(length(s)>1 && s[1]>s[2]) reorder=1:k
+  
+  # use which to pick out and cover the original set
+  bymrocalc=bymrocalc[reorder[which]]
+  k = length(which)
+  #nameVec=nameVec[which]
+  if(k>5 & h<2) h=2
+  mfrow=numeric(2)
+  mfrow[1]=h
+  mfrow[2]=ifelse(h>1,(k%/%2),k)
+  
+  
+  #set graphy parameter 1
+  U = c(4,5,6)
+  L = c(1,2,3)
+  G = k%/%2
+  
+  
+  
+  if(h==1) {
+    par(mar=c(2,0,1,0),oma=rep(4,4),mfrow=mfrow)
+    
+    l=0
+    for(i in 1: k) {
+      if(i==1) j=L[1]
+      else {
+        j=ifelse(i==k,L[3],L[2])
+      }
+      mrbarchart(bymrocalc[[i]],type=j,srt=25,step=6-l)
+      l=ifelse(l,0,1)
+      mtext(names(bymrocalc[i]))
+      #mtext(nameVec)
+    }
+  }
+  else{
+    par(mfrow=mfrow)
+    
+    par(oma=rep(4,4),mar=c(0.5,0,2,0))
+    j=c()
+    for (i in 1:G) {
+      if(i==1) {j=U[1] }
+      else{
+        j=ifelse(i%%G,U[2],U[3])
+      }
+      mrbarchart(bymrocalc[[i]],type=j)
+      mtext(names(bymrocalc[i]))
+      #mtext(nameVec[i])
+    }
+    par(mar=c(1,0,1,0)) 
+    l=0
+    for(i in (G+1) : k) {
+      if(i==(G+1) ) j=L[1]
+      else {
+        j=ifelse(i%%k,L[2],L[3])
+      }
+      mrbarchart(bymrocalc[[i]],type=j,srt=25,step=6-l,xpd=NA)
+      l=ifelse(l,0,1)
+      mtext(names(bymrocalc[i]))
+      #mtext(nameVec[i])
+    }
+  }
+  title(main="Proportion comparison",ylab="proportion",xlab="online",outer=TRUE)
+}
+
+
+
+barchart4=function(bymrocalc,XI=NULL,YI=NULL) {
+  # weired thing!!!!!!!!!!!
+  s = attr(bymrocalc,"dim")
+  
+  
+  # take out name 
+  namespace = attr(bymrocalc,"dimnames")
+  if(length(namespace)<2) {nameVec = namespace[[1]];h=1}
+  else {
+    #nameVec = outer(namespace[[1]],namespace[[2]],paste,sep=" & ")
+    #nameVec = as.vector(t(nameVec)) 
+    nameVec=apply(merge(namespace[1],namespace[2]),1,function(x) paste(x[1],x[2],sep=" & "))
+    h = 2
+  }  
+  
+  bymrocalc=unclass(bymrocalc)
+  names(bymrocalc)=nameVec
+  # reorder the bymrocalc
+  k = length(bymrocalc)
+  
+  if(!is.null(XI) | !is.null(YI)){
+    if(length(s)==1) {
+      #can not give YI value
+      if(!is.null(YI)) stop("can't use YI option here")
+      bymrocalc=bymrocalc[XI]
+      k=length(bymrocalc)
+    }
+    else{
+      mat = matrix(1:prod(s),ncol=s[1],nrow=s[2],byrow=TRUE)
+      if(is.null(XI)) XI = 1:s[2]
+      if(is.null(YI)) YI = 1:s[1]
+      which = as.vector(t(mat[XI,YI]))
+      s=length(which)
+      h=1
+      bymrocalc=bymrocalc[which]
+      k=s
+      
+    }
+  }
+  
+  if(k>5 & h<2) h=2
+  
+  # control default layout 
+  if(length(s)>1) {mfrow=s[2:1] ; G=prod(s) - s[1] }
+  else{
+    mfrow=numeric(2)
+    mfrow[1]=h
+    mfrow[2]=s/h  # is s = 6 ,h=1, get 6, h=2,get 3. A vector have too much level always go two rows.
+    G = s/h
+  }
+  
+  #set graphy parameter 1
+  U = c(4,5,6)
+  L = c(1,2,3)
+  
+  
+  
+  if(k>1){
+    if(h==1) {
+      par(mar=c(2,0,1,0),oma=rep(4,4),mfrow=mfrow)
+      l=0
+      for(i in 1:k) {
+        if(i==1) j=L[1]
+        else {
+          j=ifelse(i==k,L[3],L[2])
+        }
+        mrbarchart(bymrocalc[[i]],type=j,srt=25,step=6-l)
+        l=ifelse(l,0,1)
+        mtext(names(bymrocalc[i]))
+        #mtext(nameVec)
+      }
+    }
+    else{
+      par(mfrow=mfrow)
+      par(oma=rep(4,4),mar=c(0,0,2,0))
+      j=c()
+      g=(mfrow[1]-1)%%2
+      r = seq(mfrow[2],G,by=mfrow[2])
+      l = seq(1,G,by=mfrow[2])
+      for (i in 1:G) {
+        if(any(i==l)) {j=L[1] }
+        else{
+          j=ifelse(i%%(s[1]),L[2],L[3])
+        }
+        mrbarchart(bymrocalc[[i]],type=j+3*g,step=5)
+        if(any(i==r)) g=g+1
+        if(g>1) g=0
+        
+        mtext(names(bymrocalc[i]))
+        #mtext(nameVec[i])
+      }
+      par(mar=c(1,0,1,0)) 
+      l=0    ##  l  for control labels showing in space like piano
+      for(i in (G+1) : k) {
+        if(i==(G+1) ) j=L[1]
+        else {
+          j=ifelse(i%%k,L[2],L[3])
+        }
+        mrbarchart(bymrocalc[[i]],type=j,srt=25,step=6-l,xpd=NA)
+        
+        l=ifelse(l,0,1)
+        mtext(names(bymrocalc[i]))
+        #mtext(nameVec[i])
+      }
+    }
+  }
+  else {
+    par(mfrow=c(1,1),oma=rep(4,4),mar=c(1,1,1,1))
+    mrbarchart(bymrocalc[[1]],type=1,srt=25,step=6)
+    mtext(names(bymrocalc))
+  }    
+  
+  title(main="Proportion comparison",ylab="proportion",xlab="mro.mat", outer=TRUE)
+  par(mfrow=c(1,1),oma=rep(0,4),mar=c(5.1, 4.1, 4.1, 2.1))
+  
 }
