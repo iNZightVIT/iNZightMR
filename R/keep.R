@@ -385,76 +385,73 @@ between <- function(bymro) {
   }
 }
 
-barplot.b2 <- function(x, which = NULL, ...) {
-  obj <- x
-  if (! is.null(which) && length(which) == 1)
-    return({barplot.between(obj[[which]]);title(xlab = names(obj[which]))})
-  if (! is.null(which))
-    obj <- obj[which]
-  Name <- names(obj)
-  k <- length(obj)
-  fake <- k %% 2 
-  Lead <- fake + k
-  layout(cbind(matrix(1:Lead, nrow = Lead / 2, ncol = 2, byrow = TRUE),
-               Lead + 1), widths = c(1, 1, 0.5), heights = rep(1, Lead / 2))
-  for(i in 1:Lead) {
-    barplot.between(obj[[i]], main = Name[i], LEG = FALSE)  
-  }
-  plot.new()
-  legend(0, 0.5, rownames(obj[[1]][[1]]),
-         fill = heat.colors(length(rownames(obj[[1]][[1]]))))
-  title(xlab = "online", outer = TRUE)
-  #legend("right",fill=c("yes","no"),col=heat.colors(1:4))
-  par(mfrow=c(1,1))
+barplot.b2 <- function (x, which = NULL, ...) {
+    obj <- x
+    if (!is.null(which) && length(which) == 1) 
+        return({
+            barplot.between(obj[[which]])
+            title(xlab = names(obj[which]))
+        })
+    if (!is.null(which)) 
+        obj <- obj[which]
+    Name <- names(obj)
+    k <- length(obj)
+    fake <- k%%2
+    Lead <- fake + k
+    layout(cbind(matrix(1:Lead, nrow = Lead/2, ncol = 2, byrow = TRUE), 
+        Lead + 1), widths = c(1, 1, 0.5), heights = rep(1, Lead/2))
+    for (i in 1:Lead) {
+        barplot.between(obj[[i]], main = Name[i], LEG = FALSE)
+    }
+    plot.new()
+    legend(0, 0.5, rownames(obj[[1]][[1]]), fill = heat.colors(length(rownames(obj[[1]][[1]]))))
+    title(xlab = "mro.mat", outer = TRUE)
+    par(mfrow = c(1, 1))
 }
 
 
 
 
 # TODO: Consider using hcl() for colouring,
-barplot.between <- function(height, LEG = TRUE, FUN = heat.colors, ...) {
-  #if (inherits(height, "b2")) 
-  #    return(plot.b2(height, LEG = LEG))
-  k <- length(height)
-  Dframe <- t(as.data.frame(unclass(height[seq(1, k, by = 2)])))
-  jump.num <- 7
-  var.num <- k / 2
-  Mat <- t(Dframe[1 + jump.num * 0:(var.num - 1), ])
-  colnames(Mat) <- names(height)[seq(1, k, by = 2)]
-  dev.hold()
-  p <-
-    if (LEG) {na
-      layout(matrix(c(2,2,2,2,1), 1, 5, byrow = TRUE))
-      plot.new()
-      plot.window(0:1, 0:1)
-      par(oma = )
-      legend("center", rownames(Mat), title = "Group", fill = FUN(nrow(Mat)),bty="n")
-      tmp <- barplot(Mat, beside = TRUE, col = FUN(ncol(Dframe)),
-                     ylim = 0:1, ylab = "Proportion", ...)
-      #legend(par("usr")[2] + 2, 0.6, rownames(Mat),
-      #       fill = FUN(nrow(Mat)), xpd = NA)
-      title(main = "Proportion comparison between case")
-      tmp
-    } else {
-      barplot(Mat, beside = TRUE, col = FUN(ncol(Dframe)),
-              ylim = 0:1, ylab = "Proportion",
-              #legend = colnames(Dframe), 
-              ...)
+barplot.between <- function (height, LEG = TRUE, FUN = heat.colors, ...) 
+{
+    k <- length(height)
+    Dframe <- t(as.data.frame(unclass(height[seq(1, k, by = 2)])))
+    jump.num <- 7
+    var.num <- k/2
+    Mat <- t(Dframe[1 + jump.num * 0:(var.num - 1), ])
+    colnames(Mat) <- names(height)[seq(1, k, by = 2)]
+    dev.hold()
+    p <- if (LEG) {
+        layout(matrix(c(2, 2, 2, 2, 1), 1, 5, byrow = TRUE))
+        plot.new()
+        plot.window(0:1, 0:1)
+        legend("center", rownames(Mat), title = "Group", fill = FUN(nrow(Mat)), 
+            bty = "n")
+        tmp <- barplot(Mat, beside = TRUE, col = FUN(ncol(Dframe)), 
+            ylim = 0:1, ylab = "Proportion", ...)
+        title(main = "Proportion comparison between case")
+        tmp
     }
-  box()
-  ConfL <- Dframe[4 + jump.num * 0:(var.num - 1), ]
-  ConfU <- Dframe[5 + jump.num * 0:(var.num - 1), ]
-  CompL <- Dframe[6 + jump.num * 0:(var.num - 1), ]
-  CompU <- Dframe[7 + jump.num * 0:(var.num - 1), ]
-  for (i in seq_len(k / 2)) {
-    segments(p[, i], CompL[i, ], p[, i], CompU[i, ],
-             col = "green", lwd = 4)
-    segments(p[, i], ConfL[i, ], p[, i], ConfU[i, ])
-  }
-  dev.flush()
-  par(mfrow = c(1,1))
-  invisible(p)
+    else {
+        barplot(Mat, beside = TRUE, col = FUN(ncol(Dframe)), 
+            ylim = 0:1, ylab = "Proportion", ...)
+    }
+    box()
+    ConfL <- Dframe[4 + jump.num * 0:(var.num - 1), ]
+    ConfU <- Dframe[5 + jump.num * 0:(var.num - 1), ]
+    CompL <- Dframe[6 + jump.num * 0:(var.num - 1), ]
+    CompU <- Dframe[7 + jump.num * 0:(var.num - 1), ]
+    for (i in seq_len(k/2)) {
+        segments(p[, i], CompL[i, ], p[, i], CompU[i, ], col = "green", 
+            lwd = 4)
+        segments(p[, i], ConfL[i, ], p[, i], ConfU[i, ])
+    }
+    dev.flush()
+    #par(mfrow = c(1, 1))
+    invisible(p)
 }
+
 #       ensuring more distinct colourings
 
 
