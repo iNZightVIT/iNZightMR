@@ -217,7 +217,7 @@ plotcombn <- function(obj) {
   par(opa)
   
   dev.flush()
-  invisible(x)
+  x
 }
 
 
