@@ -15,7 +15,9 @@ calcmissing.data.frame <- function(data, MRO.case = FALSE,
   index.column <- sapply(data, rm.na)
   
   if (!any(index.column)) {
-    return("Data Clean")
+    out = "Data Clean"
+    class(out) = "non-missing"  # build class here for future use.
+    return(out)
     
   }
   
@@ -141,6 +143,9 @@ plotcombn <- function(obj) {
   
   #finaltable <- calcmissing(obj, "row", print = FALSE)
   finaltable <- calcmissing(obj,  print = FALSE)
+  if (class(finaltable) == "non-missing")
+    return(finaltable)
+  
   x <- finaltable
   row.x <- nrow(x)
   col.x <- ncol(x)
@@ -184,7 +189,10 @@ plotcombn <- function(obj) {
   cons <- min(row.num, 30)
   p3 <- p3[1:cons]
   bb <- p3[length(p3):1]
-  bb[which(bb == max(bb))] <- max(bb[-which(bb == max(bb))]) * 1.1
+  bb = log1p(bb)  ## for any size data, the more the size the larger chance the first row leads a lot than others
+  ## we use log1p() to avoid the exponential increasing for the proportion 
+  ## in the same time give more weight to those proportion with too little value.
+  bb = seq(0.1,0.2,len=length(bb)) + bb/max(bb)
   plot(max(bb), cons, type = "n",
        xlim = c(0, max(bb)), ylim = c(0, cons),
        xlab = "",ylab = "",axes = FALSE)
@@ -192,8 +200,6 @@ plotcombn <- function(obj) {
   
   border <- rep(NA, length(bb))
   border[length(bb)] <- "red" 
-  ## significant small use "yellow" represent
-  #border[bb < (max(bb) / 100)] <- "yellow"
   rect(0, ymed - 0.2, bb, ymed + 0.2, col = "blue", border = border)
   mtext("Pattern", line = 1)
   mtext("Frequency", line = -0.5)
