@@ -1,4 +1,10 @@
 fastBinaryChange <- function(x, inverse = FALSE, opts = NULL) {
+  
+  # fastBinaryChange will do the following task:
+  # test1: not accept non binary level variable
+  # test2: zero-variance variable, call "unary"
+  # change1: no/yes => 0/1 false/true=>0/1 
+  
   x <- as.ordered(x)
   n <- length(x)
   typecase <- storage.mode(x)
@@ -609,10 +615,10 @@ mro2 <- function(frm, data, Labels = NULL, inverse = FALSE, combi = NULL, ...) {
   display <- with(data, {
     # grab variable name from the formual (frm) in the data file (data))
     mro.mat <- model.frame(frm[-2], data, na.action = na.pass, ...)
-    Ind <- as.logical(rowSums(is.na(mro.mat)))
-    mro.mat <- mro.mat[! Ind, ]
-    data <- data[! Ind, ]
-    rownames(data) <- NULL
+    #Ind <- as.logical(rowSums(is.na(mro.mat)))
+    #mro.mat <- mro.mat[! Ind, ]
+    #data <- data[! Ind, ]
+    #rownames(data) <- NULL
     details <- attributes(mro.mat)
     variables <- attr(details$terms, "variables")
     
@@ -1000,3 +1006,6 @@ barchart4=function(bymrocalc,XI=NULL,YI=NULL) {
   par(mfrow=c(1,1),oma=rep(0,4),mar=c(5.1, 4.1, 4.1, 2.1))
   
 }
+
+
+

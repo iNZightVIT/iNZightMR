@@ -78,3 +78,16 @@ seIndepSes = function(ses){
   ses.diffs = sqrt(outer(temp,temp,'+'))
   ses.moecalc(ses, ses.diffs)
 }
+
+# multiple binary response
+seMRprops <- function(obj) {
+  obj <- as.matrix(obj)
+  n <- nrow(obj)
+  P <- colMeans(obj)
+  Q <- colMeans(1 - obj)
+  ses <- sqrt(P * Q / n)
+  p12 <- t(obj) %*% (1 - obj) / n
+  p21 <- t(1 - obj) %*% obj / n
+  ses.diffs <- sqrt(((p12 + p21) -(p12 - p21)^2) / n)
+  ses.moecalc(ses = ses, ses.diffs = ses.diffs)
+}

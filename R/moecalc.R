@@ -20,7 +20,8 @@
 ## basename : label name of base term if base is TRUE
 ## conf.level : confidence level for both ErrBars and confidnece interval
 
-#%%%# the original code that cancel making ses.moecalc not working ~!!~~      https://github.com/sjp/iNZightRegression/commit/3e73a774b1d57f9c7943fa5f9eee73d012b83c01
+#%%%# the original code that cancel making ses.moecalc not working ~!!~~      
+#%%%# https://github.com/sjp/iNZightRegression/commit/3e73a774b1d57f9c7943fa5f9eee73d012b83c01
 
 moecalc = function(x, factorname = NULL, levelnames = NULL, coef.idx = NULL,
                    est = NULL, ci = NULL, base = TRUE, basename = "base",
@@ -556,7 +557,7 @@ multicomp.moecalc <- function(x, ...) {
         est <- - x$est.diffs[j, i]
         bounds <- est + c(-1, 1) * x$moe.diffs[j, i]
         # TODO: Adjust p-values for multiple comparisons using Tukey or Bonf
-        pval <- pt(est / x$ses.diffs[j, i], df = df, lower.tail = FALSE)
+        pval <- pt(abs(est / x$ses.diffs[j, i]), df = df, lower.tail = FALSE)
         result.matrix[row, ] <- c(est, bounds, pval)
         names[row] <- paste(levelnames[i], " - ", levelnames[j])
         row <- row + 1
