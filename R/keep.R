@@ -222,7 +222,7 @@ chisq.mro.by <- function(bymro) {
        pv = pchisq(sum(chiv), df = p * (n - 1), lower.tail = FALSE)[1])
 }
 
-barplot.mrocalc <- function(height, Order = NULL, horiz = FALSE,
+barplot2.mrocalc <- function(height, Order = NULL, horiz = FALSE,
                             title = NULL, bbar.col = "Alice Blue",
                             fbar.col = "red", dl.col = "Dark Khaki",
                             comi.col = "green", coni.col = "black",
@@ -391,11 +391,11 @@ between <- function(bymro) {
   }
 }
 
-barplot.b2 <- function (x, which = NULL, ...) {
+barplot2.b2 <- function (x, which = NULL, ...) {
     obj <- x
     if (!is.null(which) && length(which) == 1) 
         return({
-            barplot.between(obj[[which]])
+            barplot2.between(obj[[which]])
             title(xlab = names(obj[which]))
         })
     if (!is.null(which)) 
@@ -407,7 +407,7 @@ barplot.b2 <- function (x, which = NULL, ...) {
     layout(cbind(matrix(1:Lead, nrow = Lead/2, ncol = 2, byrow = TRUE), 
         Lead + 1), widths = c(1, 1, 0.5), heights = rep(1, Lead/2))
     for (i in 1:Lead) {
-        barplot.between(obj[[i]], main = Name[i], LEG = FALSE)
+        barplot2.between(obj[[i]], main = Name[i], LEG = FALSE)
     }
     plot.new()
     legend(0, 0.5, rownames(obj[[1]][[1]]), fill = heat.colors(length(rownames(obj[[1]][[1]]))))
@@ -419,7 +419,7 @@ barplot.b2 <- function (x, which = NULL, ...) {
 
 
 # TODO: Consider using hcl() for colouring,
-barplot.between <- function (height, LEG = TRUE, FUN = heat.colors, ...) 
+barplot2.between <- function (height, LEG = TRUE, FUN = heat.colors, ...) 
 {
     k <- length(height)
     Dframe <- t(as.data.frame(unclass(height[seq(1, k, by = 2)])))
