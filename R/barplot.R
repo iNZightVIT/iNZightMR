@@ -54,7 +54,6 @@ barplot.mrocalc <- function(obj) {
                       lwd = opts$bar.lwd))
   
   
-   browser()
   medpoint.mat = matrix(xx, ncol=4,byrow=T)
   
   
