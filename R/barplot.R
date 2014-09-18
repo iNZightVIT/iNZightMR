@@ -353,7 +353,7 @@ barplot.between <- function(obj) {
   
   
   
-  group.range <- apply(matrix(xx, ncol=nx*nlevels(y),byrow=TRUE),1,range)
+  group.range <- apply(matrix(xx, ncol=4*nlevels(y),byrow=TRUE),1,range)
   compL <- matrix(s2$compL, nrow = nx, byrow=TRUE)
   compU <- matrix(s2$compU, nrow = nx, byrow=TRUE)
   
@@ -460,7 +460,7 @@ barplot.b2 <- function(obj, g1.level=NULL) {
                         lwd = opts$bar.lwd))
     
     
-    group.range <- apply(matrix(xx, ncol=nx*nlevels(y),byrow=TRUE),1,range)
+    group.range <- apply(matrix(xx, ncol=4*nlevels(y),byrow=TRUE),1,range)
     lower.range <- matrix(compL, nrow = nx, byrow=TRUE)
     upper.range <- matrix(compU, nrow = nx, byrow=TRUE)
     
