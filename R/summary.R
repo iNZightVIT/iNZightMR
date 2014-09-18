@@ -148,7 +148,7 @@ summary.bymrocalc <- function(object, comp = "basic", ...) {
   }
   if (comp == "between"){
     cat("--------------------------------------------------------\n")
-    src <- between2(object)
+    src <- between(object)
     summary(src, object)
   } 
 }
