@@ -54,8 +54,8 @@ barplot.mrocalc <- function(obj) {
                       lwd = opts$bar.lwd))
   
   
-  
-  medpoint.mat = matrix(xx, ncol=nx,byrow=T)
+   browser()
+  medpoint.mat = matrix(xx, ncol=4,byrow=T)
   
   
   lapply(1:length(s1$compL),function(i){
@@ -374,7 +374,7 @@ barplot.between <- function(obj) {
                          lty = 2))
   })
   
-  medpoint.mat <- matrix(xx, ncol=nx,byrow=T)
+  medpoint.mat <- matrix(xx, ncol=4,byrow=T)
   
   grid.segments(x0 = unit(rowMeans(medpoint.mat[,2:3]), "native"), y0 = unit(s2$compL, "native"),
                 x1 = unit(rowMeans(medpoint.mat[,2:3]), "native"), y1 = unit(s2$compU, "native"),
