@@ -1,4 +1,22 @@
 import(iNZightRegression)
+import(grid) 
+import(boot) 
+import(s20x) 
+import(survey) 
+import(hexbin) 
 
 # For now, just export everything
-exportPattern("^[^\\.]")
+#exportPattern("^[^\\.]")
+
+export(iNZightMR, byMRO, mroPara, between2)
+
+# summary
+S3method(summary, mrocalc)
+S3method(summary, within)
+S3method(summary, between)
+S3method(summary, bymrocalc)
+# barplot
+S3method(barplot, mrocalc)
+S3method(barplot, bymrocalc)
+S3method(barplot, between)
+S3method(barplot, b2)
