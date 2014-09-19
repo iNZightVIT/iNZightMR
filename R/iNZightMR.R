@@ -41,9 +41,21 @@ r01 <- function(x, inverse = FALSE, opts = NULL) {
     x <- suppressWarnings(as.numeric(as.character(x)))
   }
   x[is.na(x)] <- if (inverse) 1 else 0
-  x
+  
 }
 
+
+#' Create iNZightMR multiple response object (MRO)
+#' 
+#' @param frm A formula
+#' @param data A data
+#' @param Labels default NULL
+#' @param inverse A logical value
+#' @param \code{...} Extra arguments like in \code{model.frame}
+#' @return The MRO list containing a multiple response binary matrix and input
+#'   data source
+#' @examples
+#' mr <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = dat2)
 
 iNZightMR <- function(frm, data, Labels = NULL, inverse = FALSE,  ...) {
   # y ~ v1 + v2 + v3 length is 3, ~v1 + v2 + v3 is length of two.
@@ -66,7 +78,8 @@ iNZightMR <- function(frm, data, Labels = NULL, inverse = FALSE,  ...) {
     # test binary level
     if (all(unique(sapply(mro.mat, nlevels)) == 2)) {
       mro.mat <- sapply(mro.mat, r01, inverse)
-      ### mro function treat NA response as absent response in the original data set
+      ### mro function treat NA response as absent response in the original data
+      ### set
     } else if (sum(which(sapply(mro.mat, nlevels) == 2)) == 0) {
       stop("Hard to detect binary pattern")
     } else {
@@ -92,21 +105,14 @@ iNZightMR <- function(frm, data, Labels = NULL, inverse = FALSE,  ...) {
     else
       labelname
     
-#     if (!is.null(combi)) {
-#       combination.index <- combn(ncol(mro.mat), combi)
-#       com.mro.mat <- c()
-#       com.lablename <- c()
-#       for (j in 1:ncol(combination.index)) {
-#         com.mro.mat <- cbind(com.mro.mat, 
-#                              mro.mat[, combination.index[1, j]] * mro.mat[, combination.index[2, j]])
-#         com.lablename <- append(com.lablename, 
-#                                 paste(labelname[combination.index[1, j]], 
-#                                       labelname[combination.index[2, j]], sep = ":"))
-#       }
-#       colnames(com.mro.mat) <- com.lablename
-#       mro.mat <- com.mro.mat
-#       labelname <- com.lablename
-#     }
+#     if (!is.null(combi)) { combination.index <- combn(ncol(mro.mat), combi) 
+#     com.mro.mat <- c() com.lablename <- c() for (j in
+#     1:ncol(combination.index)) { com.mro.mat <- cbind(com.mro.mat, mro.mat[,
+#     combination.index[1, j]] * mro.mat[, combination.index[2, j]]) 
+#     com.lablename <- append(com.lablename, 
+#     paste(labelname[combination.index[1, j]], labelname[combination.index[2,
+#     j]], sep = ":")) } colnames(com.mro.mat) <- com.lablename mro.mat <-
+#     com.mro.mat labelname <- com.lablename }
     
     Ix <- order(colSums(mro.mat), decreasing = TRUE)
     mro.mat <- mro.mat[, Ix]
