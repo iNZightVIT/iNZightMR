@@ -12,19 +12,19 @@
 \tabular{ll}{
   Package: \tab iNZightMR\cr
   Type: \tab Package\cr
-  Version: \tab 1.0\cr
-  Date: \tab 2014-02-25\cr
+  Version: \tab 2.0\cr
+  Date: \tab 2014-09-19\cr
   License: \tab GPL-2\cr
 }
 }
 \author{
-  Junjie Zeng, originally developed by Simon Potter.
+  Junjie Zeng
   
   Maintainer: Junjie Zeng <jzen188@aucklanduni.ac.nz>
 }
 \keyword{ iNZight }
 \seealso{
-  \code{\link{iNZight}}, \code{\link{iNZightRegression}}
+  \code{\link{iNZight}}, \code{\link{iNZightRegression}}, \code{\link{iNZightPlots}}
 }
 \examples{
 
