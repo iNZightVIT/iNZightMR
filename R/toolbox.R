@@ -11,12 +11,8 @@ substrsplit <- function(obj) {
   commonstr <- unique(substr(str, 1, i - 1))
   varname <- substr(str, i, n)
   
-  if (commonstr != "")
-    out <- list(Commonstr = commonstr,
-                Varname = varname)
-  else
-    out <- varname
-  out
+  list(Commonstr = commonstr,
+       Varname   = varname)
 }
 
 crossTab <- function(bymro) {
