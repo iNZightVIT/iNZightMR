@@ -1,11 +1,17 @@
-
-# a generic function to switcher mrocalc/bymrocalc/between/b2 object to correct data frame form 
+#' Switcher generic
+#' 
+#' @export
+#' @param obj mro familiy 
+#' @param \code{...} remain future use
 switcher <- function(obj,...) {
   
   UseMethod("switcher")
   
 }
 
+
+#' @describeIn switcher For mrocalc case
+#' @export
 switcher.mrocalc <- function(obj, ...) {
   copy <- obj
   var <- copy$Mromoecalc$xlevels$Level
@@ -14,6 +20,8 @@ switcher.mrocalc <- function(obj, ...) {
   data.frame(var=var,target, bars=1)
 }
 
+#' @describeIn switcher For bymrocalc case
+#' @export
 switcher.bymrocalc <- function(obj, ...) {
   
   if (length(dimnames(obj))>1) {
@@ -84,6 +92,8 @@ switcher.bymrocalc <- function(obj, ...) {
   out
 }
 
+#' @describeIn switcher For between case
+#' @export
 switcher.between <- function(obj, ...) {
   
   index <- which((seq_along(obj) %% 2)>0)
@@ -104,6 +114,8 @@ switcher.between <- function(obj, ...) {
   target
 }
 
+#' @describeIn switcher For between and b2 case
+#' @export
 switcher.b2 <- function(obj, ...) {
   
   copy <- lapply(obj, switcher)

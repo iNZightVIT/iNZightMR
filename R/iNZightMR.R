@@ -47,15 +47,19 @@ r01 <- function(x, inverse = FALSE, opts = NULL) {
 
 #' Create iNZightMR multiple response object (MRO)
 #' 
+#' \code{iNZightMR} returns the multiple response object (MRO) for stable
+#' analysis and encapsulation purpose
+#' 
+#' @export
 #' @param frm A formula
 #' @param data A data
 #' @param Labels default NULL
 #' @param inverse A logical value
 #' @param \code{...} Extra arguments like in \code{model.frame}
-#' @return The MRO list containing a multiple response binary matrix and input
+#' @return The MRO list containing a multiple response binary matrix and input 
 #'   data source
 #' @examples
-#' mr <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = dat2)
+#' mr <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = CaS)
 
 iNZightMR <- function(frm, data, Labels = NULL, inverse = FALSE,  ...) {
   # y ~ v1 + v2 + v3 length is 3, ~v1 + v2 + v3 is length of two.
