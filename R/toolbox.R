@@ -1,3 +1,18 @@
+#' Help mro variables extrac common name out
+#' 
+#' \code{substrsplit} returns a list with common character and unique variable name respectively
+#' 
+#' @export
+#' @param obj It can be a vector or data frame, however, \code{substrsplit} is usually 
+#' used in the \code{iNZightMR} function.
+#' @return A list with common character and unique variable name respectively
+#' @examples
+#' mr <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = CaS)
+#' mroPara(mr)
+#' mr2 <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = CaS, Labels=FALSE)
+#' mroPara(mr2)
+#' mr3 <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = CaS, Labels=letters[1:3])
+#' mroPara(mr3)
 substrsplit <- function(obj) {
   str <- names(obj) # if obj is not a vector, str will be NULL
   if (is.vector(obj))
