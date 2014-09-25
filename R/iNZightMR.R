@@ -41,7 +41,7 @@ r01 <- function(x, inverse = FALSE, opts = NULL) {
     x <- suppressWarnings(as.numeric(as.character(x)))
   }
   x[is.na(x)] <- if (inverse) 1 else 0
-  
+  x
 }
 
 
