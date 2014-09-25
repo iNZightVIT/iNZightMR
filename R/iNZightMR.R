@@ -61,7 +61,7 @@ r01 <- function(x, inverse = FALSE, opts = NULL) {
 #' @examples
 #' mr <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = CaS)
 
-iNZightMR <- function(frm, data, Labels = NULL, inverse = FALSE,  ...) {
+iNZightMR <- function(frm, data, Labels = NULL, inverse = substrsplit,  ...) {
   # y ~ v1 + v2 + v3 length is 3, ~v1 + v2 + v3 is length of two.
   # Labels could input substrsplit to catch the tail of each colnames
   # or Labels can be a equal-length vector to replace the original name
