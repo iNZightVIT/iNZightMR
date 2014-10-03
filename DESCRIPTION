@@ -1,7 +1,7 @@
 Package: iNZightMR
 Type: Package
 Title: iNZightMR
-Version: 1.1.1
+Version: 1.1.2
 Date: 2014-09-19
 Authors@R: c(person("Simon", "Potter", role = c("aut")),
              person("Junjie", "Zeng", role = c("aut", "cre"),
