@@ -63,6 +63,7 @@ iNZightMR <- function(frm, data, Labels = NULL, inverse = FALSE,  ...) {
     details <- attributes(mro.mat)
     variables <- attr(details$terms, "variables")
     
+
     # 23/11/2014 naive test...
     colId = names(mro.mat)
     mro.mat = as.data.frame(lapply(mro.mat,as.factor))[,colId]

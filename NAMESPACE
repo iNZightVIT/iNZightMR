@@ -1,7 +1,7 @@
 import(iNZightRegression)
 import(grid) 
 import(boot) 
-import(s20x) 
+import(s20x)
 import(survey) 
 import(hexbin) 
 
@@ -28,3 +28,14 @@ S3method(switcher, b2)
 # calcmissing
 S3method(calcmissing, data.frame)
 S3method(calcmissing, mro)
+
+# From newplots
+
+#export(iNZightMR)
+export(switcher)
+export(moecalc)
+export(seBinprops)
+export(moecalc)
+export(seMNprops)
+export(seCovs)
+
