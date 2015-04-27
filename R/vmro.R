@@ -2,12 +2,14 @@ rm.na <- function(variable) {
     sum(is.na(variable)) > 0
 }
 
+##' @export
 calcmissing <- function(obj, ...) {
     UseMethod("calcmissing")
 }
 
 ## can sortby variable,row,column,both
 ## see the vmv package tablemissing function 
+
 calcmissing.data.frame <- function(data, MRO.case = FALSE, 
                                    print = TRUE, final = TRUE, ...) {
   sortby <- "row"
