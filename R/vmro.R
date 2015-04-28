@@ -8,10 +8,12 @@ calcmissing <- function(obj, ...) {
 }
 
 ## can sortby variable,row,column,both
-## see the vmv package tablemissing function 
+## see the vmv package tablemissing function
 
-calcmissing.data.frame <- function(data, MRO.case = FALSE, 
+##' @export
+calcmissing.data.frame <- function(obj, MRO.case = FALSE, 
                                    print = TRUE, final = TRUE, ...) {
+  data <- obj
   sortby <- "row"
   
   index.column <- sapply(data, rm.na)
@@ -116,12 +118,15 @@ calcmissing.data.frame <- function(data, MRO.case = FALSE,
 
 ### accecpted a whole mr.object , which is first mro.mat, second element lables,
 ## third element the input data frame.
-calcmissing.mro <- function(mro, ...) {
+##' @export
+calcmissing.mro <- function(obj, ...) {
+  mro <- obj
   mat <- mro[[1]]
   mat[mat == 0] <- NA
   calcmissing(as.data.frame(mat), MRO.case = TRUE, ...)
 }
 
+##' @export
 plotcombn <- function(obj) {
   Subtitle <- NULL
   if (inherits(obj, "Sub")) {
