@@ -32,6 +32,7 @@ seModel = function(model, idx, base = TRUE){
 
 ## find ses.diffs when variance-covariance matrix of the estimate vector is supplied
 ## base : has baseline or not
+##' @export
 seCovs = function(covs, addbase=FALSE){
   # for use when covariance matrix is given (e.g. cal from bootstrap)
   vars = diag(covs)
@@ -48,6 +49,7 @@ seCovs = function(covs, addbase=FALSE){
 
 
 ## Multinomial Proportions
+##' @export
 seMNprops = function(n, phat){
   if (length(n)!=1) stop("Requires length(n)=1")
   if (abs(sum(phat)-1)>.001) stop("proportions must sum to 1")
@@ -59,6 +61,7 @@ seMNprops = function(n, phat){
 }
 
 ## Independent Binomial Proportions
+##' @export
 seBinprops = function(ns, phats){
   if ((any(phats>1)) | (any(phats<0)))
     stop("proportions must lie between 0 and 1")
@@ -73,6 +76,7 @@ seBinprops = function(ns, phats){
 }
 
 ## Independent Standard errors given
+##' @export
 seIndepSes = function(ses){
   temp = ses^2
   ses.diffs = sqrt(outer(temp,temp,'+'))
@@ -80,6 +84,7 @@ seIndepSes = function(ses){
 }
 
 # multiple binary response
+##' @export
 seMRprops <- function(obj) {
   obj <- as.matrix(obj)
   n <- nrow(obj)

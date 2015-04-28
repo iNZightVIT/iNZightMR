@@ -23,6 +23,7 @@
 #%%%# the original code that cancel making ses.moecalc not working ~!!~~      
 #%%%# https://github.com/sjp/iNZightRegression/commit/3e73a774b1d57f9c7943fa5f9eee73d012b83c01
 
+##' @export
 moecalc = function(x, factorname = NULL, levelnames = NULL, coef.idx = NULL,
                    est = NULL, ci = NULL, base = TRUE, basename = "base",
                    conf.level = 1.96){
