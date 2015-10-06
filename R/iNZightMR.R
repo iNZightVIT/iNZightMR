@@ -61,10 +61,34 @@ r01 <- function(x, inverse = FALSE, opts = NULL) {
 #' @examples
 #' mr <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = CaS)
 
-iNZightMR <- function(frm, data, Labels = NULL, inverse = substrsplit,  ...) {
+iNZightMR <- function(frm, data, Labels = NULL, inverse = FALSE,  ...) {
   # y ~ v1 + v2 + v3 length is 3, ~v1 + v2 + v3 is length of two.
   # Labels could input substrsplit to catch the tail of each colnames
   # or Labels can be a equal-length vector to replace the original name
+  
+  ###############  Junjie Zeng update in 6/10/2015 ###############
+  #  Labels argument accepted: NULL, character vector (as replacing original name) or substrsplit()
+  #  example:
+  #  substrsplit is a function to extract common term in variables name as topic, 
+  #  mr <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = CaS, Labels = substrsplit)
+  #  mroPara(mr)
+  #  
+  #  character vector is inputting as hard code replacement....
+  #  mr <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = CaS, Labels = c("A","B","C"))
+  #  mroPara(mr)
+  #  
+  #  extra argument "inverse" is initially designing for inverse control... for example, Absent =0, Present = 1;
+  #  Putting inverse = TRUE, we can get Absent = 1, Present = 0...
+  #
+  #  Further test, if a user can provide a binary data.frame
+  #  test = data.frame(group = rep(letters[1:3], 10), 
+  #                     V1 = sample(0:1, 30, replace = TRUE), 
+  #                     V2 = sample(0:1, 30, replace = TRUE), 
+  #                     V3 = sample(0:1, 30, replace = TRUE))
+  #  mr <- iNZightMR(test~V1+V2+V3, data = test) 
+  #  mroPara(mr)
+  #  colMeans(Filter(is.numeric, test))  ## you should get this result identical to mroPara(mr)$Mromoecalc$est
+  ####
   
   if (length(frm[[2]])) 
     classnames <- as.character(frm[[2]])
