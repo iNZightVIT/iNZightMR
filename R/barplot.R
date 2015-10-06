@@ -5,7 +5,7 @@
 ### one of the benefit of doing this is this will generate one factor level with 
 ### 100% percentage thus we avoid to configure the ylim and ymax scale inside.
 
-
+#' @export
 barplot.mrocalc <- function(obj) {
   
   s1 <- switcher(obj)
@@ -78,6 +78,7 @@ barplot.mrocalc <- function(obj) {
                        lwd = opts$inf.lwd.conf))
 }
 
+#' @export
 barplot.bymrocalc <- function(obj,g1.level = NULL, g2.level ="_MULTI",...){
   
   

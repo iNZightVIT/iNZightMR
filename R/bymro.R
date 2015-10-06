@@ -12,6 +12,7 @@ fastNumchange <- function(x) {
   }
 } 
 
+#' @export
 byMRO <- function(mro.obj, formula, FUN, ...) {
   Data <- mro.obj$df
   Dframe <- mro.obj[[1]]

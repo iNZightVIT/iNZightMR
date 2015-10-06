@@ -1,12 +1,14 @@
 
 # single mro summary
 
+#' @export
 summary.mrocalc <- function(object, ...) {
   list(df = object$Mromoecalc$fit$df,
        Mromoecalc = round(summary(object$Mromoecalc)$coef, 3),
        Multicom = round(object$Multicom, 3))
 }
 
+#' @export
 summary.within <- function(object, ...) {
   Title <-
     if (length(dim(object)) < 2) {
@@ -58,7 +60,7 @@ summary.within <- function(object, ...) {
                  Multicom.Group = Multicom.Group))
 }
 
-
+#' @export
 summary.between <- function(Source, bymro) {
   G <- chisq.mro.by(bymro)
   cat("        Chi-squared test\n")
@@ -135,6 +137,7 @@ summary.between <- function(Source, bymro) {
 
 
 ## wrapper function
+#' @export
 summary.bymrocalc <- function(object, comp = "basic", ...) {
   cat("Proportions:\n")
   tabprops <- crossTab(object)
