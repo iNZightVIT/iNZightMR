@@ -1,8 +1,8 @@
 Package: iNZightMR
 Type: Package
 Title: iNZightMR
-Version: 2.0
-Date: 2015-05-26
+Version: 2.1
+Date: 2015-10-06
 Authors@R: c(person("Junjie", "Zeng", role = c("aut", "cre"),
     email = "jzen188@aucklanduni.ac.nz"),
     person("Simon", "Potter", role = c("aut"))
