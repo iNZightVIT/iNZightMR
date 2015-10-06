@@ -1,3 +1,4 @@
+#' @export
 mroPara <- function(obj, conf.levels = 1.96, nonparallel=NULL) {
   cl <- match.call()
   Tb <- names(obj)[1]
