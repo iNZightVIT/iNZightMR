@@ -17,11 +17,11 @@ barplot.mrocalc <- function(obj) {
   s1 <- validateRange1(s1)
   x <- factor(rep(levels(s1$var)[1], 10), 
               levels = levels(s1$var))
-  pl <- iNZightPlot(x,layout.only=TRUE, varnames=list(x=obj$Topic))
+  pl <- iNZightPlots::iNZightPlot(x, layout.only=TRUE, varnames=list(x=obj$Topic))
   
   gen <- pl$gen
   opts <- gen$opts
-  seekViewport("VP:locate.these.points11")
+  seekViewport("VP:locate.these.points")
   
   p <- matrix(s1$est, nrow=1)
   nx <- ncol(p)
@@ -84,7 +84,7 @@ barplot.bymrocalc <- function(obj,g1.level = NULL, g2.level ="_MULTI",...){
   
   
     s1 <- switcher(obj)
-    print(s1)
+
     s1$ErrBars <- validateRange2(s1$ErrBar)
     s1$confL <- validateRange2(s1$confL)
     s1$confU <- validateRange2(s1$confU)
@@ -108,7 +108,7 @@ barplot.bymrocalc <- function(obj,g1.level = NULL, g2.level ="_MULTI",...){
                   levels = levels(s1$var))
       g1 <- factor(unique(as.character(s1$type)),
                    levels = unique(as.character(s1$type)))
-      pl <- iNZightPlot(x,g1=g1, g1.level=g1.level, layout.only=TRUE, 
+      pl <- iNZightPlots::iNZightPlot(x,g1=g1, g1.level=g1.level, layout.only=TRUE, 
                         varnames=list(x=obj[[1]]$Topic, g1= TYPE))
       
       gen <- pl$gen
@@ -214,7 +214,7 @@ barplot.bymrocalc <- function(obj,g1.level = NULL, g2.level ="_MULTI",...){
       g1 <- factor(rep(unique(as.character(s1$type1)),each=nlevels(s1$type2)),
                   levels = unique(as.character(s1$type1)))
       g2 <- factor(unique(as.character(s1$type2)))
-      pl <- iNZightPlot(x,g1=g1, g2 = g2, g1.level = g1.level, 
+      pl <- iNZightPlots::iNZightPlot(x,g1=g1, g2 = g2, g1.level = g1.level, 
                         layout.only=TRUE, g2.level = g2.level,
                         varnames=list(x=obj[[1]]$Topic,g1=TYPE1,g2=TYPE2))
       
@@ -304,7 +304,7 @@ barplot.bymrocalc <- function(obj,g1.level = NULL, g2.level ="_MULTI",...){
 barplot.between <- function(obj) {
   
   s2 <- switcher(obj)
-  print(s2)
+
   s2$ErrBars <- validateRange2(s2$ErrBars)
   s2$confL <- validateRange2(s2$confL)
   s2$confU <- validateRange2(s2$confU)
@@ -318,12 +318,12 @@ barplot.between <- function(obj) {
               levels = levels(s2$var))
   y <- factor(unique(as.character(s2$type)),
                levels = unique(as.character(s2$type)))
-  pl <- iNZightPlot(x,y,layout.only=TRUE, 
+  pl <- iNZightPlots::iNZightPlot(x,y,layout.only=TRUE, 
                     varnames=list(x=attr(obj,"Topic"),y=TYPE))
   
   gen <- pl$gen
   opts <- gen$opts
-  seekViewport("VP:locate.these.points11")
+  seekViewport("VP:locate.these.points")
   
   p <- matrix(s2$est, nrow=nlevels(s2$type))
   nx <- ncol(p)
@@ -392,7 +392,7 @@ barplot.between <- function(obj) {
 
 barplot.b2 <- function(obj, g1.level=NULL) {
   s2 <- switcher(obj)
-  print(s2)
+
   s2$ErrBars <- validateRange2(s2$ErrBars)
   s2$confL <- validateRange2(s2$confL)
   s2$confU <- validateRange2(s2$confU)
@@ -419,7 +419,7 @@ barplot.b2 <- function(obj, g1.level=NULL) {
               levels = unique(as.character(s2$type1)))
   g1 <- factor(unique(as.character(s2$type2)))
 
-  pl <- iNZightPlot(x,y=y, g1=g1,layout.only=TRUE, 
+  pl <- iNZightPlots::iNZightPlot(x,y=y, g1=g1,layout.only=TRUE, 
                     g1.level = g1.level,
                     varnames=list(x=attr(obj,"Topic"), y=TYPE1,g1=TYPE2))
   gen <- pl$gen
