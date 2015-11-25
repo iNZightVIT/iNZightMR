@@ -5,6 +5,7 @@
 ### one of the benefit of doing this is this will generate one factor level with 
 ### 100% percentage thus we avoid to configure the ylim and ymax scale inside.
 
+#' @import grid
 #' @export
 barplot.mrocalc <- function(obj) {
   
@@ -16,7 +17,9 @@ barplot.mrocalc <- function(obj) {
   s1$compU <- validateRange2(s1$compU)
   s1 <- validateRange1(s1)
   x <- factor(rep(levels(s1$var)[1], 10), 
-              levels = levels(s1$var))
+              levels = s1$var)
+
+  
   pl <- iNZightPlots::iNZightPlot(x, layout.only=TRUE, varnames=list(x=obj$Topic))
   
   gen <- pl$gen
