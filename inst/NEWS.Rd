@@ -2,6 +2,17 @@
 \title{NEWS file for the iNZightMR package}
 \encoding{UTF-8}
 
+\section{Changes in version 2.2}{
+  Release date: 22 Janurary 2016
+
+  \subsection{CHANGES}{
+    \itemize{
+      \item Mostly just changes to the NAMESPACE, which involved
+      renaming of some functions.
+    }
+  }
+}
+
 \section{Changes in version 2.1}{
   Release date: 10 October 2015
   
