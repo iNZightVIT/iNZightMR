@@ -99,6 +99,11 @@ sampleSize  = function (bymro) {
   }
 }
 
+
+
+
+##' @author Junjie Zheng
+##' @export
 between <- function (bymro) {   
 
   dn <- dimnames(bymro)

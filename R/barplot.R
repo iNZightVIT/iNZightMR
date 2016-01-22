@@ -13,13 +13,15 @@
 ##' @param ... more params
 ##' @return NULL
 ##' @author Junjie Zheng
-##' @import grid iNZightPlots
+##' @import grid
 ##' @export
-barplot <- function(obj, ...)
-    UseMethod("barplot", obj)
+barplotMR <- function(obj, ...)
+    UseMethod("barplotMR", obj)
 
 
-barplot.mrocalc <- function(obj) {
+##' @describeIn barplotMR method for class `mrocalc`
+##' @export 
+barplotMR.mrocalc <- function(obj) {
   
   s1 <- switcher(obj)
   s1$ErrBars <- validateRange2(s1$ErrBar)
@@ -94,7 +96,9 @@ barplot.mrocalc <- function(obj) {
 }
 
 
-barplot.bymrocalc <- function(obj,g1.level = NULL, g2.level ="_MULTI",...){
+##' @describeIn barplotMR method for class `bymrocalc`
+##' @export 
+barplotMR.bymrocalc <- function(obj,g1.level = NULL, g2.level ="_MULTI",...){
   
   
   
@@ -316,7 +320,9 @@ barplot.bymrocalc <- function(obj,g1.level = NULL, g2.level ="_MULTI",...){
 }
 
 
-barplot.between <- function(obj) {
+##' @describeIn barplotMR method for class `between`
+##' @export 
+barplotMR.between <- function(obj) {
   
   s2 <- switcher(obj)
 
@@ -405,7 +411,10 @@ barplot.between <- function(obj) {
   
 }
 
-barplot.b2 <- function(obj, g1.level=NULL) {
+
+##' @describeIn barplotMR method for class `b2`
+##' @export 
+barplotMR.b2 <- function(obj, g1.level=NULL) {
   s2 <- switcher(obj)
 
   s2$ErrBars <- validateRange2(s2$ErrBars)
