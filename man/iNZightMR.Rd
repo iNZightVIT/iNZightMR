@@ -26,6 +26,6 @@ The MRO list containing a multiple response binary matrix and input
 analysis and encapsulation purpose
 }
 \examples{
-mr <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = CaS)
+mr <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = census.at.school.5000)
 }
 

@@ -17,11 +17,11 @@ A list with common character and unique variable name respectively
 \code{substrsplit} returns a list with common character and unique variable name respectively
 }
 \examples{
-mr <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = CaS)
+mr <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = census.at.school.5000)
 mroPara(mr)
-mr2 <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = CaS, Labels=FALSE)
+mr2 <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = census.at.school.5000, Labels=FALSE)
 mroPara(mr2)
-mr3 <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = CaS, Labels=letters[1:3])
+mr3 <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = census.at.school.5000, Labels=letters[1:3])
 mroPara(mr3)
 }
 

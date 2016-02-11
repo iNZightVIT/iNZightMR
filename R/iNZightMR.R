@@ -59,7 +59,7 @@ r01 <- function(x, inverse = FALSE, opts = NULL) {
 #' @return The MRO list containing a multiple response binary matrix and input 
 #'   data source
 #' @examples
-#' mr <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = CaS)
+#' mr <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = census.at.school.5000)
 
 iNZightMR <- function(frm, data, Labels = NULL, inverse = FALSE,  ...) {
   # y ~ v1 + v2 + v3 length is 3, ~v1 + v2 + v3 is length of two.
