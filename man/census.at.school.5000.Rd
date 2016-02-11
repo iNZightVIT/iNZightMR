@@ -3,7 +3,7 @@
 \docType{data}
 \name{census.at.school.5000}
 \alias{census.at.school.5000}
-\title{Census at School 50000}
+\title{Census at School 5000}
 \format{A data frame with  binary response variables:
 \describe{
   \item{cellsource}{the source of cellphone money}
