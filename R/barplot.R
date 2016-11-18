@@ -99,9 +99,7 @@ barplotMR.mrocalc <- function(obj) {
 ##' @describeIn barplotMR method for class `bymrocalc`
 ##' @export 
 barplotMR.bymrocalc <- function(obj,g1.level = NULL, g2.level ="_MULTI",...){
-  
-  
-  
+    
     s1 <- switcher(obj)
 
     s1$ErrBars <- validateRange2(s1$ErrBar)
@@ -231,8 +229,9 @@ barplotMR.bymrocalc <- function(obj,g1.level = NULL, g2.level ="_MULTI",...){
       x <- factor(rep(levels(s1$var)[1], nlevels(s1$type1)*nlevels(s1$type2)*10), 
                   levels = levels(s1$var))
       g1 <- factor(rep(unique(as.character(s1$type1)),each=nlevels(s1$type2)),
-                  levels = unique(as.character(s1$type1)))
-      g2 <- factor(unique(as.character(s1$type2)))
+                   levels = unique(as.character(s1$type1)))
+      g2 <- factor(unique(as.character(s1$type2)),
+                   levels = unique(as.character(s1$type2)))
       pl <- iNZightPlots::iNZightPlot(x,g1=g1, g2 = g2, g1.level = g1.level, 
                         layout.only=TRUE, g2.level = g2.level,
                         varnames=list(x=obj[[1]]$Topic,g1=TYPE1,g2=TYPE2))
