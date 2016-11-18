@@ -3,6 +3,11 @@ __Release date__: 22 January, 2016
 
 - Mostly just changes to the `NAMESPACE`, which involved renaming of some functions.
 
+## Patches
+
+### Patch 2.2-1 - 19/11/2016
+
+- Fix subsetting (slot 2) bug where numeric to categorical conversion had the wrong level ordering
 
 ***
 # Version 2.1
