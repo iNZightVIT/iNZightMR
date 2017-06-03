@@ -1,23 +1,25 @@
 #' Help mro variables extrac common name out
-#' 
+#'
 #' \code{substrsplit} returns a list with common character and unique variable name respectively
-#' 
+#'
 #' @export
-#' @param obj It can be a vector or data frame, however, \code{substrsplit} is usually 
+#' @param obj It can be a vector or data frame, however, \code{substrsplit} is usually
 #' used in the \code{iNZightMR} function.
 #' @return A list with common character and unique variable name respectively
 #' @examples
+#' \dontrun{
 #' mr <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = census.at.school.5000)
 #' mroPara(mr)
 #' mr2 <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = census.at.school.5000, Labels=FALSE)
 #' mroPara(mr2)
 #' mr3 <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = census.at.school.5000, Labels=letters[1:3])
 #' mroPara(mr3)
+#' }
 substrsplit <- function(obj) {
   str <- names(obj) # if obj is not a vector, str will be NULL
   if (is.vector(obj))
     str <- obj
-  
+
   n <- max(nchar(str))
   i <- 0
   while(length(unique(substr(str, 1, i))) == 1) {
@@ -25,21 +27,21 @@ substrsplit <- function(obj) {
   }
   commonstr <- unique(substr(str, 1, i - 1))
   varname <- substr(str, i, n)
-  
+
   list(Commonstr = commonstr,
        Varname   = varname)
 }
 
 crossTab <- function(bymro) {
   k <- length(bymro)
-  rn <- 
+  rn <-
     if (length(dim(bymro)) < 2) {
       dimnames(bymro)[[1]]
     } else {
       outer(dimnames(bymro)[[1]], dimnames(bymro)[[2]],
             paste, sep = " & ")
     }
-  
+
   m <- do.call("rbind",
                lapply(seq_along(bymro),
                       function(x) {
@@ -47,7 +49,7 @@ crossTab <- function(bymro) {
                           return(0)
                         }
                         bymro[[x]]$Mromoecalc$est
-                        
+
                       }))
   #m <- matrix(m, nrow=length(rn))
   rownames(m) <- rn
@@ -58,9 +60,9 @@ crossTab <- function(bymro) {
 
 
 sampleSize  = function (bymro) {
-  
+
   # sampleSize is a function extract sample size from the list
-  
+
   if (inherits(bymro,"bymrocalc")){
     k <- length(bymro)
     rn <- dimnames(bymro)[[1]]
@@ -72,14 +74,14 @@ sampleSize  = function (bymro) {
     }
     m <- do.call("rbind", lapply(seq_along(bymro),
                                  function(x) {
-                                   if (is.null(bymro[[x]])) 
+                                   if (is.null(bymro[[x]]))
                                      return(0)
                                    bymro[[x]]$Mromoecalc$fit$df
                                  }))
     m <- matrix(m, nrow=length(rn))
     rownames(m) <- rn
     if (!is.null(cn))
-      colnames(m) <- cn  
+      colnames(m) <- cn
     return(m)
   }
   else{
@@ -88,9 +90,9 @@ sampleSize  = function (bymro) {
     k <- length(bymro)
     rn <- names(bymro)
     # The subset for bymro implies one dimension
-    m <- do.call("rbind", lapply(seq_along(bymro), 
+    m <- do.call("rbind", lapply(seq_along(bymro),
                                  function(x) {
-                                   if (is.null(bymro[[x]])) 
+                                   if (is.null(bymro[[x]]))
                                      return(0)
                                    bymro[[x]]$Mromoecalc$fit$df
                                  }))
@@ -104,12 +106,12 @@ sampleSize  = function (bymro) {
 
 ##' @author Junjie Zheng
 ##' @export
-between <- function (bymro) {   
+between <- function (bymro) {
 
   dn <- dimnames(bymro)
   if (length(dn) < 2) {
     tab = sampleSize(bymro)
-    # The print below is to test whether we are using the correct sample size (ns) in seBinprops(). 
+    # The print below is to test whether we are using the correct sample size (ns) in seBinprops().
     # print(tab[,1])
     # print(tab)
     #
@@ -121,10 +123,10 @@ between <- function (bymro) {
     M <- matrix(NA, nrow= ncol(temp)*k, ncol=8)
     M[,8] = rep(tab, times=length(mro.names))
     rownames(M) = rep(names(bymro), times=ncol(temp))
-    
+
     lapply(seq_along(bymro), function(x) {
       if (is.null(bymro[[x]])) {
-        
+
       }
       else{
       tmpdf <- as.data.frame(bymro[[x]]$Mromoecalc[c(2, 12, 4, 14:17)])
@@ -158,11 +160,11 @@ between <- function (bymro) {
       rownames(L[[2 * j - 1]]) <- rn
       id <- combn(length(rn[notNA]), 2)
       Groups <- M[index[notNA], ]
-      groupNames <- matrix(rn[id], nrow = ncol(id), 
+      groupNames <- matrix(rn[id], nrow = ncol(id),
                            ncol = 2, byrow = TRUE)
-      groupNames <- paste0(groupNames[, 1], " - ", groupNames[, 
+      groupNames <- paste0(groupNames[, 1], " - ", groupNames[,
                                                               2])
-      est <- Groups[id[1, ], 1] - Groups[id[2, ], 
+      est <- Groups[id[1, ], 1] - Groups[id[2, ],
                                             1]
       ses <- sqrt(Groups[id[1, ], 2]^2 + Groups[id[2, ], 2]^2)
       confL <- est - 1.96 * ses
@@ -171,10 +173,10 @@ between <- function (bymro) {
       rownames(L[[2 * j]]) <- groupNames
     }
     names(L)[seq(1, 2 * l, by = 2)] <- mro.names
-    names(L)[seq(2, 2 * l, by = 2)] <- paste(mro.names, 
+    names(L)[seq(2, 2 * l, by = 2)] <- paste(mro.names,
                                              "diff", sep = ".")
     class(L) <- "between"
-    
+
     attr(L, "type1") <- names(dimnames(bymro))
     notNULL <- which(!sapply(bymro,is.null))
     attr(L, "Topic") <- bymro[[notNULL[1]]]$Topic
@@ -182,7 +184,7 @@ between <- function (bymro) {
   }
   else {
     dimension <- dim(bymro)
-    mat <- matrix(seq_along(bymro), ncol = dimension[1], 
+    mat <- matrix(seq_along(bymro), ncol = dimension[1],
                   nrow = dimension[2], byrow = TRUE)
     dimname <- dimnames(bymro)
     combnname <- merge(dimname[1], dimname[2])
@@ -203,12 +205,12 @@ between <- function (bymro) {
     attr(out, "Topic") <- bymro[[notNULL[1]]]$Topic
     out
   }
-  
+
 }
 
 
 validateRange1 <- function(table) {
-  
+
   # validateRange1 is for checking count <=5, num>=1 or num<=0
   id = table$count<=5
   table[id, c("ErrBars","confL","confU","compL","compU")] <- 0
@@ -220,9 +222,8 @@ validateRange1 <- function(table) {
 }
 
 validateRange2 <- function(x) {
-  
+
   id = is.na(x)
   x[id] = 0
   x
 }
-

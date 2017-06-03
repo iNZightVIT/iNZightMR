@@ -14,7 +14,7 @@ summary.within <- function(object, ...) {
     if (length(dim(object)) < 2) {
       paste0(names(dimnames(object)), ":", dimnames(object)[[1]])
     } else {
-      commonTitle <- 
+      commonTitle <-
         paste0(names(dimnames(object)[1]), ":", names(dimnames(object)[2]))
       groupTitle <- outer(dimnames(object)[[1]], dimnames(object)[[2]],
                           paste, sep = " & ")
@@ -23,7 +23,7 @@ summary.within <- function(object, ...) {
   Multicom.Group <- vector("list", length(object))
   for (i in seq_along(object)) {
 
-    cat(Title[i] , "\n")  
+    cat(Title[i] , "\n")
     if(is.null(object[[i]])){
       cat("Missing Observations","\n")
       cat("\n")
@@ -45,7 +45,7 @@ summary.within <- function(object, ...) {
                lower.tail = FALSE),
         "\n")
     cat("\n")
-    cat(paste0("95% CIs for diffs in propns within ", 
+    cat(paste0("95% CIs for diffs in propns within ",
                Title[i], " distribution"),"\n")
     cat("(rowname - colname)","\n")
     cat("\n")
@@ -61,7 +61,7 @@ summary.within <- function(object, ...) {
 }
 
 #' @export
-summary.between <- function(Source, bymro) {
+summary.between <- function(object, bymro,...) {
   G <- chisq.mro.by(bymro)
   cat("        Chi-squared test\n")
   cat("     equality of response profile\n")
@@ -69,15 +69,15 @@ summary.between <- function(Source, bymro) {
   cat("\n")
   cat("X-squared = ", G$xvalue, " df = ", G$df, " p-value = ", G$pv, "\n")
   cat("\n")
-  
+
   DN <- dimnames(bymro)
   if (length(DN) < 2) {
     k <- length(Source)
-    Title <- names(Source)[seq(1, k, by = 2)] 
+    Title <- names(Source)[seq(1, k, by = 2)]
     WithinVariables <- vector("list", k / 2)
     BetweenVariables <- vector("list", k / 2)
     for (i in seq_len(k / 2)) {
-      cat(Title[i] , "\n") 
+      cat(Title[i] , "\n")
       cat("\n")
       # TODO: fix magic number, use names instead
       print(round(Source[[2 * i - 1]][, c(1, 2, 4, 5)], 3))
@@ -108,7 +108,7 @@ summary.between <- function(Source, bymro) {
       cat("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n")
       cat("\n")
       k <- length(partsource)
-      Title <- names(partsource)[seq(1, k, by = 2)] 
+      Title <- names(partsource)[seq(1, k, by = 2)]
       WithinVariables <- c()
       BetweenVariables <- c()
       for (i in 1:(k / 2))  {
@@ -128,7 +128,7 @@ summary.between <- function(Source, bymro) {
       }
       partcontent[[j]] <- list(Title = Title,
                                WithinVariables = WithinVariables,
-                               BetweenVariables = BetweenVariables)  
+                               BetweenVariables = BetweenVariables)
       names(partcontent)[j] <- paste(names(DN)[2], names(Source)[j], sep=" : ")
     }
     invisible(partcontent)
@@ -143,7 +143,7 @@ summary.bymrocalc <- function(object, comp = "basic", ...) {
   tabprops <- crossTab(object)
   cat("\n")
   print(tabprops, digits = 3)
-  
+
   if (comp == "within") {
     cat("--------------------------------------------------------\n")
     class(object) <- "within"
@@ -153,5 +153,5 @@ summary.bymrocalc <- function(object, comp = "basic", ...) {
     cat("--------------------------------------------------------\n")
     src <- between(object)
     summary(src, object)
-  } 
+  }
 }

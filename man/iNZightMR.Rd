@@ -18,7 +18,7 @@ iNZightMR(frm, data, Labels = NULL, inverse = FALSE, ...)
 \item{\code{...}}{Extra arguments like in \code{model.frame}}
 }
 \value{
-The MRO list containing a multiple response binary matrix and input 
+The MRO list containing a multiple response binary matrix and input
   data source
 }
 \description{
@@ -26,6 +26,8 @@ The MRO list containing a multiple response binary matrix and input
 analysis and encapsulation purpose
 }
 \examples{
+\dontrun{
 mr <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = census.at.school.5000)
+}
 }
 

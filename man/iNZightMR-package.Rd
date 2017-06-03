@@ -1,4 +1,4 @@
-\name{iNZightMR}
+\name{iNZightMR Package}
 \docType{package}
 \title{
   Multiple Response Data Analysis
@@ -19,12 +19,12 @@
 }
 \author{
   Junjie Zeng
-  
+
   Maintainer: Junjie Zeng <jzen188@aucklanduni.ac.nz>
 }
 \keyword{ iNZight }
 \seealso{
-  \code{\link{iNZight}}, \code{\link{iNZightRegression}}, \code{\link{iNZightPlots}}
+  \code{\link[iNZight]{iNZight}}, \code{\link[iNZightRegression]{iNZightRegression}}
 }
 \examples{
 

@@ -10,14 +10,14 @@
 \usage{
 barplotMR(obj, ...)
 
-\method{barplotMR}{mrocalc}(obj)
+\method{barplotMR}{mrocalc}(obj, ...)
 
 \method{barplotMR}{bymrocalc}(obj, g1.level = NULL, g2.level = "_MULTI",
   ...)
 
-\method{barplotMR}{between}(obj)
+\method{barplotMR}{between}(obj, ...)
 
-\method{barplotMR}{b2}(obj, g1.level = NULL)
+\method{barplotMR}{b2}(obj, g1.level = NULL, ...)
 }
 \arguments{
 \item{obj}{soem object}
