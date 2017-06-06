@@ -1,6 +1,4 @@
 
-# single mro summary
-
 #' @export
 summary.mrocalc <- function(object, ...) {
   list(df = object$Mromoecalc$fit$df,
@@ -62,82 +60,82 @@ summary.within <- function(object, ...) {
 
 #' @export
 summary.between <- function(object, bymro,...) {
-  G <- chisq.mro.by(bymro)
-  cat("        Chi-squared test\n")
-  cat("     equality of response profile\n")
-  cat("     across group\n")
-  cat("\n")
-  cat("X-squared = ", G$xvalue, " df = ", G$df, " p-value = ", G$pv, "\n")
-  cat("\n")
+    stop("This function is on hiatus.")
+  ## G <- chisq.mro.by(bymro)
+  ## cat("        Chi-squared test\n")
+  ## cat("     equality of response profile\n")
+  ## cat("     across group\n")
+  ## cat("\n")
+  ## cat("X-squared = ", G$xvalue, " df = ", G$df, " p-value = ", G$pv, "\n")
+  ## cat("\n")
 
-  DN <- dimnames(bymro)
-  if (length(DN) < 2) {
-    k <- length(Source)
-    Title <- names(Source)[seq(1, k, by = 2)]
-    WithinVariables <- vector("list", k / 2)
-    BetweenVariables <- vector("list", k / 2)
-    for (i in seq_len(k / 2)) {
-      cat(Title[i] , "\n")
-      cat("\n")
-      # TODO: fix magic number, use names instead
-      print(round(Source[[2 * i - 1]][, c(1, 2, 4, 5)], 3))
-      WithinVariables[[i]] <- Source[[2 * i - 1]]
-      cat("\n")
-      cat(paste("95% CIs for difference ",
-                Title[i],
-                " proportions between ",
-                names(dimnames(bymro)), sep = ""), "\n")
-      cat("(rowname - colname)\n")
-      cat("\n")
-      print(round(Source[[2 * i]], 3))
-      BetweenVariables[[i]] <- Source[[2 * i]]
-      cat("\n")
-      cat("----------------------------------------------------------------------")
-      cat("\n")
-    }
-    invisible(list(Title = Title,
-                   WithinVariables = WithinVariables,
-                   BetweenVariables = BetweenVariables))
-  } else {
-    s <- length(Source)
-    partcontent <- vector("list", length(Source))
-    for(j in seq_along(Source)){
-      partsource <- Source[[j]]
-      cat("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n")
-      cat(paste(names(DN)[2], names(Source)[j], sep=" : "),"\n")
-      cat("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n")
-      cat("\n")
-      k <- length(partsource)
-      Title <- names(partsource)[seq(1, k, by = 2)]
-      WithinVariables <- c()
-      BetweenVariables <- c()
-      for (i in 1:(k / 2))  {
-        cat(Title[i] , "\n")
-        cat("\n")
-        print(round(partsource[[2 * i - 1]][, c(1, 2, 4, 5)], 3))
-        WithinVariables <- rbind(WithinVariables, partsource[[2 * i - 1]])
-        cat("\n")
-        cat(paste("95% CIs for difference ",Title[i]," proportions between ",names(dimnames(bymro)[2]),sep=""),"\n")
-        cat("(rowname - colname)","\n")
-        cat("\n")
-        print(round(partsource[[2 * i]], 3))
-        BetweenVariables <- rbind(BetweenVariables, partsource[[2 * i]])
-        cat("\n")
-        cat("----------------------------------------------------------------------")
-        cat("\n")
-      }
-      partcontent[[j]] <- list(Title = Title,
-                               WithinVariables = WithinVariables,
-                               BetweenVariables = BetweenVariables)
-      names(partcontent)[j] <- paste(names(DN)[2], names(Source)[j], sep=" : ")
-    }
-    invisible(partcontent)
-  }
+  ## DN <- dimnames(bymro)
+  ## if (length(DN) < 2) {
+  ##   k <- length(Source)
+  ##   Title <- names(Source)[seq(1, k, by = 2)]
+  ##   WithinVariables <- vector("list", k / 2)
+  ##   BetweenVariables <- vector("list", k / 2)
+  ##   for (i in seq_len(k / 2)) {
+  ##     cat(Title[i] , "\n")
+  ##     cat("\n")
+  ##     # TODO: fix magic number, use names instead
+  ##     print(round(Source[[2 * i - 1]][, c(1, 2, 4, 5)], 3))
+  ##     WithinVariables[[i]] <- Source[[2 * i - 1]]
+  ##     cat("\n")
+  ##     cat(paste("95% CIs for difference ",
+  ##               Title[i],
+  ##               " proportions between ",
+  ##               names(dimnames(bymro)), sep = ""), "\n")
+  ##     cat("(rowname - colname)\n")
+  ##     cat("\n")
+  ##     print(round(Source[[2 * i]], 3))
+  ##     BetweenVariables[[i]] <- Source[[2 * i]]
+  ##     cat("\n")
+  ##     cat("----------------------------------------------------------------------")
+  ##     cat("\n")
+  ##   }
+  ##   invisible(list(Title = Title,
+  ##                  WithinVariables = WithinVariables,
+  ##                  BetweenVariables = BetweenVariables))
+  ## } else {
+  ##   s <- length(Source)
+  ##   partcontent <- vector("list", length(Source))
+  ##   for(j in seq_along(Source)){
+  ##     partsource <- Source[[j]]
+  ##     cat("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n")
+  ##     cat(paste(names(DN)[2], names(Source)[j], sep=" : "),"\n")
+  ##     cat("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n")
+  ##     cat("\n")
+  ##     k <- length(partsource)
+  ##     Title <- names(partsource)[seq(1, k, by = 2)]
+  ##     WithinVariables <- c()
+  ##     BetweenVariables <- c()
+  ##     for (i in 1:(k / 2))  {
+  ##       cat(Title[i] , "\n")
+  ##       cat("\n")
+  ##       print(round(partsource[[2 * i - 1]][, c(1, 2, 4, 5)], 3))
+  ##       WithinVariables <- rbind(WithinVariables, partsource[[2 * i - 1]])
+  ##       cat("\n")
+  ##       cat(paste("95% CIs for difference ",Title[i]," proportions between ",names(dimnames(bymro)[2]),sep=""),"\n")
+  ##       cat("(rowname - colname)","\n")
+  ##       cat("\n")
+  ##       print(round(partsource[[2 * i]], 3))
+  ##       BetweenVariables <- rbind(BetweenVariables, partsource[[2 * i]])
+  ##       cat("\n")
+  ##       cat("----------------------------------------------------------------------")
+  ##       cat("\n")
+  ##     }
+  ##     partcontent[[j]] <- list(Title = Title,
+  ##                              WithinVariables = WithinVariables,
+  ##                              BetweenVariables = BetweenVariables)
+  ##     names(partcontent)[j] <- paste(names(DN)[2], names(Source)[j], sep=" : ")
+  ##   }
+  ##   invisible(partcontent)
+  ## }
 }
 
 
-## wrapper function
-#' @export
+##' @export
 summary.bymrocalc <- function(object, comp = "basic", ...) {
   cat("Proportions:\n")
   tabprops <- crossTab(object)

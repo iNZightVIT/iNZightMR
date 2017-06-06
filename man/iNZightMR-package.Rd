@@ -26,6 +26,3 @@
 \seealso{
   \code{\link[iNZight]{iNZight}}, \code{\link[iNZightRegression]{iNZightRegression}}
 }
-\examples{
-
-}

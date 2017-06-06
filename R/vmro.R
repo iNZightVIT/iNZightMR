@@ -2,14 +2,23 @@ rm.na <- function(variable) {
     sum(is.na(variable)) > 0
 }
 
+
+##' Calculates the summary of missingness in a data set.
+##' @title Calculate missing observation summary
+##' @param obj An object
+##' @param MRO.case does something with rownames
+##' @param print logical, should we print the thing?
+##' @param final logical, is this final?
+##' @param ... additional arguments
+##' @return Missing value object
+##' @author Junjie Zeng
 ##' @export
 calcmissing <- function(obj, ...) {
     UseMethod("calcmissing")
 }
 
-## can sortby variable,row,column,both
-## see the vmv package tablemissing function
 
+##' @describeIn calcmissing Method for a dataframe
 ##' @export
 calcmissing.data.frame <- function(obj, MRO.case = FALSE, 
                                    print = TRUE, final = TRUE, ...) {
@@ -116,8 +125,8 @@ calcmissing.data.frame <- function(obj, MRO.case = FALSE,
     return(invisible(ret))
 }
 
-### accecpted a whole mr.object , which is first mro.mat, second element lables,
-## third element the input data frame.
+##' @describeIn calcmissing accecpted a whole mr.object , which is first mro.mat, second element lables,
+##'   third element the input data frame.
 ##' @export
 calcmissing.mro <- function(obj, ...) {
   mro <- obj
@@ -126,6 +135,12 @@ calcmissing.mro <- function(obj, ...) {
   calcmissing(as.data.frame(mat), MRO.case = TRUE, ...)
 }
 
+##' Plot of Missing Value combinations
+##'
+##' @title Missing Value plot
+##' @param obj a calcmissing object
+##' @return summarised info for plot
+##' @author Junjie Zeng
 ##' @export
 plotcombn <- function(obj) {
   Subtitle <- NULL

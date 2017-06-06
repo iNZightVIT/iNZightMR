@@ -1,8 +1,9 @@
-#' Switcher generic
-#' 
-#' @export
-#' @param obj mro familiy 
-#' @param \code{...} remain future use
+##' Switcher generic
+##' @title Switcher generic
+##' @param obj mro familiy
+##' @param ... additional arguments
+##' @return a dataframe
+##' @author tell029
 switcher <- function(obj,...) {
   
   UseMethod("switcher")

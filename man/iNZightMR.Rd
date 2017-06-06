@@ -15,7 +15,7 @@ iNZightMR(frm, data, Labels = NULL, inverse = FALSE, ...)
 
 \item{inverse}{A logical value}
 
-\item{\code{...}}{Extra arguments like in \code{model.frame}}
+\item{...}{Extra arguments like in \code{model.frame}}
 }
 \value{
 The MRO list containing a multiple response binary matrix and input
@@ -27,7 +27,10 @@ analysis and encapsulation purpose
 }
 \examples{
 \dontrun{
-mr <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = census.at.school.5000)
+  mr <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = census.at.school.5000)
 }
+}
+\author{
+Junjie Zeng
 }
 

@@ -21,7 +21,10 @@ switcher(obj, ...)
 \arguments{
 \item{obj}{mro familiy}
 
-\item{\code{...}}{remain future use}
+\item{...}{additional arguments}
+}
+\value{
+a dataframe
 }
 \description{
 Switcher generic
@@ -36,4 +39,7 @@ Switcher generic
 
 \item \code{b2}: For between and b2 case
 }}
+\author{
+tell029
+}
 

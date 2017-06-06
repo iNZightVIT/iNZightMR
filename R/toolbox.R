@@ -1,18 +1,21 @@
 #' Help mro variables extrac common name out
 #'
-#' \code{substrsplit} returns a list with common character and unique variable name respectively
-#'
-#' @export
+#' @title Extract Common Name from variables
 #' @param obj It can be a vector or data frame, however, \code{substrsplit} is usually
 #' used in the \code{iNZightMR} function.
 #' @return A list with common character and unique variable name respectively
+#' @author Junjie Zeng
+#' @export
 #' @examples
 #' \dontrun{
-#' mr <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = census.at.school.5000)
+#' mr <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic,
+#'                 data = census.at.school.5000)
 #' mroPara(mr)
-#' mr2 <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = census.at.school.5000, Labels=FALSE)
+#' mr2 <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic,
+#'                  data = census.at.school.5000, Labels=FALSE)
 #' mroPara(mr2)
-#' mr3 <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = census.at.school.5000, Labels=letters[1:3])
+#' mr3 <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic,
+#'                  data = census.at.school.5000, Labels=letters[1:3])
 #' mroPara(mr3)
 #' }
 substrsplit <- function(obj) {
@@ -104,6 +107,13 @@ sampleSize  = function (bymro) {
 
 
 
+
+
+##' Between SEs
+##'
+##' @title Compute Between se's
+##' @param bymro a bymro object
+##' @return something about between.
 ##' @author Junjie Zheng
 ##' @export
 between <- function (bymro) {

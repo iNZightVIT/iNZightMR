@@ -23,6 +23,10 @@ barplotMR(obj, ...)
 \item{obj}{soem object}
 
 \item{...}{more params}
+
+\item{g1.level}{vector of subset variable 1 levels to show}
+
+\item{g2.level}{vector of subset variable 2 levels to show}
 }
 \description{
 Barplot for MR object

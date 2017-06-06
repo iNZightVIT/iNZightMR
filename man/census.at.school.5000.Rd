@@ -4,18 +4,80 @@
 \name{census.at.school.5000}
 \alias{census.at.school.5000}
 \title{Census at School 5000}
-\format{A data frame with  binary response variables:
+\format{A data frame with 72 variables and 5000 rows.
 \describe{
-  \item{cellsource}{the source of cellphone money}
-  \item{rightfoot}{length of the right foot, mm}
-  \item{travel}{travel method used to get to school}
-  \item{getlunch}{how they get their lunch}
-  \item{height}{height measurement, cm}
+  \item{X}{unique identifier for each observation}
   \item{gender}{their biological gender}
   \item{age}{their age, years}
-  \item{year}{their school year}
+  \item{country}{The country the student is from}
+  \item{country_en}{Country code}
+  \item{country_mi}{A different country code}
+  \item{ethniceng}{binary for ethnicity english}
+  \item{ethnicmri}{binary for ethnicity maori}
+  \item{ethnicwsm}{binary for ethnicity wsm}
+  \item{ethniccok}{binary for ethnicity cok}
+  \item{ethnicton}{binary for ethnicity tonga}
+  \item{ethnicniu}{binary for ethnicity niue}
+  \item{ethnicchn}{binary for ethnicity china}
+  \item{ethnicind}{binary for ethnicity india}
+  \item{ethnicother}{factor for other ethnicity}
+  \item{ethnicother_en}{factor for other ethnicity_en}
+  \item{ethnicother_mi}{factor for other ethnicity_mi}
+  \item{languages}{how many languages they know}
+  \item{handed}{left, right, or ambi}
+  \item{height}{height measurement, cm}
+  \item{rightfoot}{length of the right foot, mm}
   \item{armspan}{their armspan measurement, cm}
-  \item{cellcost}{money spent on cellphones}
+  \item{wrist}{wrist measurement}
+  \item{neck}{neck measurement}
+  \item{popliteal}{another measurement}
+  \item{indexfinger}{index finger measurement}
+  \item{ringfinger}{ring finger measurement}
+  \item{hairlength}{the length of their hair}
+  \item{travel}{travel method used to get to school}
+  \item{timetravel}{how long they spend traveling}
+  \item{bagweightraw}{the weight of the bag}
+  \item{bagweight}{weight of the bag}
+  \item{bagcarry}{factor of how they're carrying}
+  \item{favlearning}{their favourite subject}
+  \item{favlearningmo}{their favourite subject?}
+  \item{memory}{a memory score}
+  \item{reaction}{a reaction score}
+  \item{sport}{what sport they play}
+  \item{sport_en}{what sport they play}
+  \item{techtv}{binary for use of TV}
+  \item{techmp3}{binary for use of mp3}
+  \item{techinternet}{binary for use of the internet}
+  \item{techmobinternet}{binary for use of mobile internet}
+  \item{techfacebook}{binary for use of facebook}
+  \item{techtwitter}{binary for use of twitter}
+  \item{techbebo}{binary for use of bebo}
+  \item{techmyspace}{binary for use of myspace}
+  \item{techskype}{binary for use of skype}
+  \item{techconsole}{binary for use of a console}
+  \item{technone}{binary for use of no technology}
+  \item{cellmonths}{how many months they've had a cellphone?}
+  \item{onlinemusic}{binary for if they listen to music online}
+  \item{onlinevideo}{binary for if they watch video online}
+  \item{onlinegame}{binary for if they play games online}
+  \item{onlinefriend}{binary for if they talk to freinds online}
+  \item{onlineschool}{binary for if they access school online}
+  \item{onlineother}{binary for if they do anything else online}
+  \item{onlinenone}{binary for if they do nothing online}
+  \item{bedtime}{hours spent in bed}
+  \item{waketime}{hours spent awake}
+  \item{favtvshow}{the name of their favourite TV show}
+  \item{favtvshow_en}{the name of their favourite TV show}
+  \item{importwarm}{binary about warm}
+  \item{importpollution}{binary about pollution}
+  \item{importrecycling}{binary about recycling}
+  \item{importwater}{binary about water}
+  \item{importlifestyle}{binary about lifestyle}
+  \item{importenergy}{binary about energy}
+  \item{importgovern}{binary about government}
+  \item{importcomputer}{binary about computer}
+  \item{region}{number of the rgion they're in}
+  \item{year}{their school year}
 }}
 \source{
 \url{http://new.censusatschool.org.nz/}

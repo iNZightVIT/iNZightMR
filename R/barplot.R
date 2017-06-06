@@ -10,6 +10,8 @@
 ##' Method ..
 ##' @title MR Barplot
 ##' @param obj soem object
+##' @param g1.level vector of subset variable 1 levels to show
+##' @param g2.level vector of subset variable 2 levels to show
 ##' @param ... more params
 ##' @return NULL
 ##' @author Junjie Zheng
@@ -98,7 +100,7 @@ barplotMR.mrocalc <- function(obj, ...) {
 
 ##' @describeIn barplotMR method for class `bymrocalc`
 ##' @export
-barplotMR.bymrocalc <- function(obj,g1.level = NULL, g2.level ="_MULTI",...){
+barplotMR.bymrocalc <- function(obj, g1.level = NULL, g2.level ="_MULTI",...){
 
     s1 <- switcher(obj)
 
@@ -117,7 +119,7 @@ barplotMR.bymrocalc <- function(obj,g1.level = NULL, g2.level ="_MULTI",...){
         if (!g1.level %in% levels(s1$type))
           return("Can't find correct level")
 
-        s1 <- subset(s1, type %in% g1.level)
+        s1 <- subset(s1, s1$type %in% g1.level)
         s1$type <- droplevels(s1$type)
       }
 
@@ -213,7 +215,7 @@ barplotMR.bymrocalc <- function(obj,g1.level = NULL, g2.level ="_MULTI",...){
         if (!g1.level %in% levels(s1$type1))
           return("Can't find correct level")
 
-        s1 <- subset(s1, type1 %in% g1.level)
+        s1 <- subset(s1, s1$type1 %in% g1.level)
         s1$type1 <- droplevels(s1$type1)
       }
 
@@ -222,7 +224,7 @@ barplotMR.bymrocalc <- function(obj,g1.level = NULL, g2.level ="_MULTI",...){
         if (!g2.level %in% levels(s1$type2))
           return("Can't find correct level")
 
-        s1 <- subset(s1, type2 %in% g2.level)
+        s1 <- subset(s1, s1$type2 %in% g2.level)
         s1$type2 <- droplevels(s1$type2)
       }
 
@@ -432,7 +434,7 @@ barplotMR.b2 <- function(obj, g1.level=NULL, ...) {
     if (!g1.level %in% levels(s2$type2))
       return("Can't find correct level")
 
-    s2 <- subset(s2, type2 %in% g1.level)
+    s2 <- subset(s2, s2$type2 %in% g1.level)
     s2$type2 <- droplevels(s2$type2)
   }
 

@@ -1,28 +1,21 @@
-## Margin of Error help:
-## if x is model:
-## must has factorname or coefficient index(coef.idx)
-## if input factorname
-## will compute ErrBars by factorname (for given model)
-## if input coefficient index
-## will compute ErrBars simply by index only (even they are not factor)
-## if x is ses.moecalc object
-## will compute ErrBars simply by given ses.moecalc object
-##
-## Arguments:
-## x : can be model or ses.moecalc object
-## factorname : name of factor
-## levelnames : name of each level of factor
-## coef.idx : coefficient index
-## est : estimate
-## ci : relevent confidnece interval, only use when length(est)=2
-## base : has baseline or not. Default TRUE.
-## Insert a initial zero term in computation if TRUE
-## basename : label name of base term if base is TRUE
-## conf.level : confidence level for both ErrBars and confidnece interval
-
-#%%%# the original code that cancel making ses.moecalc not working ~!!~~      
-#%%%# https://github.com/sjp/iNZightRegression/commit/3e73a774b1d57f9c7943fa5f9eee73d012b83c01
-
+##' Computes the margin of error for various objects.
+##'
+##' If \code{x} is a model, must have factorname or coefficient index (coef.idx)
+##' If input factorname, will compute ErrBars by factorname (for given model)
+##' If input coefficient index, will compute ErrBars simply by index only (even they are not factor)
+##' If \code{x} is \code{ses.moecalc} object, will compute ErrBars simply by given \code{ses.moecalc} object
+##' @title Margin of Error Calculation
+##' @param x the object for which we compute margins of error
+##' @param factorname name of factor
+##' @param levelnames names of factor levels
+##' @param coef.idx index of coefficient to use
+##' @param est estimates
+##' @param ci confidence intervals
+##' @param base baseline
+##' @param basename name of baseline
+##' @param conf.level level of confidence to use
+##' @return a \code{moecalc} object
+##' @author Junjie Zeng
 ##' @export
 moecalc = function(x, factorname = NULL, levelnames = NULL, coef.idx = NULL,
                    est = NULL, ci = NULL, base = TRUE, basename = "base",
@@ -189,6 +182,7 @@ moecalc = function(x, factorname = NULL, levelnames = NULL, coef.idx = NULL,
   ret
 }
 
+##' @export
 print.moecalc = function(x, ...){
   obj <- x
   if(!is.null(obj$est)){
@@ -202,7 +196,7 @@ print.moecalc = function(x, ...){
   }
 }
 
-
+##' @export
 summary.moecalc = function(object, ...){
   obj <- object
   factorname = names(obj$xlevels)[1]
@@ -228,6 +222,7 @@ summary.moecalc = function(object, ...){
   x
 }
 
+##' @export
 print.summary.moecalc = function(x, ...){
   obj <- x
   if(!is.null(obj$modelcall)){
@@ -245,14 +240,8 @@ print.summary.moecalc = function(x, ...){
     warningConflict(obj$xlevels, obj$conflict)
 }
 
-## plot moecalc
-## x : moecalc object
-## horiz : horizontal plot or not
-## conf : has confidence interval bar or not
-## xlevels : factor name
 
-
-
+##' @export
 plot.moecalc = function(x, horiz=FALSE, xlevels=NULL, ...){
 
   ## Disable confidence intervals for now
