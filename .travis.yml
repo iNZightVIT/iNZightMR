@@ -3,3 +3,6 @@
 language: R
 sudo: false
 cache: packages
+
+repos:
+  docker: http://r.docker.stat.auckland.ac.nz/R
