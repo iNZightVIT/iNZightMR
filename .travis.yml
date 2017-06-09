@@ -4,5 +4,10 @@ language: R
 sudo: false
 cache: packages
 
+r:
+  - 3.2.3
+  - release
+  - devel
+
 repos:
   docker: http://r.docker.stat.auckland.ac.nz/R
