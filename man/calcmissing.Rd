@@ -37,7 +37,7 @@ Calculates the summary of missingness in a data set.
 \item \code{mro}: accecpted a whole mr.object , which is first mro.mat, second element lables,
 third element the input data frame.
 }}
+
 \author{
 Junjie Zeng
 }
-

@@ -18,4 +18,3 @@ SE's for multiple binary response
 \author{
 Junjie Zeng
 }
-

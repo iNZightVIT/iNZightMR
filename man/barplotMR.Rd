@@ -2,10 +2,10 @@
 % Please edit documentation in R/barplot.R
 \name{barplotMR}
 \alias{barplotMR}
-\alias{barplotMR.b2}
-\alias{barplotMR.between}
-\alias{barplotMR.bymrocalc}
 \alias{barplotMR.mrocalc}
+\alias{barplotMR.bymrocalc}
+\alias{barplotMR.between}
+\alias{barplotMR.b2}
 \title{MR Barplot}
 \usage{
 barplotMR(obj, ...)
@@ -44,7 +44,7 @@ Method ..
 
 \item \code{b2}: method for class `b2`
 }}
+
 \author{
 Junjie Zheng
 }
-

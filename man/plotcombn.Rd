@@ -18,4 +18,3 @@ Plot of Missing Value combinations
 \author{
 Junjie Zeng
 }
-

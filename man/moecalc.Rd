@@ -42,4 +42,3 @@ If \code{x} is \code{ses.moecalc} object, will compute ErrBars simply by given \
 \author{
 Junjie Zeng
 }
-

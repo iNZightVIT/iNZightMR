@@ -20,4 +20,3 @@ Compute teh standard error information for a given covariance matrix.
 \author{
 Junjie Zeng
 }
-

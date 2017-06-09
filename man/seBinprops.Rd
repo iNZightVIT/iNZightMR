@@ -20,4 +20,3 @@ Compute SEs for Independent Binomial Proportions
 \author{
 Junjie Zeng
 }
-

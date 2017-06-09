@@ -24,4 +24,3 @@ Construct MRO by a given subset variable.
 \author{
 Junjie Zeng
 }
-

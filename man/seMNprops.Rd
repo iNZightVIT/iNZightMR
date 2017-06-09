@@ -20,4 +20,3 @@ SEs for Multinomial Proportions
 \author{
 Junjie Zeng
 }
-

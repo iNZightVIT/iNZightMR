@@ -90,4 +90,3 @@ A dataset containing 5000 observations from a New Zealand census of school
 students. It includes binary response variables.
 }
 \keyword{datasets}
-

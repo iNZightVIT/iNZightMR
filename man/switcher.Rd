@@ -2,10 +2,10 @@
 % Please edit documentation in R/switcher.R
 \name{switcher}
 \alias{switcher}
-\alias{switcher.b2}
-\alias{switcher.between}
-\alias{switcher.bymrocalc}
 \alias{switcher.mrocalc}
+\alias{switcher.bymrocalc}
+\alias{switcher.between}
+\alias{switcher.b2}
 \title{Switcher generic}
 \usage{
 switcher(obj, ...)
@@ -39,7 +39,7 @@ Switcher generic
 
 \item \code{b2}: For between and b2 case
 }}
+
 \author{
 tell029
 }
-

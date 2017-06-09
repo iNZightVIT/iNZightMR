@@ -18,4 +18,3 @@ Returns ses.moecalc for given SEs
 \author{
 Junjie Zeng
 }
-

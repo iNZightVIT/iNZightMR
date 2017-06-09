@@ -2,3 +2,4 @@
 ^.*\.md$
 ^todo$
 ^revdep$
+^\.travis\.yml$
