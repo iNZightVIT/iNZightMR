@@ -22,5 +22,5 @@ Suggests:
 Additional_repositories: http://r.docker.stat.auckland.ac.nz/R
 LazyData: true
 Description: Interaction and analysis of Multiple Response Data.
-License: GPL-2
+License: GPL-3 | file LICENSE
 RoxygenNote: 6.0.1
