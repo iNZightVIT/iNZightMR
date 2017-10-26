@@ -9,6 +9,16 @@ __Release date__: 22 January, 2016
 
 - Fix subsetting (slot 2) bug where numeric to categorical conversion had the wrong level ordering
 
+### Patch 2.2-2 - 06/06/2017
+
+- Comment functions
+- Pass CRAN checks
+
+### Patch 2.2-3 - 27/10/2017
+
+- Add LICENCE 
+- Fix bug in label orders in subsetted barplots
+
 ***
 # Version 2.1
 __Release date__: 10 October, 2015
