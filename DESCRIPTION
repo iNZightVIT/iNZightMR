@@ -1,7 +1,7 @@
 Package: iNZightMR
 Type: Package
 Title: Tools for Exploring Multiple Response Data
-Version: 2.2-3
+Version: 2.2-3.9000
 Date: 2017-10-27
 Authors@R: c(person("Junjie", "Zeng", role = c("aut"),
     email = "jzen188@aucklanduni.ac.nz"),
