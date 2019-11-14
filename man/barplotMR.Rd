@@ -12,8 +12,8 @@ barplotMR(obj, ...)
 
 \method{barplotMR}{mrocalc}(obj, ...)
 
-\method{barplotMR}{bymrocalc}(obj, g1.level = NULL, g2.level = "_MULTI",
-  ...)
+\method{barplotMR}{bymrocalc}(obj, g1.level = NULL,
+  g2.level = "_MULTI", ...)
 
 \method{barplotMR}{between}(obj, ...)
 
