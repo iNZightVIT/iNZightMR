@@ -5,24 +5,24 @@
 ### one of the benefit of doing this is this will generate one factor level with
 ### 100% percentage thus we avoid to configure the ylim and ymax scale inside.
 
-##' Barplot for MR object
-##'
-##' Method ..
-##' @title MR Barplot
-##' @param obj soem object
-##' @param g1.level vector of subset variable 1 levels to show
-##' @param g2.level vector of subset variable 2 levels to show
-##' @param ... more params
-##' @return NULL
-##' @author Junjie Zheng
-##' @import grid
-##' @export
+#' Barplot for MR object
+#'
+#' Method ..
+#' @title MR Barplot
+#' @param obj soem object
+#' @param g1.level vector of subset variable 1 levels to show
+#' @param g2.level vector of subset variable 2 levels to show
+#' @param ... more params
+#' @return NULL
+#' @author Junjie Zheng
+#' @import grid
+#' @export
 barplotMR <- function(obj, ...)
     UseMethod("barplotMR", obj)
 
 
-##' @describeIn barplotMR method for class `mrocalc`
-##' @export
+#' @describeIn barplotMR method for class `mrocalc`
+#' @export
 barplotMR.mrocalc <- function(obj, ...) {
 
     s1 <- switcher(obj)
@@ -119,8 +119,8 @@ barplotMR.mrocalc <- function(obj, ...) {
 }
 
 
-##' @describeIn barplotMR method for class `bymrocalc`
-##' @export
+#' @describeIn barplotMR method for class `bymrocalc`
+#' @export
 barplotMR.bymrocalc <- function(obj, g1.level = NULL, g2.level = "_MULTI",...) {
 
     s1 <- switcher(obj)
@@ -409,8 +409,8 @@ barplotMR.bymrocalc <- function(obj, g1.level = NULL, g2.level = "_MULTI",...) {
 }
 
 
-##' @describeIn barplotMR method for class `between`
-##' @export
+#' @describeIn barplotMR method for class `between`
+#' @export
 barplotMR.between <- function(obj, ...) {
 
     s2 <- switcher(obj)
@@ -527,8 +527,8 @@ barplotMR.between <- function(obj, ...) {
 }
 
 
-##' @describeIn barplotMR method for class `b2`
-##' @export
+#' @describeIn barplotMR method for class `b2`
+#' @export
 barplotMR.b2 <- function(obj, g1.level = NULL, ...) {
     s2 <- switcher(obj)
 
