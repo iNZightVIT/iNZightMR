@@ -45,27 +45,27 @@ r01 <- function(x, inverse = FALSE, opts = NULL) {
 }
 
 
-##' Create iNZightMR multiple response object (MRO)
-##'
-##' \code{iNZightMR} returns the multiple response object (MRO) for stable
-##' analysis and encapsulation purpose
-##'
-##' @export
-##' @param frm A formula
-##' @param data A data
-##' @param Labels default NULL
-##' @param inverse A logical value
-##' @param ... Extra arguments like in \code{model.frame}
-##' @return The MRO list containing a multiple response binary matrix and input
-##'   data source
-##' @examples
-##' \dontrun{
-##'   mr <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = census.at.school.5000)
-##' }
-##' @importFrom grDevices dev.flush dev.hold
-##' @import graphics stats utils
-##' @author Junjie Zeng
-iNZightMR <- function(frm, data, Labels = NULL, inverse = FALSE,  ...) {
+#' Create iNZightMR multiple response object (MRO)
+#'
+#' \code{iNZightMR} returns the multiple response object (MRO) for stable
+#' analysis and encapsulation purpose
+#'
+#' @param frm A formula
+#' @param data A data
+#' @param Labels default NULL
+#' @param inverse A logical value
+#' @param ... Extra arguments like in \code{model.frame}
+#' @return The MRO list containing a multiple response binary matrix and input
+#'   data source
+#' @examples
+#' \dontrun{
+#'   mr <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = census.at.school.5000)
+#' }
+#' @importFrom grDevices dev.flush dev.hold
+#' @import graphics stats utils
+#' @author Junjie Zeng
+#' @export
+iNZightMR <- function(frm, data, Labels = NULL, inverse = FALSE, ...) {
     # y ~ v1 + v2 + v3 length is 3, ~v1 + v2 + v3 is length of two.
     # Labels could input substrsplit to catch the tail of each colnames
     # or Labels can be a equal-length vector to replace the original name

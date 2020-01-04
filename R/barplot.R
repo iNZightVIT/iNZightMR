@@ -5,14 +5,15 @@
 ### one of the benefit of doing this is this will generate one factor level with
 ### 100% percentage thus we avoid to configure the ylim and ymax scale inside.
 
-#' Barplot for MR object
+#' Multiple response barplot
 #'
-#' Method ..
-#' @title MR Barplot
-#' @param obj soem object
+#' Draws a barplot of a multiple response object (MRO), showing response rates for
+#' each option.
+#'
+#' @param obj a multiple response object (mro)
 #' @param g1.level vector of subset variable 1 levels to show
 #' @param g2.level vector of subset variable 2 levels to show
-#' @param ... more params
+#' @param ... additional parameters, currently not used
 #' @return NULL
 #' @author Junjie Zheng
 #' @import grid
@@ -21,7 +22,7 @@ barplotMR <- function(obj, ...)
     UseMethod("barplotMR", obj)
 
 
-#' @describeIn barplotMR method for class `mrocalc`
+#' @describeIn barplotMR method for class \code{mrocalc}
 #' @export
 barplotMR.mrocalc <- function(obj, ...) {
 
@@ -119,7 +120,7 @@ barplotMR.mrocalc <- function(obj, ...) {
 }
 
 
-#' @describeIn barplotMR method for class `bymrocalc`
+#' @describeIn barplotMR method for class \code{bymrocalc}
 #' @export
 barplotMR.bymrocalc <- function(obj, g1.level = NULL, g2.level = "_MULTI",...) {
 
@@ -409,7 +410,7 @@ barplotMR.bymrocalc <- function(obj, g1.level = NULL, g2.level = "_MULTI",...) {
 }
 
 
-#' @describeIn barplotMR method for class `between`
+#' @describeIn barplotMR method for class \code{between}
 #' @export
 barplotMR.between <- function(obj, ...) {
 
@@ -527,7 +528,7 @@ barplotMR.between <- function(obj, ...) {
 }
 
 
-#' @describeIn barplotMR method for class `b2`
+#' @describeIn barplotMR method for class \code{b2}
 #' @export
 barplotMR.b2 <- function(obj, g1.level = NULL, ...) {
     s2 <- switcher(obj)

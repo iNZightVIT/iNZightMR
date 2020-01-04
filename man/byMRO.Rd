@@ -2,7 +2,7 @@
 % Please edit documentation in R/bymro.R
 \name{byMRO}
 \alias{byMRO}
-\title{By MRO Constructor}
+\title{Construct MRO subset by variable}
 \usage{
 byMRO(mro.obj, formula, FUN, ...)
 }
@@ -16,10 +16,10 @@ byMRO(mro.obj, formula, FUN, ...)
 \item{...}{additional arguments}
 }
 \value{
-a dataframe
+an object with classes of \code{by} and \code{bymrocalc}
 }
 \description{
-Construct MRO by a given subset variable.
+Constructs a multiple response object (MRO) subset by another explanatory variable.
 }
 \author{
 Junjie Zeng

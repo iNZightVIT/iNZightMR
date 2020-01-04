@@ -6,7 +6,7 @@
 \alias{barplotMR.bymrocalc}
 \alias{barplotMR.between}
 \alias{barplotMR.b2}
-\title{MR Barplot}
+\title{Multiple response barplot}
 \usage{
 barplotMR(obj, ...)
 
@@ -20,29 +20,27 @@ barplotMR(obj, ...)
 \method{barplotMR}{b2}(obj, g1.level = NULL, ...)
 }
 \arguments{
-\item{obj}{soem object}
+\item{obj}{a multiple response object (mro)}
 
-\item{...}{more params}
+\item{...}{additional parameters, currently not used}
 
 \item{g1.level}{vector of subset variable 1 levels to show}
 
 \item{g2.level}{vector of subset variable 2 levels to show}
 }
 \description{
-Barplot for MR object
-}
-\details{
-Method ..
+Draws a barplot of a multiple response object (MRO), showing response rates for
+each option.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{mrocalc}: method for class `mrocalc`
+\item \code{mrocalc}: method for class \code{mrocalc}
 
-\item \code{bymrocalc}: method for class `bymrocalc`
+\item \code{bymrocalc}: method for class \code{bymrocalc}
 
-\item \code{between}: method for class `between`
+\item \code{between}: method for class \code{between}
 
-\item \code{b2}: method for class `b2`
+\item \code{b2}: method for class \code{b2}
 }}
 
 \author{
