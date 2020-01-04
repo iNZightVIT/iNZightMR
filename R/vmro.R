@@ -3,23 +3,23 @@ rm.na <- function(variable) {
 }
 
 
-##' Calculates the summary of missingness in a data set.
-##' @title Calculate missing observation summary
-##' @param obj An object
-##' @param MRO.case does something with rownames
-##' @param print logical, should we print the thing?
-##' @param final logical, is this final?
-##' @param ... additional arguments
-##' @return Missing value object
-##' @author Junjie Zeng
-##' @export
+#' Calculates the summary of missingness in a data set.
+#' @title Calculate missing observation summary
+#' @param obj An object
+#' @param MRO.case does something with rownames
+#' @param print logical, should we print the thing?
+#' @param final logical, is this final?
+#' @param ... additional arguments
+#' @return Missing value object
+#' @author Junjie Zeng
+#' @export
 calcmissing <- function(obj, ...) {
     UseMethod("calcmissing")
 }
 
 
-##' @describeIn calcmissing Method for a dataframe
-##' @export
+#' @describeIn calcmissing Method for a dataframe
+#' @export
 calcmissing.data.frame <- function(obj, MRO.case = FALSE,
                                    print = TRUE, final = TRUE, ...) {
     data <- obj
@@ -129,9 +129,9 @@ calcmissing.data.frame <- function(obj, MRO.case = FALSE,
         return(invisible(ret))
 }
 
-##' @describeIn calcmissing accecpted a whole mr.object , which is first mro.mat, second element lables,
-##'   third element the input data frame.
-##' @export
+#' @describeIn calcmissing accecpted a whole mr.object , which is first mro.mat, second element lables,
+#'   third element the input data frame.
+#' @export
 calcmissing.mro <- function(obj, ...) {
     mro <- obj
     mat <- mro[[1]]
@@ -139,13 +139,13 @@ calcmissing.mro <- function(obj, ...) {
     calcmissing(as.data.frame(mat), MRO.case = TRUE, ...)
 }
 
-##' Plot of Missing Value combinations
-##'
-##' @title Missing Value plot
-##' @param obj a calcmissing object
-##' @return summarised info for plot
-##' @author Junjie Zeng
-##' @export
+#' Plot of Missing Value combinations
+#'
+#' @title Missing Value plot
+#' @param obj a calcmissing object
+#' @return summarised info for plot
+#' @author Junjie Zeng
+#' @export
 plotcombn <- function(obj) {
     Subtitle <- NULL
     if (inherits(obj, "Sub")) {

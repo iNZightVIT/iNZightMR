@@ -18,17 +18,21 @@ iNZightMR(frm, data, Labels = NULL, inverse = FALSE, ...)
 \item{...}{Extra arguments like in \code{model.frame}}
 }
 \value{
-The MRO list containing a multiple response binary matrix and input
+An \code{mro} object containing a multiple response binary matrix and input
   data source
 }
 \description{
-\code{iNZightMR} returns the multiple response object (MRO) for stable
-analysis and encapsulation purpose
+Creates a multiple response object (MRO) containing binary reponse matrix as
+well as the input data source. This can then be passed to other
+multiple response functions, such as \code{barplotMR} or \code{mroPara}.
 }
 \examples{
 \dontrun{
   mr <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = census.at.school.5000)
 }
+}
+\seealso{
+\link{barplotMR}, \link{mroPara}
 }
 \author{
 Junjie Zeng

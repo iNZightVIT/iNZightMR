@@ -79,7 +79,7 @@ summary.between <- function(object, bymro,...) {
 }
 
 
-##' @export
+#' @export
 summary.bymrocalc <- function(object, comp = "basic", ...) {
     cat("Proportions:\n")
     tabprops <- crossTab(object)

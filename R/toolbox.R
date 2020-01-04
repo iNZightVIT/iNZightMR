@@ -4,7 +4,6 @@
 #' @param obj It can be a vector or data frame, however, \code{substrsplit} is usually
 #' used in the \code{iNZightMR} function.
 #' @return A list with common character and unique variable name respectively
-#' @author Junjie Zeng
 #' @export
 #' @examples
 #' \dontrun{
@@ -114,13 +113,13 @@ sampleSize <- function (bymro) {
 }
 
 
-##' Between SEs
-##'
-##' @title Compute Between se's
-##' @param bymro a bymro object
-##' @return something about between.
-##' @author Junjie Zheng
-##' @export
+#' Between SEs
+#'
+#' @title Compute Between se's
+#' @param bymro a bymro object
+#' @return something about between.
+#' @author Junjie Zheng
+#' @export
 between <- function (bymro) {
     dn <- dimnames(bymro)
     if (length(dn) < 2) {

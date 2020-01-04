@@ -1,12 +1,12 @@
-##' Computes the MRO information for a para object ...
-##'
-##' @title Compute Para MRO for an object
-##' @param obj An object to compute things for
-##' @param conf.levels Confidence level to use
-##' @param nonparallel Should these things be parallel?
-##' @return An object of class \code{mrocalc}
-##' @author Junjie Zeng
-##' @export
+#' Computes the MRO information for a para object ...
+#'
+#' @title Compute Para MRO for an object
+#' @param obj An object to compute things for
+#' @param conf.levels Confidence level to use
+#' @param nonparallel Should these things be parallel?
+#' @return An object of class \code{mrocalc}
+#' @author Junjie Zeng
+#' @export
 mroPara <- function(obj, conf.levels = 1.96, nonparallel=NULL) {
     cl <- match.call()
     Tb <- names(obj)[1]

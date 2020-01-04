@@ -1,9 +1,8 @@
-##' Switcher generic
-##' @title Switcher generic
-##' @param obj mro familiy
-##' @param ... additional arguments
-##' @return a dataframe
-##' @author tell029
+#' Switcher generic
+#' @title Switcher generic
+#' @param obj mro familiy
+#' @param ... additional arguments
+#' @return a dataframe
 switcher <- function(obj,...) {
     UseMethod("switcher")
 }

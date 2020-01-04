@@ -30,13 +30,13 @@ seModel <- function(model, idx, base = TRUE) {
 }
 
 
-##' Compute teh standard error information for a given covariance matrix.
-##' @title Compute standard error for covariance matrix
-##' @param covs covariance matrix
-##' @param addbase logical, is there a baseline?
-##' @return an ses.moecalc object
-##' @author Junjie Zeng
-##' @export
+#' Compute teh standard error information for a given covariance matrix.
+#' @title Compute standard error for covariance matrix
+#' @param covs covariance matrix
+#' @param addbase logical, is there a baseline?
+#' @return an ses.moecalc object
+#' @author Junjie Zeng
+#' @export
 seCovs <- function(covs, addbase = FALSE) {
     # for use when covariance matrix is given (e.g. cal from bootstrap)
     vars <- diag(covs)
@@ -52,13 +52,13 @@ seCovs <- function(covs, addbase = FALSE) {
 }
 
 
-##' SEs for Multinomial Proportions
-##' @title Compuate SE for Multinomial proportions
-##' @param n the number of observations in each group
-##' @param phat the estimates proportions for each group
-##' @return an \code{ses.moecalc} object
-##' @author Junjie Zeng
-##' @export
+#' SEs for Multinomial Proportions
+#' @title Compuate SE for Multinomial proportions
+#' @param n the number of observations in each group
+#' @param phat the estimates proportions for each group
+#' @return an \code{ses.moecalc} object
+#' @author Junjie Zeng
+#' @export
 seMNprops <- function(n, phat) {
     if (length(n) != 1)
         stop("Requires length(n)=1")
@@ -73,13 +73,13 @@ seMNprops <- function(n, phat) {
     ses.moecalc(ses, ses.diffs)
 }
 
-##' Compute SEs for Independent Binomial Proportions
-##' @title Independent Binomial Proportions
-##' @param ns the number of observations in the independent groups
-##' @param phats the proportions of TRUE/1's etc.
-##' @return an \code{ses.moecalc} object
-##' @author Junjie Zeng
-##' @export
+#' Compute SEs for Independent Binomial Proportions
+#' @title Independent Binomial Proportions
+#' @param ns the number of observations in the independent groups
+#' @param phats the proportions of TRUE/1's etc.
+#' @return an \code{ses.moecalc} object
+#' @author Junjie Zeng
+#' @export
 seBinprops <- function(ns, phats) {
     if ((any(phats > 1)) | (any(phats < 0)))
         stop("proportions must lie between 0 and 1")
@@ -95,24 +95,24 @@ seBinprops <- function(ns, phats) {
     ses.moecalc(ses, ses.diffs)
 }
 
-##' Returns ses.moecalc for given SEs
-##' @title Independent Standard errors given
-##' @param ses the standard errors
-##' @return an \code{ses.moecalc} object
-##' @author Junjie Zeng
-##' @export
+#' Returns ses.moecalc for given SEs
+#' @title Independent Standard errors given
+#' @param ses the standard errors
+#' @return an \code{ses.moecalc} object
+#' @author Junjie Zeng
+#' @export
 seIndepSes <- function(ses) {
     temp <- ses^2
     ses.diffs <- sqrt(outer(temp, temp, '+'))
     ses.moecalc(ses, ses.diffs)
 }
 
-##' SE's for multiple binary response
-##' @title Multiple binary response
-##' @param obj something that can be turned into a matrix
-##' @return an \code{ses.moecalc} object
-##' @author Junjie Zeng
-##' @export
+#' SE's for multiple binary response
+#' @title Multiple binary response
+#' @param obj something that can be turned into a matrix
+#' @return an \code{ses.moecalc} object
+#' @author Junjie Zeng
+#' @export
 seMRprops <- function(obj) {
     obj <- as.matrix(obj)
     n <- nrow(obj)

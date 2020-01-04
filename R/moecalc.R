@@ -1,22 +1,22 @@
-##' Computes the margin of error for various objects.
-##'
-##' If \code{x} is a model, must have factorname or coefficient index (coef.idx)
-##' If input factorname, will compute ErrBars by factorname (for given model)
-##' If input coefficient index, will compute ErrBars simply by index only (even they are not factor)
-##' If \code{x} is \code{ses.moecalc} object, will compute ErrBars simply by given \code{ses.moecalc} object
-##' @title Margin of Error Calculation
-##' @param x the object for which we compute margins of error
-##' @param factorname name of factor
-##' @param levelnames names of factor levels
-##' @param coef.idx index of coefficient to use
-##' @param est estimates
-##' @param ci confidence intervals
-##' @param base baseline
-##' @param basename name of baseline
-##' @param conf.level level of confidence to use
-##' @return a \code{moecalc} object
-##' @author Junjie Zeng
-##' @export
+#' Computes the margin of error for various objects.
+#'
+#' If \code{x} is a model, must have factorname or coefficient index (coef.idx)
+#' If input factorname, will compute ErrBars by factorname (for given model)
+#' If input coefficient index, will compute ErrBars simply by index only (even they are not factor)
+#' If \code{x} is \code{ses.moecalc} object, will compute ErrBars simply by given \code{ses.moecalc} object
+#' @title Margin of Error Calculation
+#' @param x the object for which we compute margins of error
+#' @param factorname name of factor
+#' @param levelnames names of factor levels
+#' @param coef.idx index of coefficient to use
+#' @param est estimates
+#' @param ci confidence intervals
+#' @param base baseline
+#' @param basename name of baseline
+#' @param conf.level level of confidence to use
+#' @return a \code{moecalc} object
+#' @author Junjie Zeng
+#' @export
 moecalc <- function(x, factorname = NULL, levelnames = NULL, coef.idx = NULL,
                     est = NULL, ci = NULL, base = TRUE, basename = "base",
                     conf.level = 1.96) {
@@ -185,7 +185,7 @@ moecalc <- function(x, factorname = NULL, levelnames = NULL, coef.idx = NULL,
     ret
 }
 
-##' @export
+#' @export
 print.moecalc <- function(x, ...) {
     obj <- x
     if (!is.null(obj$est)) {
@@ -199,7 +199,7 @@ print.moecalc <- function(x, ...) {
     }
 }
 
-##' @export
+#' @export
 summary.moecalc <- function(object, ...) {
     obj <- object
     factorname <- names(obj$xlevels)[1]
@@ -232,7 +232,7 @@ summary.moecalc <- function(object, ...) {
     x
 }
 
-##' @export
+#' @export
 print.summary.moecalc <- function(x, ...) {
     obj <- x
     if (!is.null(obj$modelcall)) {
@@ -252,7 +252,7 @@ print.summary.moecalc <- function(x, ...) {
 }
 
 
-##' @export
+#' @export
 plot.moecalc <- function(x, horiz = FALSE, xlevels = NULL, ...) {
 
     ## Disable confidence intervals for now

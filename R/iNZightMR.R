@@ -47,16 +47,18 @@ r01 <- function(x, inverse = FALSE, opts = NULL) {
 
 #' Create iNZightMR multiple response object (MRO)
 #'
-#' \code{iNZightMR} returns the multiple response object (MRO) for stable
-#' analysis and encapsulation purpose
+#' Creates a multiple response object (MRO) containing binary reponse matrix as
+#' well as the input data source. This can then be passed to other
+#' multiple response functions, such as \code{barplotMR} or \code{mroPara}.
 #'
 #' @param frm A formula
 #' @param data A data
 #' @param Labels default NULL
 #' @param inverse A logical value
 #' @param ... Extra arguments like in \code{model.frame}
-#' @return The MRO list containing a multiple response binary matrix and input
+#' @return An \code{mro} object containing a multiple response binary matrix and input
 #'   data source
+#' @seealso \link{barplotMR}, \link{mroPara}
 #' @examples
 #' \dontrun{
 #'   mr <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = census.at.school.5000)
