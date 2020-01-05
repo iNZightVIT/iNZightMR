@@ -2,14 +2,14 @@
 % Please edit documentation in R/mroPara.R
 \name{mroPara}
 \alias{mroPara}
-\title{Compute Para MRO for an object}
+\title{Calculate MRO inference}
 \usage{
 mroPara(obj, conf.levels = 1.96, nonparallel = NULL)
 }
 \arguments{
-\item{obj}{An object to compute things for}
+\item{obj}{an MRO object created by \code{iNZightMR}}
 
-\item{conf.levels}{Confidence level to use}
+\item{conf.levels}{confidence level to use, default is 1.96 for 95\% intervals}
 
 \item{nonparallel}{Should these things be parallel?}
 }
@@ -17,8 +17,16 @@ mroPara(obj, conf.levels = 1.96, nonparallel = NULL)
 An object of class \code{mrocalc}
 }
 \description{
-Computes the MRO information for a para object ...
+Calculates required proportions, their differences, variance-covariance
+matrices, standard errors of differences, and comparison intervals for differences,
+over all of the data. To compute values over various subsets of another
+explanatory variable, see \link{by}.
 }
-\author{
-Junjie Zeng
+\examples{
+mr <- iNZightMR(online ~ onlinegame + onlinevideo + onlinemusic,
+    data = census.at.school.5000)
+mrp <- mroPara(mr)
+}
+\seealso{
+\link{iNZightMR}
 }

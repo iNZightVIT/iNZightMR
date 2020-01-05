@@ -40,6 +40,3 @@ Switcher generic
 \item \code{b2}: For between and b2 case
 }}
 
-\author{
-tell029
-}
