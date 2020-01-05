@@ -8,9 +8,9 @@
 #' Multiple response barplot
 #'
 #' Draws a barplot of a multiple response object (MRO), showing response rates for
-#' each option.
+#' each option along with confidence intervals and comparison intervals.
 #'
-#' @param obj a multiple response object (mro)
+#' @param obj an \code{mrocalc} object (from \code{mroPara()})
 #' @param g1.level vector of subset variable 1 levels to show
 #' @param g2.level vector of subset variable 2 levels to show
 #' @param ... additional parameters, currently not used

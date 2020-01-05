@@ -7,17 +7,17 @@ fastNumchange <- function(x) {
     else cut(x, style + c(-1, 0, 0, 0, 0))
 }
 
-#' Construct MRO subset by variable
+#' Calculate MRO inference for subsets
 #'
 #' Constructs a multiple response object (MRO) subset by another explanatory variable.
 #'
-#' @param mro.obj an mro object
-#' @param formula formula for subsetting
+#' @param mro.obj an mro object (created by \code{iNZightMR})
+#' @param formula variable for subsetting, as a formula (e.g., \code{~x})
 #' @param FUN the function to apply to subsets
-#' @param ... additional arguments
+#' @param ... additional arguments passed to \code{FUN}
 #' @return an object with classes of \code{by} and \code{bymrocalc}
-#' @author Junjie Zeng
 #' @export
+#' @seealso \link{mroPara}
 byMRO <- function(mro.obj, formula, FUN, ...) {
     Data <- mro.obj$df
     Dframe <- mro.obj[[1]]

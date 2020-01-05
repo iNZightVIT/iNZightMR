@@ -20,7 +20,7 @@ barplotMR(obj, ...)
 \method{barplotMR}{b2}(obj, g1.level = NULL, ...)
 }
 \arguments{
-\item{obj}{a multiple response object (mro)}
+\item{obj}{an \code{mrocalc} object (from \code{mroPara()})}
 
 \item{...}{additional parameters, currently not used}
 
@@ -30,7 +30,7 @@ barplotMR(obj, ...)
 }
 \description{
 Draws a barplot of a multiple response object (MRO), showing response rates for
-each option.
+each option along with confidence intervals and comparison intervals.
 }
 \section{Methods (by class)}{
 \itemize{

@@ -47,65 +47,43 @@ r01 <- function(x, inverse = FALSE, opts = NULL) {
 
 #' Create iNZightMR multiple response object (MRO)
 #'
-#' Creates a multiple response object (MRO) containing binary reponse matrix as
-#' well as the input data source. This can then be passed to other
-#' multiple response functions, such as \code{barplotMR} or \code{mroPara}.
+#' Creates a multiple response object (MRO) containing binary reponse matrix
+#' (zeros and ones) as well as the input data source.
 #'
-#' @param frm A formula
-#' @param data A data
-#' @param Labels default NULL
-#' @param inverse A logical value
-#' @param ... Extra arguments like in \code{model.frame}
+#' The individual response variable names can be detected from the
+#' variable name by passing \code{Labels = substrsplit}.
+#' For example, in `ethniceng` and `ethnicmri`, `ethnic` is common
+#' to both, so the labels will be `eng` and `mri`.
+#'
+#' If a user wants to inverse the response (zeros becomes ones), then pass
+#' \code{inverse = TRUE}. This is useful when the responses are characters
+#' (such as "corrent" and "wrong", where correct would be given a zero)
+#' and the order needs reversing (so that correct is 1 instead).
+#'
+#' @param frm formula containing the response variables
+#' @param data a data.frame containing response and explanatory variables
+#' @param Labels labels for the response categories; by default, the function
+#'               will attempt to. Can also be the function \code{substrsplit},
+#'               which will detect a common base in the variables
+#'               (see Details)
+#' @param inverse if \code{TRUE}, binary responses will be reversed (see details)
+#' @param ... additional arguments, passed to \code{\link{model.frame}}
 #' @return An \code{mro} object containing a multiple response binary matrix and input
 #'   data source
 #' @seealso \link{barplotMR}, \link{mroPara}
 #' @examples
-#' \dontrun{
-#'   mr <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = census.at.school.5000)
-#' }
+#' mr <- iNZightMR(online ~ onlinegame + onlinevideo + onlinemusic,
+#'     data = census.at.school.5000)
 #' @importFrom grDevices dev.flush dev.hold
 #' @import graphics stats utils
-#' @author Junjie Zeng
 #' @export
 iNZightMR <- function(frm, data, Labels = NULL, inverse = FALSE, ...) {
-    # y ~ v1 + v2 + v3 length is 3, ~v1 + v2 + v3 is length of two.
-    # Labels could input substrsplit to catch the tail of each colnames
-    # or Labels can be a equal-length vector to replace the original name
-
-    ###############  Junjie Zeng update in 6/10/2015 ###############
-    #  Labels argument accepted: NULL, character vector (as replacing original name) or substrsplit()
-    #  example:
-    #  substrsplit is a function to extract common term in variables name as topic,
-    #  mr <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = CaS, Labels = substrsplit)
-    #  mroPara(mr)
-    #
-    #  character vector is inputting as hard code replacement....
-    #  mr <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic, data = CaS, Labels = c("A","B","C"))
-    #  mroPara(mr)
-    #
-    #  extra argument "inverse" is initially designing for inverse control... for example, Absent =0, Present = 1;
-    #  Putting inverse = TRUE, we can get Absent = 1, Present = 0...
-    #
-    #  Further test, if a user can provide a binary data.frame
-    #  test = data.frame(group = rep(letters[1:3], 10),
-    #                     V1 = sample(0:1, 30, replace = TRUE),
-    #                     V2 = sample(0:1, 30, replace = TRUE),
-    #                     V3 = sample(0:1, 30, replace = TRUE))
-    #  mr <- iNZightMR(test~V1+V2+V3, data = test)
-    #  mroPara(mr)
-    #  colMeans(Filter(is.numeric, test))  ## you should get this result identical to mroPara(mr)$Mromoecalc$est
-    ####
-
     if (length(frm[[2]]))
         classnames <- as.character(frm[[2]])
 
     display <- with(data, {
         # grab variable name from the formual (frm) in the data file (data))
         mro.mat <- model.frame(frm[-2], data, na.action = na.pass, ...)
-        #Ind <- as.logical(rowSums(is.na(mro.mat)))
-        #mro.mat <- mro.mat[! Ind, ]
-        #data <- data[! Ind, ]
-        #rownames(data) <- NULL
         details <- attributes(mro.mat)
         variables <- attr(details$terms, "variables")
 
@@ -140,22 +118,6 @@ iNZightMR <- function(frm, data, Labels = NULL, inverse = FALSE, ...) {
                 labelname$Varname
             else
                 labelname
-
-        #     if (!is.null(combi)) {
-        #       combination.index <- combn(ncol(mro.mat), combi)
-        #       com.mro.mat <- c()
-        #       com.lablename <- c()
-        #       for (j in 1:ncol(combination.index)) {
-        #         com.mro.mat <- cbind(com.mro.mat,
-        #                              mro.mat[, combination.index[1, j]] * mro.mat[, combination.index[2, j]])
-        #         com.lablename <- append(com.lablename,
-        #                                 paste(labelname[combination.index[1, j]],
-        #                                       labelname[combination.index[2, j]], sep = ":"))
-        #       }
-        #       colnames(com.mro.mat) <- com.lablename
-        #       mro.mat <- com.mro.mat
-        #       labelname <- com.lablename
-        #     }
 
         Ix <- order(colSums(mro.mat), decreasing = TRUE)
         mro.mat <- mro.mat[, Ix]

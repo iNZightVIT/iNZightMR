@@ -1,10 +1,11 @@
+#' Margin of Error Calculation
+#'
 #' Computes the margin of error for various objects.
 #'
 #' If \code{x} is a model, must have factorname or coefficient index (coef.idx)
 #' If input factorname, will compute ErrBars by factorname (for given model)
 #' If input coefficient index, will compute ErrBars simply by index only (even they are not factor)
 #' If \code{x} is \code{ses.moecalc} object, will compute ErrBars simply by given \code{ses.moecalc} object
-#' @title Margin of Error Calculation
 #' @param x the object for which we compute margins of error
 #' @param factorname name of factor
 #' @param levelnames names of factor levels
@@ -15,7 +16,6 @@
 #' @param basename name of baseline
 #' @param conf.level level of confidence to use
 #' @return a \code{moecalc} object
-#' @author Junjie Zeng
 #' @export
 moecalc <- function(x, factorname = NULL, levelnames = NULL, coef.idx = NULL,
                     est = NULL, ci = NULL, base = TRUE, basename = "base",

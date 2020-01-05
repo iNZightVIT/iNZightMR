@@ -1,12 +1,20 @@
-#' Computes the MRO information for a para object ...
+#' Calculate MRO inference
 #'
-#' @title Compute Para MRO for an object
-#' @param obj An object to compute things for
-#' @param conf.levels Confidence level to use
+#' Calculates required proportions, their differences, variance-covariance
+#' matrices, standard errors of differences, and comparison intervals for differences,
+#' over all of the data. To compute values over various subsets of another
+#' explanatory variable, see \link{by}.
+#'
+#' @param obj an MRO object created by \code{iNZightMR}
+#' @param conf.levels confidence level to use, default is 1.96 for 95\% intervals
 #' @param nonparallel Should these things be parallel?
 #' @return An object of class \code{mrocalc}
-#' @author Junjie Zeng
+#' @seealso \link{iNZightMR}
 #' @export
+#' @examples
+#' mr <- iNZightMR(online ~ onlinegame + onlinevideo + onlinemusic,
+#'     data = census.at.school.5000)
+#' mrp <- mroPara(mr)
 mroPara <- function(obj, conf.levels = 1.96, nonparallel=NULL) {
     cl <- match.call()
     Tb <- names(obj)[1]
