@@ -25,7 +25,7 @@ barplotMR <- function(obj, ...)
 #' @describeIn barplotMR method for class \code{mrocalc}
 #' @export
 barplotMR.mrocalc <- function(obj, ...) {
-    if (!requireNamespace(iNZightPlots))
+    if (!requireNamespace("iNZightPlots"))
         stop("Please install the iNZightPlots package to use this function.")
 
     s1 <- switcher(obj)
@@ -125,7 +125,7 @@ barplotMR.mrocalc <- function(obj, ...) {
 #' @describeIn barplotMR method for class \code{bymrocalc}
 #' @export
 barplotMR.bymrocalc <- function(obj, g1.level = NULL, g2.level = "_MULTI",...) {
-    if (!requireNamespace(iNZightPlots))
+    if (!requireNamespace("iNZightPlots"))
         stop("Please install the iNZightPlots package to use this function.")
 
     s1 <- switcher(obj)
@@ -417,7 +417,7 @@ barplotMR.bymrocalc <- function(obj, g1.level = NULL, g2.level = "_MULTI",...) {
 #' @describeIn barplotMR method for class \code{between}
 #' @export
 barplotMR.between <- function(obj, ...) {
-    if (!requireNamespace(iNZightPlots))
+    if (!requireNamespace("iNZightPlots"))
         stop("Please install the iNZightPlots package to use this function.")
 
     s2 <- switcher(obj)
@@ -537,7 +537,7 @@ barplotMR.between <- function(obj, ...) {
 #' @describeIn barplotMR method for class \code{b2}
 #' @export
 barplotMR.b2 <- function(obj, g1.level = NULL, ...) {
-    if (!requireNamespace(iNZightPlots))
+    if (!requireNamespace("iNZightPlots"))
         stop("Please install the iNZightPlots package to use this function.")
 
     s2 <- switcher(obj)
