@@ -110,7 +110,7 @@ calcmissing.data.frame <- function(obj, MRO.case = FALSE,
         cat("\n")
         tbl <- capture.output(print(data.frame(
             finaltable,
-            Percentage =
+            Percentage = 100 *
                 round(finaltable[,"Freq"] / max(finaltable[, "Freq"]), 3)
         )))
 
@@ -134,7 +134,7 @@ calcmissing.data.frame <- function(obj, MRO.case = FALSE,
         out3 <- capture.output(
             data.frame(
                 finaltable,
-                Percentage =
+                Percentage = 100 *
                     round(finaltable[, "Freq"] / max(finaltable[, "Freq"]), 3)
             )
         )
