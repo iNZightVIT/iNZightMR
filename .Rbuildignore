@@ -3,3 +3,4 @@
 ^todo$
 ^revdep$
 ^\.travis\.yml$
+^cran-comments\.md$
