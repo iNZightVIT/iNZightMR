@@ -101,6 +101,10 @@ calcmissing.data.frame <- function(obj, MRO.case = FALSE,
     #finaltable <- finaltable[, c(index, j)]
     colnames(finaltable)[j] <- "Freq"
 
+    # rn <- rownames(finaltable)
+    # rn[rn != "Total"] <- NA
+    # rownames(finaltable) <- rn
+
     if (print) {
         print(TolTab)
         cat("\n")
