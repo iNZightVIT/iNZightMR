@@ -1,7 +1,14 @@
+## iNZightMR 2.2.4
+__Release date__: TBA
+
+- Minor changes to pass CRAN checks
+- Improved documentation
+
+
 ## iNZightMR 2.2-3
 __Release date__: 27 October 2017
 
-- Add LICENCE 
+- Add LICENCE
 - Fix bug in label orders in subsetted barplots
 
 

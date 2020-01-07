@@ -1,15 +1,15 @@
 Package: iNZightMR
 Type: Package
 Title: Tools for Exploring Multiple Response Data
-Version: 2.2-3.9000
-Date: 2017-10-27
-Authors@R: c(person("Junjie", "Zeng", role = c("aut"),
-    email = "jzen188@aucklanduni.ac.nz",
-    comment = "Original author"),
+Version: 2.2.4
+Authors@R: c(
+    person("Junjie", "Zeng", role = c("aut"),
+        email = "jzen188@aucklanduni.ac.nz",
+        comment = "Original author"),
     person("Simon", "Potter", role = c("aut")),
     person("Tom", "Elliott", role = c("aut", "cre"),
-           email = "tom.elliott@auckland.ac.nz")
-    )
+        email = "tom.elliott@auckland.ac.nz")
+)
 Depends:
     R (>= 2.13)
 Imports:
@@ -20,7 +20,6 @@ Imports:
     utils
 Suggests:
     iNZightPlots
-Additional_repositories: https://r.docker.stat.auckland.ac.nz
 LazyData: true
 Description: Interaction and analysis of Multiple Response Data.
 License: GPL-3 | file LICENSE
