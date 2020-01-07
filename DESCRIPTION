@@ -9,6 +9,8 @@ Authors@R: c(
     person("Simon", "Potter", role = c("aut")),
     person("Tom", "Elliott", role = c("aut", "cre"),
         email = "tom.elliott@auckland.ac.nz"))
+BugReports: https://github.com/iNZightVIT/iNZightMR/issues
+Contact: inzight_support@stat.auckland.ac.nz
 Depends:
     R (>= 2.13)
 Imports:
