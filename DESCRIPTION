@@ -8,8 +8,7 @@ Authors@R: c(
         comment = "Original author"),
     person("Simon", "Potter", role = c("aut")),
     person("Tom", "Elliott", role = c("aut", "cre"),
-        email = "tom.elliott@auckland.ac.nz")
-)
+        email = "tom.elliott@auckland.ac.nz"))
 Depends:
     R (>= 2.13)
 Imports:
