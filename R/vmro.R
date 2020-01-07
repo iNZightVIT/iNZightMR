@@ -101,14 +101,32 @@ calcmissing.data.frame <- function(obj, MRO.case = FALSE,
     #finaltable <- finaltable[, c(index, j)]
     colnames(finaltable)[j] <- "Freq"
 
+    # rn <- rownames(finaltable)
+    # rn[rn != "Total"] <- NA
+    # rownames(finaltable) <- rn
+
     if (print) {
         print(TolTab)
         cat("\n")
-        print(data.frame(
+        tbl <- capture.output(print(data.frame(
             finaltable,
-            Percentage =
+            Percentage = 100 *
                 round(finaltable[,"Freq"] / max(finaltable[, "Freq"]), 3)
-        ))
+        )))
+
+        mnum <- gregexpr("^[0-9]+", tbl)
+        sp <- sapply(mnum, function(m) {
+            if (m == 1) {
+                paste(rep(" ", attr(m, "match.length")), collapse = "")
+            } else {
+                NA
+            }
+        })
+        sapply(seq_along(mnum), function(i) {
+            if (mnum[[i]] == -1) return()
+            tbl[i] <<- gsub("^[0-9]+", sp[i], tbl[i])
+        })
+        cat(tbl, sep = "\n")
         ret <- finaltable
     } else {
         out1 <- capture.output(TolTab)
@@ -116,7 +134,7 @@ calcmissing.data.frame <- function(obj, MRO.case = FALSE,
         out3 <- capture.output(
             data.frame(
                 finaltable,
-                Percentage =
+                Percentage = 100 *
                     round(finaltable[, "Freq"] / max(finaltable[, "Freq"]), 3)
             )
         )

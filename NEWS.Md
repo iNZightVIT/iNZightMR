@@ -10,6 +10,7 @@ __Release date__: 27 October 2017
 
 - Add LICENCE
 - Fix bug in label orders in subsetted barplots
+- Suppress printing of rownames in `calcmissing()` (but keep Total)
 
 
 ## iNZightMR 2.2-2
