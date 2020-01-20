@@ -47,7 +47,7 @@ r01 <- function(x, inverse = FALSE, opts = NULL) {
 
 #' Create iNZightMR multiple response object (MRO)
 #'
-#' Creates a multiple response object (MRO) containing binary reponse matrix
+#' Creates a multiple response object (MRO) containing binary response matrix
 #' (zeros and ones) as well as the input data source.
 #'
 #' The individual response variable names can be detected from the
@@ -57,7 +57,7 @@ r01 <- function(x, inverse = FALSE, opts = NULL) {
 #'
 #' If a user wants to inverse the response (zeros becomes ones), then pass
 #' \code{inverse = TRUE}. This is useful when the responses are characters
-#' (such as "corrent" and "wrong", where correct would be given a zero)
+#' (such as "correct" and "wrong", where correct would be given a zero)
 #' and the order needs reversing (so that correct is 1 instead).
 #'
 #' @param frm formula containing the response variables

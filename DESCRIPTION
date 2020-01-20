@@ -11,6 +11,7 @@ Authors@R: c(
         email = "tom.elliott@auckland.ac.nz"))
 BugReports: https://github.com/iNZightVIT/iNZightMR/issues
 Contact: inzight_support@stat.auckland.ac.nz
+URL: https://www.stat.auckland.ac.nz/~wild/iNZight/
 Depends:
     R (>= 2.13)
 Imports:
@@ -21,10 +22,13 @@ Imports:
     utils
 Suggests:
     iNZightPlots
-Additional_repositories:
-    https://r.docker.stat.auckland.ac.nz
 LazyData: true
-Description: Interaction and analysis of Multiple Response Data.
+Description: Interaction and analysis of Multiple Response Data,
+    along with other tools for analysing these types of data including
+    missing value analysis and calculation of standard errors for
+    a range of covariance matrix results (proportions, multinomial,
+    independent samples, and multiple response).
 License: GPL-3 | file LICENSE
 Encoding: UTF-8
-RoxygenNote: 6.1.1
+Language: en-GB
+RoxygenNote: 7.0.2

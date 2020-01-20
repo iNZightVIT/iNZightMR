@@ -8,8 +8,7 @@
 \usage{
 calcmissing(obj, ...)
 
-\method{calcmissing}{data.frame}(obj, MRO.case = FALSE, print = TRUE,
-  final = TRUE, ...)
+\method{calcmissing}{data.frame}(obj, MRO.case = FALSE, print = TRUE, final = TRUE, ...)
 
 \method{calcmissing}{mro}(obj, ...)
 }
@@ -34,7 +33,7 @@ Calculates the summary of missingness in a data set.
 \itemize{
 \item \code{data.frame}: Method for a dataframe
 
-\item \code{mro}: accecpted a whole mr.object , which is first mro.mat, second element lables,
+\item \code{mro}: accepts a whole mr.object , which is first mro.mat, second element labels,
 third element the input data frame.
 }}
 

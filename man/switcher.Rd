@@ -19,7 +19,7 @@ switcher(obj, ...)
 \method{switcher}{b2}(obj, ...)
 }
 \arguments{
-\item{obj}{mro familiy}
+\item{obj}{mro family}
 
 \item{...}{additional arguments}
 }
