@@ -30,7 +30,7 @@ seModel <- function(model, idx, base = TRUE) {
 }
 
 
-#' Compute teh standard error information for a given covariance matrix.
+#' Compute the standard error information for a given covariance matrix.
 #' @title Compute standard error for covariance matrix
 #' @param covs covariance matrix
 #' @param addbase logical, is there a baseline?
@@ -53,7 +53,7 @@ seCovs <- function(covs, addbase = FALSE) {
 
 
 #' SEs for Multinomial Proportions
-#' @title Compuate SE for Multinomial proportions
+#' @title Compute SE for Multinomial proportions
 #' @param n the number of observations in each group
 #' @param phat the estimates proportions for each group
 #' @return an \code{ses.moecalc} object

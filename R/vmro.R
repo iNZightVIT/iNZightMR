@@ -147,7 +147,7 @@ calcmissing.data.frame <- function(obj, MRO.case = FALSE,
         return(invisible(ret))
 }
 
-#' @describeIn calcmissing accecpted a whole mr.object , which is first mro.mat, second element lables,
+#' @describeIn calcmissing accepts a whole mr.object , which is first mro.mat, second element labels,
 #'   third element the input data frame.
 #' @export
 calcmissing.mro <- function(obj, ...) {

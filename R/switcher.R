@@ -1,6 +1,6 @@
 #' Switcher generic
 #' @title Switcher generic
-#' @param obj mro familiy
+#' @param obj mro family
 #' @param ... additional arguments
 #' @return a dataframe
 switcher <- function(obj,...) {

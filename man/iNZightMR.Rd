@@ -25,7 +25,7 @@ An \code{mro} object containing a multiple response binary matrix and input
   data source
 }
 \description{
-Creates a multiple response object (MRO) containing binary reponse matrix
+Creates a multiple response object (MRO) containing binary response matrix
 (zeros and ones) as well as the input data source.
 }
 \details{
@@ -36,7 +36,7 @@ to both, so the labels will be `eng` and `mri`.
 
 If a user wants to inverse the response (zeros becomes ones), then pass
 \code{inverse = TRUE}. This is useful when the responses are characters
-(such as "corrent" and "wrong", where correct would be given a zero)
+(such as "correct" and "wrong", where correct would be given a zero)
 and the order needs reversing (so that correct is 1 instead).
 }
 \examples{

@@ -2,7 +2,7 @@
 % Please edit documentation in R/ses.moecalc.R
 \name{seMNprops}
 \alias{seMNprops}
-\title{Compuate SE for Multinomial proportions}
+\title{Compute SE for Multinomial proportions}
 \usage{
 seMNprops(n, phat)
 }
