@@ -4,9 +4,17 @@
 \alias{moecalc}
 \title{Margin of Error Calculation}
 \usage{
-moecalc(x, factorname = NULL, levelnames = NULL, coef.idx = NULL,
-  est = NULL, ci = NULL, base = TRUE, basename = "base",
-  conf.level = 1.96)
+moecalc(
+  x,
+  factorname = NULL,
+  levelnames = NULL,
+  coef.idx = NULL,
+  est = NULL,
+  ci = NULL,
+  base = TRUE,
+  basename = "base",
+  conf.level = 1.96
+)
 }
 \arguments{
 \item{x}{the object for which we compute margins of error}
@@ -38,7 +46,4 @@ If \code{x} is a model, must have factorname or coefficient index (coef.idx)
 If input factorname, will compute ErrBars by factorname (for given model)
 If input coefficient index, will compute ErrBars simply by index only (even they are not factor)
 If \code{x} is \code{ses.moecalc} object, will compute ErrBars simply by given \code{ses.moecalc} object
-}
-\author{
-Junjie Zeng
 }

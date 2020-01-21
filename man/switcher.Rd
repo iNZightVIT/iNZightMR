@@ -19,7 +19,7 @@ switcher(obj, ...)
 \method{switcher}{b2}(obj, ...)
 }
 \arguments{
-\item{obj}{mro familiy}
+\item{obj}{mro family}
 
 \item{...}{additional arguments}
 }
@@ -40,6 +40,3 @@ Switcher generic
 \item \code{b2}: For between and b2 case
 }}
 
-\author{
-tell029
-}

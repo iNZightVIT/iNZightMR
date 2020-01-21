@@ -34,7 +34,7 @@
 #'   \item{ringfinger}{ring finger measurement}
 #'   \item{hairlength}{the length of their hair}
 #'   \item{travel}{travel method used to get to school}
-#'   \item{timetravel}{how long they spend traveling}
+#'   \item{timetravel}{how long they spend travelling}
 #'   \item{bagweightraw}{the weight of the bag}
 #'   \item{bagweight}{weight of the bag}
 #'   \item{bagcarry}{factor of how they're carrying}
@@ -59,7 +59,7 @@
 #'   \item{onlinemusic}{binary for if they listen to music online}
 #'   \item{onlinevideo}{binary for if they watch video online}
 #'   \item{onlinegame}{binary for if they play games online}
-#'   \item{onlinefriend}{binary for if they talk to freinds online}
+#'   \item{onlinefriend}{binary for if they talk to friends online}
 #'   \item{onlineschool}{binary for if they access school online}
 #'   \item{onlineother}{binary for if they do anything else online}
 #'   \item{onlinenone}{binary for if they do nothing online}
@@ -75,7 +75,7 @@
 #'   \item{importenergy}{binary about energy}
 #'   \item{importgovern}{binary about government}
 #'   \item{importcomputer}{binary about computer}
-#'   \item{region}{number of the rgion they're in}
+#'   \item{region}{number of the region they're in}
 #'   \item{year}{their school year}
 #' }
 #' @source \url{http://new.censusatschool.org.nz/}

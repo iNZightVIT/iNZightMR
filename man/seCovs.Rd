@@ -15,7 +15,7 @@ seCovs(covs, addbase = FALSE)
 an ses.moecalc object
 }
 \description{
-Compute teh standard error information for a given covariance matrix.
+Compute the standard error information for a given covariance matrix.
 }
 \author{
 Junjie Zeng

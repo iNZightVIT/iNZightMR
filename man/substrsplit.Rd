@@ -29,6 +29,3 @@ mr3 <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic,
 mroPara(mr3)
 }
 }
-\author{
-Junjie Zeng
-}
