@@ -21,7 +21,9 @@ Imports:
     stats,
     utils
 Suggests:
-    iNZightPlots
+    iNZightPlots,
+    testthat,
+    covr
 LazyData: true
 Description: Interaction and analysis of Multiple Response Data,
     along with other tools for analysing these types of data including
