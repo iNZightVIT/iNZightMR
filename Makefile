@@ -17,6 +17,8 @@ crancheck:
 install:
 	@R CMD INSTALL ./
 
+test:
+	@$(R) -e "devtools::test()"
 
 clean:
 	@rm -rf *.tar.gz *.Rcheck revdep
