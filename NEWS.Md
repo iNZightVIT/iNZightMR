@@ -1,5 +1,5 @@
 ## iNZightMR 2.2.4
-__Release date__: TBA
+__Release date__: 25 February 2020
 
 - Minor changes to pass CRAN checks
 - Improved documentation
