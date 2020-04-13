@@ -13,7 +13,7 @@
 * checking package dependencies ... NOTE
   Package suggested but not available for checking: 'iNZightPlots'
 
-  The iNZightPlots package (which imports this one) will be submitted once iNZightMR has been accepted.
+  The `iNZightPlots` package (which imports this one) will be submitted once `iNZightMR` has been accepted.
 
 ## Downstream dependencies
 
