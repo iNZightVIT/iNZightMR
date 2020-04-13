@@ -4,7 +4,8 @@
 \name{census.at.school.5000}
 \alias{census.at.school.5000}
 \title{Census at School 5000}
-\format{A data frame with 72 variables and 5000 rows.
+\format{
+A data frame with 72 variables and 5000 rows.
 \describe{
   \item{X}{unique identifier for each observation}
   \item{gender}{their biological gender}
@@ -78,7 +79,8 @@
   \item{importcomputer}{binary about computer}
   \item{region}{number of the region they're in}
   \item{year}{their school year}
-}}
+}
+}
 \source{
 \url{http://new.censusatschool.org.nz/}
 }
