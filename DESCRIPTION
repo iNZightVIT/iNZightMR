@@ -25,7 +25,7 @@ Suggests:
     testthat,
     covr
 LazyData: true
-Description: Interaction and analysis of Multiple Response Data,
+Description: Interaction and analysis of multiple response data,
     along with other tools for analysing these types of data including
     missing value analysis and calculation of standard errors for
     a range of covariance matrix results (proportions, multinomial,
