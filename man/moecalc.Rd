@@ -4,17 +4,9 @@
 \alias{moecalc}
 \title{Margin of Error Calculation}
 \usage{
-moecalc(
-  x,
-  factorname = NULL,
-  levelnames = NULL,
-  coef.idx = NULL,
-  est = NULL,
-  ci = NULL,
-  base = TRUE,
-  basename = "base",
-  conf.level = 1.96
-)
+moecalc(x, factorname = NULL, levelnames = NULL, coef.idx = NULL,
+  est = NULL, ci = NULL, base = TRUE, basename = "base",
+  conf.level = 1.96)
 }
 \arguments{
 \item{x}{the object for which we compute margins of error}

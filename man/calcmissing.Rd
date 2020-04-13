@@ -8,7 +8,8 @@
 \usage{
 calcmissing(obj, ...)
 
-\method{calcmissing}{data.frame}(obj, MRO.case = FALSE, print = TRUE, final = TRUE, ...)
+\method{calcmissing}{data.frame}(obj, MRO.case = FALSE, print = TRUE,
+  final = TRUE, ...)
 
 \method{calcmissing}{mro}(obj, ...)
 }
