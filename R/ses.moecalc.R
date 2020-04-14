@@ -121,6 +121,6 @@ seMRprops <- function(obj) {
     ses <- sqrt(P * Q / n)
     p12 <- t(obj) %*% (1 - obj) / n
     p21 <- t(1 - obj) %*% obj / n
-    ses.diffs <- sqrt(((p12 + p21) -(p12 - p21)^2) / n)
+    ses.diffs <- sqrt(((p12 + p21) - (p12 - p21)^2) / n)
     ses.moecalc(ses = ses, ses.diffs = ses.diffs)
 }

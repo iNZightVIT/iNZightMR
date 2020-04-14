@@ -14,7 +14,7 @@ switcher.mrocalc <- function(obj, ...) {
     copy <- obj
     var <- copy$Mromoecalc$xlevels$Level
     target <- as.data.frame(
-        copy$Mromoecalc[c("est","ErrBars","compL","compU","confL","confU")]
+        copy$Mromoecalc[c("est", "ErrBars", "compL", "compU", "confL", "confU")]
     )
     rownames(target) <- NULL
     data.frame(var = var, target, bars = 1)
@@ -32,12 +32,12 @@ switcher.bymrocalc <- function(obj, ...) {
         temp3 <- data.frame()
         for (k in 1:tot) {
             if (!is.null(obj[[k]])) {
-              temp <- summary(obj[[k]]$Mromoecalc)$coef
-              temp2 <- rownames(temp)
-              rownames(temp) <- NULL
-              temp <- data.frame(var = temp2, temp, bars = 1)
-              temp3 <- rbind(temp3, temp)
-              out <- temp3
+                temp <- summary(obj[[k]]$Mromoecalc)$coef
+                temp2 <- rownames(temp)
+                rownames(temp) <- NULL
+                temp <- data.frame(var = temp2, temp, bars = 1)
+                temp3 <- rbind(temp3, temp)
+                out <- temp3
             } else {
                 temp <- matrix(NA, nrow = length(idon.temp.names), ncol = 6)
                 temp2 <- idon.temp.names

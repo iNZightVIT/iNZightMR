@@ -1,10 +1,3 @@
-
-### notice, because the iNZightPlot function considering svydesign.
-### a safe way to pass a pseudo x variable inside I tried is repeat one single
-### levels with 10x times, depending on the y/g1/g2 variables levels...
-### one of the benefit of doing this is this will generate one factor level with
-### 100% percentage thus we avoid to configure the ylim and ymax scale inside.
-
 #' Multiple response barplot
 #'
 #' Draws a barplot of a multiple response object (MRO), showing response rates for
@@ -162,7 +155,8 @@ barplotMR.bymrocalc <- function(obj, g1.level = NULL, g2.level = "_MULTI",...) {
         gen <- pl$gen
         opts <- gen$opts
 
-        ### You need to do the following TWICE - once for all p = 1, then for the actual p's
+        ### You need to do the following TWICE -
+        #   once for all p = 1, then for the actual p's
 
         praw <- matrix(s1$Est, nrow = nlevels(s1$type), byrow = TRUE)
 
@@ -172,10 +166,7 @@ barplotMR.bymrocalc <- function(obj, g1.level = NULL, g2.level = "_MULTI",...) {
             p <- matrix(praw[i, ], nrow = 1)
             nx <- ncol(p)
 
-            #widths = { 1 OR 1 / length(levels(y)) , whichever is required }
             widths <- 1
-            #edges <- { c(0, 1) - for one variable (no y),
-            #           OR c(0, cumsum(widths)) - for x and y ... }
             edges <- c(0, 1)
 
             edges <- rep(edges * 0.9 + 0.05, each = 4)
@@ -304,7 +295,8 @@ barplotMR.bymrocalc <- function(obj, g1.level = NULL, g2.level = "_MULTI",...) {
         gen <- pl$gen
         opts <- gen$opts
 
-        ### You need to do the following TWICE - once for all p = 1, then for the actual p's
+        ### You need to do the following TWICE -
+        ### once for all p = 1, then for the actual p's
 
         praw <- matrix(s1$Est, nrow = nlevels(s1$type1) * nlevels(s1$type2), byrow = TRUE)
 
@@ -316,10 +308,7 @@ barplotMR.bymrocalc <- function(obj, g1.level = NULL, g2.level = "_MULTI",...) {
                 p <- matrix(praw[k, ], nrow = 1)
                 nx <- ncol(p)
 
-                #widths = { 1 OR 1 / length(levels(y)) , whichever is required }
                 widths <- 1
-                #edges <- { c(0, 1) - for one variable (no y),
-                #           OR c(0, cumsum(widths)) - for x and y ... }
                 edges <- c(0, 1)
 
                 edges <- rep(edges * 0.9 + 0.05, each = 4)
@@ -450,10 +439,7 @@ barplotMR.between <- function(obj, ...) {
     p <- matrix(s2$est, nrow = nlevels(s2$type))
     nx <- ncol(p)
 
-    #widths = { 1 OR 1 / length(levels(y)) , whichever is required }
     widths <- rep(1 / nlevels(y), nlevels(y))
-    #edges <- { c(0, 1) - for one variable (no y),
-    #           OR c(0, cumsum(widths)) - for x and y ... }
     edges <- c(0, cumsum(widths))
 
     edges <- rep(edges * 0.9 + 0.05, each = 4)
@@ -465,7 +451,9 @@ barplotMR.between <- function(obj, ...) {
     yy <- c(tops)
 
     id <- rep(1:prod(dim(p)), each = 4)
-    colz <- if (is.null(gen$col.args$b.cols)) opts$bar.fill else rep(gen$col.args$b.cols, nx)
+    colz <-
+        if (is.null(gen$col.args$b.cols)) opts$bar.fill
+        else rep(gen$col.args$b.cols, nx)
 
 
     grid.polygon(unit(xx, "native"), unit(yy, "native"),
@@ -578,10 +566,6 @@ barplotMR.b2 <- function(obj, g1.level = NULL, ...) {
     )
     gen <- pl$gen
     opts <- gen$opts
-
-    #   partial.key <- NULL
-    #   if (!is.null(g1.level))
-    #     partial.key <- which(g1 %in% g1.level)
 
     praw <- matrix(s2$est, nrow = nlevels(s2$type2), byrow = TRUE)
     for (i in 1:nrow(praw)) {

@@ -44,7 +44,7 @@ moecalc <- function(x, factorname = NULL, levelnames = NULL, coef.idx = NULL,
         ses.diffs <- temp$ses.diffs
 
         ## Guess levelnames
-        if (!is.null(factorname)){
+        if (!is.null(factorname)) {
             ## by factorname
             isfactor <- chkfactor(obj, factorname)
             if (sum(isfactor) == 1)
@@ -54,9 +54,9 @@ moecalc <- function(x, factorname = NULL, levelnames = NULL, coef.idx = NULL,
                 ## For now, don't do anything
                 stop("Two-factor interactions not supported yet")
 
-                levelnames = names(est)
-                levelnames = gsub(names(which(isfactor)[1]), "", levelnames)
-                levelnames = gsub(names(which(isfactor)[2]), "", levelnames)
+                levelnames <- names(est)
+                levelnames <- gsub(names(which(isfactor)[1]), "", levelnames)
+                levelnames <- gsub(names(which(isfactor)[2]), "", levelnames)
                 # levelnames = gsub(":", "/", levelnames)
             }
 
@@ -67,11 +67,11 @@ moecalc <- function(x, factorname = NULL, levelnames = NULL, coef.idx = NULL,
             }
         } else {
             ## by coef.idx
-            levelnames = names(obj$coefficients)[coef.idx]
+            levelnames <- names(obj$coefficients)[coef.idx]
             if (base)
-                levelnames = c(basename, levelnames)
+                levelnames <- c(basename, levelnames)
         }
-        out = paste("confidence interval of baseline is 0")
+        out <- paste("confidence interval of baseline is 0")
         warning(out)
 
     } else {
@@ -93,9 +93,9 @@ moecalc <- function(x, factorname = NULL, levelnames = NULL, coef.idx = NULL,
 
     ## Margins of error for differences
     if (any(class(obj) == "ses.moecalc")) {
-        moe.diffs = conf.level * ses.diffs
+        moe.diffs <- conf.level * ses.diffs
     } else {
-        moe.diffs = ses.diffs
+        moe.diffs <- ses.diffs
     }
     dimnames(moe.diffs) <- list(levelnames, levelnames)
 
@@ -108,8 +108,8 @@ moecalc <- function(x, factorname = NULL, levelnames = NULL, coef.idx = NULL,
         k2 <- sum(keep) # number of unique moe.diffs for diffs without redundancies
         if (!any(class(obj) == "ses.moecalc")) {
             #%%%## Multiple comparisons adjustment
-            multiplier = qtukey(0.95, k, obj$df.residual) / sqrt(2)
-            moe.diffs = moe.diffs * multiplier
+            multiplier <- qtukey(0.95, k, obj$df.residual) / sqrt(2)
+            moe.diffs <- moe.diffs * multiplier
         }
         Xr <- row(moe.diffs)[keep] # (going down cols)
         Xc <- col(moe.diffs)[keep]
@@ -171,12 +171,25 @@ moecalc <- function(x, factorname = NULL, levelnames = NULL, coef.idx = NULL,
         names(confL) <- names(confU) <- names(compL) <- names(compU) <- levelnames
     }
 
-    ret <- list(fit = obj, est = est, est.diffs = est.diffs, ErrBars = ErrBars, errpercent = errpercent,
-                MaxErrProp = errpercent[which.max(abs(errpercent))],
-                signiferr = signiferr, moe.diffs = moe.diffs,
-                moe.diffs.approx = moe.diffs.approx, modelcall = modelcall,
-                xlevels = xlevels, ses = ses, ses.diffs = ses.diffs,
-                confL = confL, confU = confU, compL = compL, compU = compU)
+    ret <- list(
+        fit = obj,
+        est = est,
+        est.diffs = est.diffs,
+        ErrBars = ErrBars,
+        errpercent = errpercent,
+        MaxErrProp = errpercent[which.max(abs(errpercent))],
+        signiferr = signiferr,
+        moe.diffs = moe.diffs,
+        moe.diffs.approx = moe.diffs.approx,
+        modelcall = modelcall,
+        xlevels = xlevels,
+        ses = ses,
+        ses.diffs = ses.diffs,
+        confL = confL,
+        confU = confU,
+        compL = compL,
+        compU = compU
+    )
     class(ret) <- "moecalc"
 
     if(abs(ret$MaxErrProp) >= 1)
@@ -228,7 +241,7 @@ summary.moecalc <- function(object, ...) {
         MaxErrProp = obj$MaxErrProp,
         xlevels = obj$xlevels
     )
-    class(x) = "summary.moecalc"
+    class(x) <- "summary.moecalc"
     x
 }
 
