@@ -44,8 +44,9 @@ summary.within <- function(object, ...) {
             length(object[[i]]$Mromoecalc$est),
             " p-value =",
             pchisq(q = chisq.mro(object[[i]]),
-                  df = length(object[[i]]$Mromoecalc$est),
-                  lower.tail = FALSE),
+                df = length(object[[i]]$Mromoecalc$est),
+                lower.tail = FALSE
+            ),
             "\n"
         )
         cat("\n")

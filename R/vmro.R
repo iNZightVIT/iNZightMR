@@ -47,14 +47,9 @@ calcmissing.data.frame <- function(obj, MRO.case = FALSE,
     }))
     tabp <- as.data.frame(tabp)
     tabp <- tabp[, c(row4col.order, max(row4col.order) + 1)]
-    tabp <- rbind(tabp, x1[c(row4col.order, max(row4col.order) + 1)])  #  x1[row4col.order] == numMiss
+    tabp <- rbind(tabp, x1[c(row4col.order, max(row4col.order) + 1)])
     names(tabp) <- c(names(x)[row4col.order], "Total")
     row.names(tabp) <- c(seq_len(nrow(tab)), "Total")
-
-    #if (!any(index.column)){
-    #  rownames(tabp)[1] <- "_CLEAN_"
-    #  return(tabp)
-    #}
 
 
     if (sortby == "variable") {
@@ -98,21 +93,20 @@ calcmissing.data.frame <- function(obj, MRO.case = FALSE,
     TolTab[2, ] <- paste0(round(TolTab[2, ] * 100, 2), "%")
     TolTab[1, ] <- as.character(TolTab[1, ])
 
-    #finaltable <- finaltable[, c(index, j)]
     colnames(finaltable)[j] <- "Freq"
-
-    # rn <- rownames(finaltable)
-    # rn[rn != "Total"] <- NA
-    # rownames(finaltable) <- rn
 
     if (print) {
         print(TolTab)
         cat("\n")
-        tbl <- capture.output(print(data.frame(
-            finaltable,
-            Percentage = 100 *
-                round(finaltable[,"Freq"] / max(finaltable[, "Freq"]), 3)
-        )))
+        tbl <- capture.output(
+            print(
+                data.frame(
+                    finaltable,
+                    Percentage = 100 *
+                        round(finaltable[,"Freq"] / max(finaltable[, "Freq"]), 3)
+                )
+            )
+        )
 
         mnum <- gregexpr("^[0-9]+", tbl)
         sp <- sapply(mnum, function(m) {
