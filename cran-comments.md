@@ -10,9 +10,14 @@ This is a resubmission. In this version I have:
 
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
+0 errors | 0 warnings | 2 note
 
 * This is a new submission
+
+* [on winbuilder r-devel] checking package dependencies ... NOTE
+  Package suggested but not available for checking: 'iNZightPlots'
+
+  The source is available at the repo included in `Additional_repositories`.
 
 ## Downstream dependencies
 
