@@ -14,10 +14,10 @@ This is a resubmission. In this version I have:
 
 * This is a new submission
 
-* [on winbuilder r-devel] checking package dependencies ... NOTE
+* [on winbuilder] checking package dependencies ... NOTE
   Package suggested but not available for checking: 'iNZightPlots'
 
-  The source is available at the repo included in `Additional_repositories`.
+  The source and binary for R 3.6 *are* available at the repo included in `Additional_repositories`. My apologies if this is an error on my end.
 
 ## Downstream dependencies
 
