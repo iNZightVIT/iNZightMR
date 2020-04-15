@@ -1,3 +1,7 @@
+## Resubmission
+This is a resubmission. In this version I have:
+* specified in `Additional_repositories` where to find the 'iNZightPlots' package
+
 ## Test environments
 * local ubuntu 18.04, R 3.6.1
 * ubuntu 18.04 (on travis-ci) R oldrel, release, and devel
