@@ -10,14 +10,9 @@ This is a resubmission. In this version I have:
 
 ## R CMD check results
 
-0 errors | 0 warnings | 2 notes
+0 errors | 0 warnings | 1 note
 
 * This is a new submission
-
-* checking package dependencies ... NOTE
-  Package suggested but not available for checking: 'iNZightPlots'
-
-  The `iNZightPlots` package (which imports this one) will be submitted once `iNZightMR` has been accepted.
 
 ## Downstream dependencies
 
