@@ -22,6 +22,7 @@ Suggests:
     iNZightPlots,
     testthat,
     covr
+Additional_repositories: https://r.docker.stat.auckland.ac.nz
 LazyData: true
 Description: Interaction and analysis of multiple response data,
     along with other tools for analysing these types of data including
