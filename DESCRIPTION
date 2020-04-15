@@ -29,7 +29,7 @@ Description: Interaction and analysis of multiple response data,
     missing value analysis and calculation of standard errors for
     a range of covariance matrix results (proportions, multinomial,
     independent samples, and multiple response).
-License: GPL-3 | file LICENSE
+License: GPL-3
 Encoding: UTF-8
 Language: en-GB
 RoxygenNote: 7.1.0
