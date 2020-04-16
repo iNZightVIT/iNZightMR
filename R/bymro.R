@@ -38,7 +38,7 @@ byMRO <- function(mro.obj, formula, FUN, ...) {
 
         # must be return the data frame so that the by can detect name
         Indice <- fastNumchange(Indice)
-        Indice <- as.data.frame(Indice)
+        Indice <- as.data.frame(Indice, stringsAsFactors = TRUE)
         colnames(Indice) <- nm
     }
 
