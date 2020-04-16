@@ -35,7 +35,10 @@ summary.within <- function(object, ...) {
             next
         }
         # TODO: Magic numbers, use names instead
-        WithinVars <- as.data.frame(object[[i]]$Mromoecalc[c(2, 12, 14, 15)])
+        WithinVars <- as.data.frame(
+            object[[i]]$Mromoecalc[c(2, 12, 14, 15)],
+            stringsAsFactors = TRUE
+        )
         print(round(WithinVars, 3))
         cat("\n")
         cat("Chisq test for uniformity: chisq =",

@@ -142,7 +142,10 @@ between <- function (bymro) {
                 if (is.null(bymro[[x]])) {
 
                 } else {
-                    tmpdf <- as.data.frame(bymro[[x]]$Mromoecalc[c(2, 12, 4, 14:17)])
+                    tmpdf <- as.data.frame(
+                        bymro[[x]]$Mromoecalc[c(2, 12, 4, 14:17)],
+                        stringsAsFactors = TRUE
+                    )
                     # we need to recalculate the comparison interval here.
                     # we only need to inherit {est, ses, confL, confU} from within case
                     # then we calculate ErrBars and compL,compU here

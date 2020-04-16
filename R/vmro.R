@@ -41,11 +41,15 @@ calcmissing.data.frame <- function(obj, MRO.case = FALSE,
     z1 <- ifelse(is.na(x), 0, 1)
     tab <- table(apply(z1, 1, paste, collapse = ","))
     tab <- tab[order(names(tab), decreasing = TRUE)]
-    tab <- data.frame(combination = names(tab), count = as.numeric(tab))
+    tab <- data.frame(
+        combination = names(tab),
+        count = as.numeric(tab),
+        stringsAsFactors = TRUE
+    )
     tabp <- t(apply(tab, 1, function(x) {
         as.numeric(unlist(strsplit(x, ",", fixed = TRUE)))
     }))
-    tabp <- as.data.frame(tabp)
+    tabp <- as.data.frame(tabp, stringsAsFactors = TRUE)
     tabp <- tabp[, c(row4col.order, max(row4col.order) + 1)]
     tabp <- rbind(tabp, x1[c(row4col.order, max(row4col.order) + 1)])
     names(tabp) <- c(names(x)[row4col.order], "Total")
@@ -89,7 +93,7 @@ calcmissing.data.frame <- function(obj, MRO.case = FALSE,
     if (MRO.case)
         rownames(TolTab) <- c("nSelect", "%Select")
     colnames(TolTab) <- Name
-    TolTab <- as.data.frame(TolTab)
+    TolTab <- as.data.frame(TolTab, stringsAsFactors = TRUE)
     TolTab[2, ] <- paste0(round(TolTab[2, ] * 100, 2), "%")
     TolTab[1, ] <- as.character(TolTab[1, ])
 
@@ -103,7 +107,8 @@ calcmissing.data.frame <- function(obj, MRO.case = FALSE,
                 data.frame(
                     finaltable,
                     Percentage = 100 *
-                        round(finaltable[,"Freq"] / max(finaltable[, "Freq"]), 3)
+                        round(finaltable[,"Freq"] / max(finaltable[, "Freq"]), 3),
+                    stringsAsFactors = TRUE
                 )
             )
         )
@@ -129,7 +134,8 @@ calcmissing.data.frame <- function(obj, MRO.case = FALSE,
             data.frame(
                 finaltable,
                 Percentage = 100 *
-                    round(finaltable[, "Freq"] / max(finaltable[, "Freq"]), 3)
+                    round(finaltable[, "Freq"] / max(finaltable[, "Freq"]), 3),
+                stringsAsFactors = TRUE
             )
         )
         ret <- c(out1, out2, out3)
@@ -148,7 +154,7 @@ calcmissing.mro <- function(obj, ...) {
     mro <- obj
     mat <- mro[[1]]
     mat[mat == 0] <- NA
-    calcmissing(as.data.frame(mat), MRO.case = TRUE, ...)
+    calcmissing(as.data.frame(mat, stringsAsFactors = TRUE), MRO.case = TRUE, ...)
 }
 
 #' Plot of Missing Value combinations

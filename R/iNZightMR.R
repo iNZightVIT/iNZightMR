@@ -89,7 +89,10 @@ iNZightMR <- function(frm, data, Labels = NULL, inverse = FALSE, ...) {
 
         # 23/11/2014 naive test...
         colId = names(mro.mat)
-        mro.mat = as.data.frame(lapply(mro.mat, as.factor))[, colId]
+        mro.mat = as.data.frame(
+            lapply(mro.mat, as.factor),
+            stringsAsFactors = TRUE
+        )[, colId]
 
         # test binary level
         if (all(unique(sapply(mro.mat, nlevels)) == 2)) {

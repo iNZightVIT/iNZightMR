@@ -1,3 +1,5 @@
+- specify `stringsAsFactors = TRUE` for upcoming R 4.0.0
+
 ## iNZightMR 2.2.4
 __Release date__: 25 February 2020
 
