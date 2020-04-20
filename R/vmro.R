@@ -98,46 +98,24 @@ calcmissing.data.frame <- function(obj, MRO.case = FALSE,
     TolTab[1, ] <- as.character(TolTab[1, ])
 
     colnames(finaltable)[j] <- "Freq"
+    class(finaltable) <- c("calcmissing", class(finaltable))
 
     if (print) {
         print(TolTab)
         cat("\n")
-        tbl <- capture.output(
-            print(
-                data.frame(
-                    finaltable,
-                    Percentage = 100 *
-                        round(finaltable[,"Freq"] / max(finaltable[, "Freq"]), 3),
-                    stringsAsFactors = TRUE
-                )
-            )
-        )
-
-        mnum <- gregexpr("^[0-9]+", tbl)
-        sp <- sapply(mnum, function(m) {
-            if (m == 1) {
-                paste(rep(" ", attr(m, "match.length")), collapse = "")
-            } else {
-                NA
-            }
-        })
-        sapply(seq_along(mnum), function(i) {
-            if (mnum[[i]] == -1) return()
-            tbl[i] <<- gsub("^[0-9]+", sp[i], tbl[i])
-        })
-        cat(tbl, sep = "\n")
+        print(finaltable)
         ret <- finaltable
     } else {
         out1 <- capture.output(TolTab)
         out2 <- "\n"
-        out3 <- capture.output(
-            data.frame(
-                finaltable,
-                Percentage = 100 *
-                    round(finaltable[, "Freq"] / max(finaltable[, "Freq"]), 3),
-                stringsAsFactors = TRUE
-            )
-        )
+        out3 <- capture.output(print(finaltable))
+        #     data.frame(
+        #         finaltable,
+        #         Percentage = 100 *
+        #             round(finaltable[, "Freq"] / max(finaltable[, "Freq"]), 3),
+        #         stringsAsFactors = TRUE
+        #     )
+        # )
         ret <- c(out1, out2, out3)
     }
 
@@ -145,6 +123,33 @@ calcmissing.data.frame <- function(obj, MRO.case = FALSE,
         return(invisible(finaltable))
     else
         return(invisible(ret))
+}
+
+print.calcmissing <- function(x, ...) {
+    tbl <- capture.output(
+        print.data.frame(
+            data.frame(
+                x,
+                Percentage = 100 *
+                    round(x[,"Freq"] / max(x[, "Freq"]), 3),
+                stringsAsFactors = TRUE
+            )
+        )
+    )
+
+    mnum <- gregexpr("^[0-9]+", tbl)
+    sp <- sapply(mnum, function(m) {
+        if (m == 1) {
+            paste(rep(" ", attr(m, "match.length")), collapse = "")
+        } else {
+            NA
+        }
+    })
+    sapply(seq_along(mnum), function(i) {
+        if (mnum[[i]] == -1) return()
+        tbl[i] <<- gsub("^[0-9]+", sp[i], tbl[i])
+    })
+    cat(tbl, sep = "\n")
 }
 
 #' @describeIn calcmissing accepts a whole mr.object , which is first mro.mat, second element labels,
