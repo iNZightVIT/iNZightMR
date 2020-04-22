@@ -11,6 +11,12 @@
 #' @author Junjie Zheng
 #' @import grid
 #' @export
+#' @examples
+#' mr <- iNZightMR(online ~ onlinegame + onlinevideo + onlinemusic,
+#'     data = census.at.school.5000)
+#' barplotMR(mroPara(mr))
+#'
+#' barplotMR(byMRO(mr, ~gender, mroPara))
 barplotMR <- function(obj, ...)
     UseMethod("barplotMR", obj)
 

@@ -17,6 +17,9 @@ an ses.moecalc object
 \description{
 Compute the standard error information for a given covariance matrix.
 }
+\examples{
+seCovs(cov(iris[,-5]))
+}
 \author{
 Junjie Zeng
 }

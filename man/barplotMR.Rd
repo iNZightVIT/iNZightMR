@@ -42,6 +42,13 @@ each option along with confidence intervals and comparison intervals.
 \item \code{b2}: method for class \code{b2}
 }}
 
+\examples{
+mr <- iNZightMR(online ~ onlinegame + onlinevideo + onlinemusic,
+    data = census.at.school.5000)
+barplotMR(mroPara(mr))
+
+barplotMR(byMRO(mr, ~gender, mroPara))
+}
 \author{
 Junjie Zheng
 }
