@@ -1,9 +1,12 @@
-# #' Help mro variables extract common name out
-# #'
-# #' @title Extract Common Name from variables
-# #' @param obj It can be a vector or data frame, however, \code{substrsplit} is usually
-# #' used in the \code{iNZightMR} function.
-# #' @return A list with common character and unique variable name respectively
+#' Help mro variables extract common name out
+#'
+#' @title Extract Common Name from variables
+#' @param obj It can be a vector or data frame, however, \code{substrsplit} is usually
+#' used in the \code{iNZightMR} function.
+#' @return A list with common character and unique variable name respectively
+#' @export
+#' @examples
+#' substrsplit(c("varx", "vary", "varz"))
 substrsplit <- function(obj) {
     str <- names(obj) # if obj is not a vector, str will be NULL
     if (is.vector(obj))
