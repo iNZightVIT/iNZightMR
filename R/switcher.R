@@ -1,15 +1,14 @@
-#' Switcher generic
-#' @title Switcher generic
-#' @param obj mro family
-#' @param ... additional arguments
-#' @return a dataframe
+# #' Switcher generic
+# #' @title Switcher generic
+# #' @param obj mro family
+# #' @param ... additional arguments
+# #' @return a dataframe
 switcher <- function(obj,...) {
     UseMethod("switcher")
 }
 
 
-#' @describeIn switcher For mrocalc case
-#' @export
+# #' @describeIn switcher For mrocalc case
 switcher.mrocalc <- function(obj, ...) {
     copy <- obj
     var <- copy$Mromoecalc$xlevels$Level
@@ -21,8 +20,7 @@ switcher.mrocalc <- function(obj, ...) {
     data.frame(var = var, target, bars = 1, stringsAsFactors = TRUE)
 }
 
-#' @describeIn switcher For bymrocalc case
-#' @export
+# #' @describeIn switcher For bymrocalc case
 switcher.bymrocalc <- function(obj, ...) {
     if (length(dimnames(obj)) > 1) {
         len <- sapply(dimnames(obj), length)
@@ -87,8 +85,7 @@ switcher.bymrocalc <- function(obj, ...) {
     out
 }
 
-#' @describeIn switcher For between case
-#' @export
+# #' @describeIn switcher For between case
 switcher.between <- function(obj, ...) {
 
     index <- which((seq_along(obj) %% 2) > 0)
@@ -115,8 +112,7 @@ switcher.between <- function(obj, ...) {
     target
 }
 
-#' @describeIn switcher For between and b2 case
-#' @export
+# #' @describeIn switcher For between and b2 case
 switcher.b2 <- function(obj, ...) {
     copy <- lapply(obj, switcher)
     tot <- length(copy)

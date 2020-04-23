@@ -47,3 +47,9 @@ If input factorname, will compute ErrBars by factorname (for given model)
 If input coefficient index, will compute ErrBars simply by index only (even they are not factor)
 If \code{x} is \code{ses.moecalc} object, will compute ErrBars simply by given \code{ses.moecalc} object
 }
+\examples{
+fit <- lm(Sepal.Length ~ Species, data = iris)
+(mc <- moecalc(fit, "Species"))
+summary(mc)
+plot(mc)
+}

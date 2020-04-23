@@ -37,6 +37,12 @@ Calculates the summary of missingness in a data set.
 third element the input data frame.
 }}
 
+\examples{
+calcmissing(census.at.school.5000[,1:20])
+}
+\seealso{
+plotcombn
+}
 \author{
 Junjie Zeng
 }

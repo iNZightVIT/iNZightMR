@@ -1,22 +1,9 @@
-#' Help mro variables extrac common name out
-#'
-#' @title Extract Common Name from variables
-#' @param obj It can be a vector or data frame, however, \code{substrsplit} is usually
-#' used in the \code{iNZightMR} function.
-#' @return A list with common character and unique variable name respectively
-#' @export
-#' @examples
-#' \dontrun{
-#' mr <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic,
-#'                 data = census.at.school.5000)
-#' mroPara(mr)
-#' mr2 <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic,
-#'                  data = census.at.school.5000, Labels=FALSE)
-#' mroPara(mr2)
-#' mr3 <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic,
-#'                  data = census.at.school.5000, Labels=letters[1:3])
-#' mroPara(mr3)
-#' }
+# #' Help mro variables extract common name out
+# #'
+# #' @title Extract Common Name from variables
+# #' @param obj It can be a vector or data frame, however, \code{substrsplit} is usually
+# #' used in the \code{iNZightMR} function.
+# #' @return A list with common character and unique variable name respectively
 substrsplit <- function(obj) {
     str <- names(obj) # if obj is not a vector, str will be NULL
     if (is.vector(obj))
@@ -120,6 +107,13 @@ sampleSize <- function (bymro) {
 #' @return something about between.
 #' @author Junjie Zheng
 #' @export
+#' @examples
+#' mr <- iNZightMR(online ~ onlinegame + onlinevideo + onlinemusic,
+#'     data = census.at.school.5000)
+#' (bt <- between(byMRO(mr, ~gender, mroPara)))
+#'
+#' if (requireNamespace("iNZightPlots"))
+#'     barplotMR(bt)
 between <- function (bymro) {
     dn <- dimnames(bymro)
     if (length(dn) < 2) {

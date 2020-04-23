@@ -13,6 +13,9 @@ rm.na <- function(variable) {
 #' @return Missing value object
 #' @author Junjie Zeng
 #' @export
+#' @examples
+#' calcmissing(census.at.school.5000[,1:20])
+#' @seealso plotcombn
 calcmissing <- function(obj, ...) {
     UseMethod("calcmissing")
 }
@@ -169,6 +172,8 @@ calcmissing.mro <- function(obj, ...) {
 #' @return summarised info for plot
 #' @author Junjie Zeng
 #' @export
+#' @examples
+#' plotcombn(census.at.school.5000[,10:25])
 plotcombn <- function(obj) {
     Subtitle <- NULL
     if (inherits(obj, "Sub")) {
@@ -179,6 +184,7 @@ plotcombn <- function(obj) {
         stop("Invalid input. Must be 'data.frame' or 'mro'")
 
     dev.hold()
+    on.exit(dev.flush())
 
     layout(
         rbind(
@@ -196,7 +202,7 @@ plotcombn <- function(obj) {
 
     #finaltable <- calcmissing(obj, "row", print = FALSE)
     finaltable <- calcmissing(obj,  print = FALSE)
-    if (class(finaltable) == "non-missing")
+    if (inherits(finaltable,  "non-missing"))
         return(finaltable)
 
     x <- finaltable
@@ -211,6 +217,8 @@ plotcombn <- function(obj) {
     x.fit <- finaltable[seq_len(row.num), seq_len(col.num)]
 
     opa <- par(mar = rep(0, 4))
+    on.exit(par(opa), add = TRUE)
+
     plot(2 * col.num, min(row.num, 30),
         type = "n",
         xlim = c(0, 2 * col.num),
@@ -298,8 +306,7 @@ plotcombn <- function(obj) {
         col = c("red", "gray"),
         xpd = NA
     )
-    par(opa)
 
-    dev.flush()
+
     x
 }
