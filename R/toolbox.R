@@ -131,22 +131,20 @@ between <- function (bymro) {
         M[, 8] <- rep(tab, times = length(mro.names))
         rownames(M) <- rep(names(bymro), times = ncol(temp))
 
-        lapply(seq_along(bymro),
-            function(x) {
-                if (is.null(bymro[[x]])) {
+        for (i in seq_along(bymro)) {
+            if (is.null(bymro[[i]])) {
 
-                } else {
-                    tmpdf <- as.data.frame(
-                        bymro[[x]]$Mromoecalc[c(2, 12, 4, 14:17)],
-                        stringsAsFactors = TRUE
-                    )
-                    # we need to recalculate the comparison interval here.
-                    # we only need to inherit {est, ses, confL, confU} from within case
-                    # then we calculate ErrBars and compL,compU here
-                    M[seq(x, ncol(temp) * k, by = k), 1:7] <<- as.matrix(tmpdf)
-                }
+            } else {
+                tmpdf <- as.data.frame(
+                    bymro[[i]]$Mromoecalc[c(2, 12, 4, 14:17)],
+                    stringsAsFactors = TRUE
+                )
+                # we need to recalculate the comparison interval here.
+                # we only need to inherit {est, ses, confL, confU} from within case
+                # then we calculate ErrBars and compL,compU here
+                M[seq(i, ncol(temp) * k, by = k), 1:7] <- as.matrix(tmpdf)
             }
-        )
+        }
         colnames(M) <-
             c("est", "ses", "ErrBars", "confL", "confU", "compL", "compU", "count")
         mr.col <- length(unique(rownames(M)))

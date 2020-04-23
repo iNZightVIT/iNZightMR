@@ -148,10 +148,10 @@ print.calcmissing <- function(x, ...) {
             NA
         }
     })
-    sapply(seq_along(mnum), function(i) {
-        if (mnum[[i]] == -1) return()
-        tbl[i] <<- gsub("^[0-9]+", sp[i], tbl[i])
-    })
+    for (i in seq_along(mnum)) {
+        if (mnum[[i]] == -1) next
+        tbl[i] <- gsub("^[0-9]+", sp[i], tbl[i])
+    }
     cat(tbl, sep = "\n")
 }
 
