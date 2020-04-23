@@ -43,11 +43,14 @@ each option along with confidence intervals and comparison intervals.
 }}
 
 \examples{
+\donttest{
+# Note: requires iNZightPlots
 mr <- iNZightMR(online ~ onlinegame + onlinevideo + onlinemusic,
     data = census.at.school.5000)
 barplotMR(mroPara(mr))
 
 barplotMR(byMRO(mr, ~gender, mroPara))
+}
 }
 \author{
 Junjie Zheng
