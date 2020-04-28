@@ -29,7 +29,7 @@ Description: Interaction and analysis of multiple response data,
     missing value analysis and calculation of standard errors for
     a range of covariance matrix results (proportions, multinomial,
     independent samples, and multiple response). Methods are based on
-    principles outlined in Scott and Seber (1983) <doi:10.2307/2682774>
+    the work of Scott and Seber (1983) <doi:10.2307/2682774>
     and Wild and Seber (1994) <doi:10.2307/2684972>.
 License: GPL-3
 Encoding: UTF-8
