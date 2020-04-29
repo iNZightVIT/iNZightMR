@@ -5,7 +5,7 @@ This is a resubmission. In this version I have:
 * any necessary calls to par() have been followed immediately with on.exit
   to preserve the user's workspace
 * there are no reference materials for the methods in this package
-  as it was part of a student's research project
+  (it was part of a student's unpublished research project)
 * there are no external dependencies
 
 In previous submissions, I have:
