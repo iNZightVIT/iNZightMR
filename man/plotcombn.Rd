@@ -15,6 +15,9 @@ summarised info for plot
 \description{
 Plot of Missing Value combinations
 }
+\examples{
+plotcombn(census.at.school.5000[,10:25])
+}
 \author{
 Junjie Zeng
 }

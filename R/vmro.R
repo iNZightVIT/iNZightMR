@@ -13,6 +13,9 @@ rm.na <- function(variable) {
 #' @return Missing value object
 #' @author Junjie Zeng
 #' @export
+#' @examples
+#' calcmissing(census.at.school.5000[,1:20])
+#' @seealso plotcombn
 calcmissing <- function(obj, ...) {
     UseMethod("calcmissing")
 }
@@ -41,11 +44,15 @@ calcmissing.data.frame <- function(obj, MRO.case = FALSE,
     z1 <- ifelse(is.na(x), 0, 1)
     tab <- table(apply(z1, 1, paste, collapse = ","))
     tab <- tab[order(names(tab), decreasing = TRUE)]
-    tab <- data.frame(combination = names(tab), count = as.numeric(tab))
+    tab <- data.frame(
+        combination = names(tab),
+        count = as.numeric(tab),
+        stringsAsFactors = TRUE
+    )
     tabp <- t(apply(tab, 1, function(x) {
         as.numeric(unlist(strsplit(x, ",", fixed = TRUE)))
     }))
-    tabp <- as.data.frame(tabp)
+    tabp <- as.data.frame(tabp, stringsAsFactors = TRUE)
     tabp <- tabp[, c(row4col.order, max(row4col.order) + 1)]
     tabp <- rbind(tabp, x1[c(row4col.order, max(row4col.order) + 1)])
     names(tabp) <- c(names(x)[row4col.order], "Total")
@@ -89,49 +96,29 @@ calcmissing.data.frame <- function(obj, MRO.case = FALSE,
     if (MRO.case)
         rownames(TolTab) <- c("nSelect", "%Select")
     colnames(TolTab) <- Name
-    TolTab <- as.data.frame(TolTab)
+    TolTab <- as.data.frame(TolTab, stringsAsFactors = TRUE)
     TolTab[2, ] <- paste0(round(TolTab[2, ] * 100, 2), "%")
     TolTab[1, ] <- as.character(TolTab[1, ])
 
     colnames(finaltable)[j] <- "Freq"
+    class(finaltable) <- c("calcmissing", class(finaltable))
 
     if (print) {
         print(TolTab)
         cat("\n")
-        tbl <- capture.output(
-            print(
-                data.frame(
-                    finaltable,
-                    Percentage = 100 *
-                        round(finaltable[,"Freq"] / max(finaltable[, "Freq"]), 3)
-                )
-            )
-        )
-
-        mnum <- gregexpr("^[0-9]+", tbl)
-        sp <- sapply(mnum, function(m) {
-            if (m == 1) {
-                paste(rep(" ", attr(m, "match.length")), collapse = "")
-            } else {
-                NA
-            }
-        })
-        sapply(seq_along(mnum), function(i) {
-            if (mnum[[i]] == -1) return()
-            tbl[i] <<- gsub("^[0-9]+", sp[i], tbl[i])
-        })
-        cat(tbl, sep = "\n")
+        print(finaltable)
         ret <- finaltable
     } else {
         out1 <- capture.output(TolTab)
         out2 <- "\n"
-        out3 <- capture.output(
-            data.frame(
-                finaltable,
-                Percentage = 100 *
-                    round(finaltable[, "Freq"] / max(finaltable[, "Freq"]), 3)
-            )
-        )
+        out3 <- capture.output(print(finaltable))
+        #     data.frame(
+        #         finaltable,
+        #         Percentage = 100 *
+        #             round(finaltable[, "Freq"] / max(finaltable[, "Freq"]), 3),
+        #         stringsAsFactors = TRUE
+        #     )
+        # )
         ret <- c(out1, out2, out3)
     }
 
@@ -141,6 +128,33 @@ calcmissing.data.frame <- function(obj, MRO.case = FALSE,
         return(invisible(ret))
 }
 
+print.calcmissing <- function(x, ...) {
+    tbl <- capture.output(
+        print.data.frame(
+            data.frame(
+                x,
+                Percentage = 100 *
+                    round(x[,"Freq"] / max(x[, "Freq"]), 3),
+                stringsAsFactors = TRUE
+            )
+        )
+    )
+
+    mnum <- gregexpr("^[0-9]+", tbl)
+    sp <- sapply(mnum, function(m) {
+        if (m == 1) {
+            paste(rep(" ", attr(m, "match.length")), collapse = "")
+        } else {
+            NA
+        }
+    })
+    for (i in seq_along(mnum)) {
+        if (mnum[[i]] == -1) next
+        tbl[i] <- gsub("^[0-9]+", sp[i], tbl[i])
+    }
+    cat(tbl, sep = "\n")
+}
+
 #' @describeIn calcmissing accepts a whole mr.object , which is first mro.mat, second element labels,
 #'   third element the input data frame.
 #' @export
@@ -148,7 +162,7 @@ calcmissing.mro <- function(obj, ...) {
     mro <- obj
     mat <- mro[[1]]
     mat[mat == 0] <- NA
-    calcmissing(as.data.frame(mat), MRO.case = TRUE, ...)
+    calcmissing(as.data.frame(mat, stringsAsFactors = TRUE), MRO.case = TRUE, ...)
 }
 
 #' Plot of Missing Value combinations
@@ -158,6 +172,8 @@ calcmissing.mro <- function(obj, ...) {
 #' @return summarised info for plot
 #' @author Junjie Zeng
 #' @export
+#' @examples
+#' plotcombn(census.at.school.5000[,10:25])
 plotcombn <- function(obj) {
     Subtitle <- NULL
     if (inherits(obj, "Sub")) {
@@ -168,6 +184,7 @@ plotcombn <- function(obj) {
         stop("Invalid input. Must be 'data.frame' or 'mro'")
 
     dev.hold()
+    on.exit(dev.flush())
 
     layout(
         rbind(
@@ -185,7 +202,7 @@ plotcombn <- function(obj) {
 
     #finaltable <- calcmissing(obj, "row", print = FALSE)
     finaltable <- calcmissing(obj,  print = FALSE)
-    if (class(finaltable) == "non-missing")
+    if (inherits(finaltable,  "non-missing"))
         return(finaltable)
 
     x <- finaltable
@@ -200,6 +217,8 @@ plotcombn <- function(obj) {
     x.fit <- finaltable[seq_len(row.num), seq_len(col.num)]
 
     opa <- par(mar = rep(0, 4))
+    on.exit(par(opa), add = TRUE)
+
     plot(2 * col.num, min(row.num, 30),
         type = "n",
         xlim = c(0, 2 * col.num),
@@ -287,8 +306,7 @@ plotcombn <- function(obj) {
         col = c("red", "gray"),
         xpd = NA
     )
-    par(opa)
 
-    dev.flush()
+
     x
 }

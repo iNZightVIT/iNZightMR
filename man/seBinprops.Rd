@@ -17,6 +17,9 @@ an \code{ses.moecalc} object
 \description{
 Compute SEs for Independent Binomial Proportions
 }
+\examples{
+seBinprops(c(50, 30), c(0.3, 0.7))
+}
 \author{
 Junjie Zeng
 }

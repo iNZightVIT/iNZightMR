@@ -74,6 +74,12 @@ r01 <- function(x, inverse = FALSE, opts = NULL) {
 #' @examples
 #' mr <- iNZightMR(online ~ onlinegame + onlinevideo + onlinemusic,
 #'     data = census.at.school.5000)
+#'
+#' # users can also override the variable names
+#' iNZightMR(online ~ onlinegame + onlinevideo + onlinemusic,
+#'     Labels = c("gaming", "youtube", "spotify"),
+#'     data = census.at.school.5000
+#' )
 #' @importFrom grDevices dev.flush dev.hold
 #' @import graphics stats utils
 #' @export
@@ -89,7 +95,10 @@ iNZightMR <- function(frm, data, Labels = NULL, inverse = FALSE, ...) {
 
         # 23/11/2014 naive test...
         colId = names(mro.mat)
-        mro.mat = as.data.frame(lapply(mro.mat, as.factor))[, colId]
+        mro.mat = as.data.frame(
+            lapply(mro.mat, as.factor),
+            stringsAsFactors = TRUE
+        )[, colId]
 
         # test binary level
         if (all(unique(sapply(mro.mat, nlevels)) == 2)) {

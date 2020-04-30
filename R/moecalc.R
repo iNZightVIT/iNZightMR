@@ -17,6 +17,11 @@
 #' @param conf.level level of confidence to use
 #' @return a \code{moecalc} object
 #' @export
+#' @examples
+#' fit <- lm(Sepal.Length ~ Species, data = iris)
+#' (mc <- moecalc(fit, "Species"))
+#' summary(mc)
+#' plot(mc)
 moecalc <- function(x, factorname = NULL, levelnames = NULL, coef.idx = NULL,
                     est = NULL, ci = NULL, base = TRUE, basename = "base",
                     conf.level = 1.96) {

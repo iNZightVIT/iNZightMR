@@ -42,6 +42,12 @@ and the order needs reversing (so that correct is 1 instead).
 \examples{
 mr <- iNZightMR(online ~ onlinegame + onlinevideo + onlinemusic,
     data = census.at.school.5000)
+
+# users can also override the variable names
+iNZightMR(online ~ onlinegame + onlinevideo + onlinemusic,
+    Labels = c("gaming", "youtube", "spotify"),
+    data = census.at.school.5000
+)
 }
 \seealso{
 \link{barplotMR}, \link{mroPara}
