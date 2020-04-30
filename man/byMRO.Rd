@@ -21,6 +21,13 @@ an object with classes of \code{by} and \code{bymrocalc}
 \description{
 Constructs a multiple response object (MRO) subset by another explanatory variable.
 }
+\examples{
+mr <- iNZightMR(online ~ onlinegame + onlinevideo + onlinemusic,
+    data = census.at.school.5000)
+
+byMRO(mr, ~gender, mroPara)
+byMRO(mr, ~gender + handed, mroPara)
+}
 \seealso{
 \link{mroPara}
 }

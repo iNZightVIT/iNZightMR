@@ -1,5 +1,7 @@
+## iNZightMR 2.2.5
 - specify `stringsAsFactors = TRUE` for upcoming R 4.0.0
 - rownames are suppressed when printing output of calcmissing()
+
 
 ## iNZightMR 2.2.4
 __Release date__: 25 February 2020

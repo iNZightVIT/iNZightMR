@@ -15,6 +15,14 @@ something about between.
 \description{
 Between SEs
 }
+\examples{
+mr <- iNZightMR(online ~ onlinegame + onlinevideo + onlinemusic,
+    data = census.at.school.5000)
+(bt <- between(byMRO(mr, ~gender, mroPara)))
+
+if (requireNamespace("iNZightPlots"))
+    barplotMR(bt)
+}
 \author{
 Junjie Zheng
 }

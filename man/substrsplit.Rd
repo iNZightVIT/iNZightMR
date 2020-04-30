@@ -14,18 +14,8 @@ used in the \code{iNZightMR} function.}
 A list with common character and unique variable name respectively
 }
 \description{
-Help mro variables extrac common name out
+Help mro variables extract common name out
 }
 \examples{
-\dontrun{
-mr <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic,
-                data = census.at.school.5000)
-mroPara(mr)
-mr2 <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic,
-                 data = census.at.school.5000, Labels=FALSE)
-mroPara(mr2)
-mr3 <- iNZightMR(online~onlinegame+onlinevideo+onlinemusic,
-                 data = census.at.school.5000, Labels=letters[1:3])
-mroPara(mr3)
-}
+substrsplit(c("varx", "vary", "varz"))
 }

@@ -17,6 +17,12 @@ fastNumchange <- function(x) {
 #' @param ... additional arguments passed to \code{FUN}
 #' @return an object with classes of \code{by} and \code{bymrocalc}
 #' @export
+#' @examples
+#' mr <- iNZightMR(online ~ onlinegame + onlinevideo + onlinemusic,
+#'     data = census.at.school.5000)
+#'
+#' byMRO(mr, ~gender, mroPara)
+#' byMRO(mr, ~gender + handed, mroPara)
 #' @seealso \link{mroPara}
 byMRO <- function(mro.obj, formula, FUN, ...) {
     Data <- mro.obj$df

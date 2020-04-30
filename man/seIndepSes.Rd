@@ -15,6 +15,9 @@ an \code{ses.moecalc} object
 \description{
 Returns ses.moecalc for given SEs
 }
+\examples{
+seIndepSes(c(0.02, 0.05, 0.1))
+}
 \author{
 Junjie Zeng
 }

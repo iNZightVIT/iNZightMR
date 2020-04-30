@@ -37,6 +37,8 @@ seModel <- function(model, idx, base = TRUE) {
 #' @return an ses.moecalc object
 #' @author Junjie Zeng
 #' @export
+#' @examples
+#' seCovs(cov(iris[,-5]))
 seCovs <- function(covs, addbase = FALSE) {
     # for use when covariance matrix is given (e.g. cal from bootstrap)
     vars <- diag(covs)
@@ -59,6 +61,9 @@ seCovs <- function(covs, addbase = FALSE) {
 #' @return an \code{ses.moecalc} object
 #' @author Junjie Zeng
 #' @export
+#' @examples
+#' phat <- table(iris$Species) / nrow(iris)
+#' seMNprops(nrow(iris), phat)
 seMNprops <- function(n, phat) {
     if (length(n) != 1)
         stop("Requires length(n)=1")
@@ -80,6 +85,8 @@ seMNprops <- function(n, phat) {
 #' @return an \code{ses.moecalc} object
 #' @author Junjie Zeng
 #' @export
+#' @examples
+#' seBinprops(c(50, 30), c(0.3, 0.7))
 seBinprops <- function(ns, phats) {
     if ((any(phats > 1)) | (any(phats < 0)))
         stop("proportions must lie between 0 and 1")
@@ -101,6 +108,8 @@ seBinprops <- function(ns, phats) {
 #' @return an \code{ses.moecalc} object
 #' @author Junjie Zeng
 #' @export
+#' @examples
+#' seIndepSes(c(0.02, 0.05, 0.1))
 seIndepSes <- function(ses) {
     temp <- ses^2
     ses.diffs <- sqrt(outer(temp, temp, '+'))
@@ -113,6 +122,13 @@ seIndepSes <- function(ses) {
 #' @return an \code{ses.moecalc} object
 #' @author Junjie Zeng
 #' @export
+#' @examples
+#' x <- data.frame(
+#'  v1 = rbinom(20, 1, 0.8),
+#'  v2 = rbinom(20, 1, 0.3),
+#'  v3 = rbinom(20, 1, 0.5)
+#' )
+#' seMRprops(x)
 seMRprops <- function(obj) {
     obj <- as.matrix(obj)
     n <- nrow(obj)

@@ -74,6 +74,12 @@ r01 <- function(x, inverse = FALSE, opts = NULL) {
 #' @examples
 #' mr <- iNZightMR(online ~ onlinegame + onlinevideo + onlinemusic,
 #'     data = census.at.school.5000)
+#'
+#' # users can also override the variable names
+#' iNZightMR(online ~ onlinegame + onlinevideo + onlinemusic,
+#'     Labels = c("gaming", "youtube", "spotify"),
+#'     data = census.at.school.5000
+#' )
 #' @importFrom grDevices dev.flush dev.hold
 #' @import graphics stats utils
 #' @export

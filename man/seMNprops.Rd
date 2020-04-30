@@ -17,6 +17,10 @@ an \code{ses.moecalc} object
 \description{
 SEs for Multinomial Proportions
 }
+\examples{
+phat <- table(iris$Species) / nrow(iris)
+seMNprops(nrow(iris), phat)
+}
 \author{
 Junjie Zeng
 }
