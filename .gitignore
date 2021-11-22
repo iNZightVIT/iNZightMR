@@ -1,4 +1,3 @@
 revdep
 *.tar.gz
 *.Rcheck
-docs
