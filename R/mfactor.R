@@ -21,11 +21,24 @@
 #' @export
 #' @author Tom Elliott
 #' @examples
+#' mat <- data.frame(
+#'   A = c(1, 0, 0, 1),
+#'   B = c(1, 0, 1, 0),
+#'   C = c(0, 1, 1, 1),
+#'   D = c(0, 0, 1, 0)
+#' )
+#' (var <- mfactor(mat))
 #'
+#' # can plot, either on its own or in a data.frame
+#' plot(var)
+#'
+#' data <- data.frame(var = var)
+#' plot(var ~ 1, data = data)
 mfactor <- function(x, levels = names(x), indicator = NULL, na.value = 0L) {
+    force(levels)
     if (is.null(indicator)) i_fun <- function(v) as.logical(v)
-    else if (is.character(indicator)) i_fun <- function(v) v == indicator
-    else i_fun <- indicator
+    else if (is.function(indicator)) i_fun <- indicator
+    else i_fun <- function(v) v == indicator
 
     x <- lapply(x, function(v) as.integer(i_fun(v)))
     x <- do.call(cbind, x)
@@ -112,6 +125,10 @@ as.data.frame.mfactor <- function(x, row.names = NULL, optional = FALSE, ...,
 
 #' @export
 plot.mfactor <- function(x, y, xlab, ylab, ...) {
+
+    if (missing(ylab)) {
+        ylab <- if (missing(y)) deparse(substitute(x)) else deparse(substitute(y))
+    }
     xn <- ylab
     if (!missing(y)) {
         oy <- y

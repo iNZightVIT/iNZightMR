@@ -32,7 +32,19 @@ the response value associated with that row.
 Create a multi-response factor variable
 }
 \examples{
+mat <- data.frame(
+  A = c(1, 0, 0, 1),
+  B = c(1, 0, 1, 0),
+  C = c(0, 1, 1, 1),
+  D = c(0, 0, 1, 0)
+)
+(var <- mfactor(mat))
 
+# can plot, either on its own or in a data.frame
+plot(var)
+
+data <- data.frame(var = var)
+plot(var ~ 1, data = data)
 }
 \author{
 Tom Elliott
