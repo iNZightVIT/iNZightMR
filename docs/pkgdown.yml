@@ -2,5 +2,8 @@ pandoc: 2.9.2.1
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles: {}
-last_built: 2021-11-22T04:41Z
+last_built: 2021-11-22T04:44Z
+urls:
+  reference: https://inzightvit.github.io/iNZightMR//reference
+  article: https://inzightvit.github.io/iNZightMR//articles
 
