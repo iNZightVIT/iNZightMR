@@ -129,7 +129,11 @@ seIndepSes <- function(ses) {
 #'  v3 = rbinom(20, 1, 0.5)
 #' )
 #' seMRprops(x)
-seMRprops <- function(obj) {
+seMRprops <- function(obj, ...) {
+    UseMethod(obj)
+}
+
+seMRprops.default <- function(obj, ...) {
     obj <- as.matrix(obj)
     n <- nrow(obj)
     P <- colMeans(obj)
@@ -139,4 +143,8 @@ seMRprops <- function(obj) {
     p21 <- t(1 - obj) %*% obj / n
     ses.diffs <- sqrt(((p12 + p21) - (p12 - p21)^2) / n)
     ses.moecalc(ses = ses, ses.diffs = ses.diffs)
+}
+
+seMRprops.survey.design <- function(obj, f) {
+    n <- nrow(obj$variables)
 }

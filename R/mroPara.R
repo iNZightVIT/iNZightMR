@@ -23,13 +23,22 @@ mroPara <- function(obj, conf.levels = 1.96, nonparallel=NULL) {
     if (! is.null(nonparallel))
         Tb <- nonparallel
 
+    if (is.null(obj$design)) {
 
-    if (inherits(obj, "mro"))
-        obj <- obj[[1]]
+        if (inherits(obj, "mro"))
+            obj <- obj[[1]]
 
-    n <- nrow(obj)
-    estP <- colMeans(obj)
-    SesDiff <- seMRprops(obj)
+        n <- nrow(obj)
+        estP <- colMeans(obj)
+        SesDiff <- seMRprops(obj)
+
+    } else {
+        # handle survey design
+        n <- nrow(obj$data)
+        f <- eval(parse(text = sprintf("~%s", paste(obj$Labels, collapse = "+"))))
+        estP <- svymean(f, obj$design)
+        SesDiff <- seMRprops(obj$design, f)
+    }
 
     covs <- cov(obj) / n
     variance <- diag(covs) #*(n-1)/n

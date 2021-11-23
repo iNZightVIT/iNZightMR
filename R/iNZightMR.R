@@ -87,6 +87,14 @@ iNZightMR <- function(frm, data, Labels = NULL, inverse = FALSE, ...) {
     if (length(frm[[2]]))
         classnames <- as.character(frm[[2]])
 
+    # do something with survey design
+    if (inherits(data, "survey.design")) {
+        design <- data
+        data <- design$variables
+    } else {
+        design <- NULL
+    }
+
     display <- with(data, {
         # grab variable name from the formual (frm) in the data file (data))
         mro.mat <- model.frame(frm[-2], data, na.action = na.pass, ...)
@@ -133,6 +141,7 @@ iNZightMR <- function(frm, data, Labels = NULL, inverse = FALSE, ...) {
         labelname <- labelname[Ix]
 
         out <- list(mro.mat = mro.mat, Labels = labelname, df = data)
+        if (!is.null(design)) out$design <- design
         if (!is.null(classnames))
         names(out)[1] <- classnames
 
