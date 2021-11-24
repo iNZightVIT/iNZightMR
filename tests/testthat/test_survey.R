@@ -1,20 +1,22 @@
 require(survey)
 data(api)
 
-# d <- apiclus2
-# d$X1 <- sample(0:1, nrow(d), TRUE)
-# d$X2 <- sample(0:1, nrow(d), TRUE)
-# d$X3 <- sample(0:1, nrow(d), TRUE)
-# d$X4 <- sample(0:1, nrow(d), TRUE)
-# dclus2 <- svydesign(~dnum+snum, weights = ~pw, fpc = ~fpc1+fpc2, data = d)
+test_that("Survey designs can be handled", {
+    cas <- read.csv('census.at.school.survey.csv')
+    cas$region <- factor(cas$region, levels = unique(cas$region))
 
-# obj <- dclus2
+    tm <- as.matrix(cas[-(1:7)])
+    mode(tm) <- "factor"
+    tm <- tm - 1
+    cas[-(1:7)] <- as.data.frame(tm)
+    cas.svy <- svydesign(~1, strata = ~region, fpc = ~fpc, data = cas)
 
-# svy <- svydesign(~1, weights = ~wt, data = data.frame(x, wt = runif(nrow(x), 50, 500)))
-# barplotMR(mroPara(iNZightMR(v ~ v1+v2+v3, svy)))
-
-# devtools::load_all()
-
-# obj <- iNZightMR(X ~ X1+X2+X3+X4, dclus2)
-
-# barplotMR(mroPara(iNZightMR(X~X1+X2+X3+X4, d)))
+    techMR <- iNZightMR(
+        tech ~ own_cell_phone + facebook + instagram + twitter + snapchat,
+        data = cas.svy
+    )
+    expect_is(techMR, "mro")
+    expect_warning(barplotMR(mroPara(techMR)), "Max error betw.")
+    expect_warning(barplotMR(byMRO(techMR, ~region, mroPara)), "Max error betw.")
+    expect_warning(barplotMR(between(byMRO(techMR, ~region, mroPara))), "Max error betw.")
+})
