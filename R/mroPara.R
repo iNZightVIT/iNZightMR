@@ -39,10 +39,10 @@ mroPara <- function(obj, conf.levels = 1.96, nonparallel=NULL) {
         # handle survey design
         n <- nrow(obj[[1]])
         f <- eval(parse(text = sprintf("~%s", paste(obj$Labels, collapse = "+"))))
-        estP <- coef(svymean(f, obj$design))
+        estP <- coef(survey::svymean(f, obj$design))
         SesDiff <- seMRprops(obj$design, f)
 
-        sv <- svyvar(f, svy)
+        sv <- survey::svyvar(f, obj$design)
         covs <- var(sv)
         variance <- diag(covs)
     }

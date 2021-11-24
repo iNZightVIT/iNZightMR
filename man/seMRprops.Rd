@@ -10,10 +10,14 @@ seMRprops(obj, ...)
 
 \method{seMRprops}{default}(obj, ...)
 
-\method{seMRprops}{survey.design}(obj, f)
+\method{seMRprops}{survey.design}(obj, f, ...)
 }
 \arguments{
 \item{obj}{something that can be turned into a matrix}
+
+\item{...}{additional arguments for methods}
+
+\item{f}{formula for variables in survey design}
 }
 \value{
 an \code{ses.moecalc} object

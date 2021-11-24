@@ -119,6 +119,7 @@ seIndepSes <- function(ses) {
 #' SE's for multiple binary response
 #' @title Multiple binary response
 #' @param obj something that can be turned into a matrix
+#' @param ... additional arguments for methods
 #' @return an \code{ses.moecalc} object
 #' @author Junjie Zeng
 #' @export
@@ -136,7 +137,6 @@ seMRprops <- function(obj, ...) {
 #' @export
 #' @describeIn seMRprops Default method, for matrices
 seMRprops.default <- function(obj, ...) {
-    obj <- x
     obj <- as.matrix(obj)
     n <- nrow(obj)
     P <- colMeans(obj)
@@ -150,11 +150,12 @@ seMRprops.default <- function(obj, ...) {
 
 #' @export
 #' @describeIn seMRprops Method for survey design objects
-seMRprops.survey.design <- function(obj, f) {
-    m <- svymean(f, obj)
+#' @param f formula for variables in survey design
+seMRprops.survey.design <- function(obj, f, ...) {
+    m <- survey::svymean(f, obj)
     P <- coef(m)
     Q <- 1 - P
-    ses <- SE(m)
+    ses <- survey::SE(m)
 
     Nc <- length(P)
     cmb <- utils::combn(Nc, 2L)
@@ -168,10 +169,10 @@ seMRprops.survey.design <- function(obj, f) {
         simplify = FALSE
     )
 
-    p <- svycontrast(m, cmat)
+    p <- survey::svycontrast(m, cmat)
     ses.diffs <- matrix(0L, nrow = Nc, ncol = Nc, dimnames = list(names(P), names(P)))
-    ses.diffs[which(lower.tri(ses.diffs))] <- SE(p)
-    ses.diffs[which(upper.tri(ses.diffs))] <- SE(p)
+    ses.diffs[which(lower.tri(ses.diffs))] <- survey::SE(p)
+    ses.diffs[which(upper.tri(ses.diffs))] <- survey::SE(p)
 
     ses.moecalc(ses = ses, ses.diffs = ses.diffs)
 }
