@@ -22,7 +22,7 @@ test_that("Survey designs can be handled", {
 
 test_that("Survey GLMs", {
     fit <- svyglm(height ~ age + gender, design = cas.svy)
-    mc <- moecalc(fit, "gender")
+    expect_warning(mc <- moecalc(fit, "gender"), "confidence interval of baseline")
     expect_is(mc, "moecalc")
     expect_warning(plot(mc), "Max error betw. approx.")
 })
