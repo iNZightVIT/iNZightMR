@@ -634,7 +634,8 @@ chkfactor <- function(model, labelnames) {
 
     vars.idx <- (attr(term, "factors")[, labelnames] != 0)
     vars <- names(vars.idx)[vars.idx]
-    isfactor <- attr(term, "dataClasses")[vars.idx] == "factor"
+    isfactor <- attr(term, "dataClasses")[vars.idx] %in% c("factor", "character")
+    names(isfactor) <- names(attr(term, "dataClasses")[vars.idx])
     isfactor
 }
 
