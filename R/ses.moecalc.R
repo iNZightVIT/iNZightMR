@@ -130,10 +130,13 @@ seIndepSes <- function(ses) {
 #' )
 #' seMRprops(x)
 seMRprops <- function(obj, ...) {
-    UseMethod(obj)
+    UseMethod("seMRprops", obj)
 }
 
+#' @export
+#' @describeIn seMRprops Default method, for matrices
 seMRprops.default <- function(obj, ...) {
+    obj <- x
     obj <- as.matrix(obj)
     n <- nrow(obj)
     P <- colMeans(obj)
@@ -145,6 +148,30 @@ seMRprops.default <- function(obj, ...) {
     ses.moecalc(ses = ses, ses.diffs = ses.diffs)
 }
 
+#' @export
+#' @describeIn seMRprops Method for survey design objects
 seMRprops.survey.design <- function(obj, f) {
-    n <- nrow(obj$variables)
+    m <- svymean(f, obj)
+    P <- coef(m)
+    Q <- 1 - P
+    ses <- SE(m)
+
+    Nc <- length(P)
+    cmb <- utils::combn(Nc, 2L)
+    cmat <- apply(cmb, 2L,
+        function(x) {
+            z <- rep(0L, Nc)
+            z[x[1]] <- 1L
+            z[x[2]] <- -1L
+            z
+        },
+        simplify = FALSE
+    )
+
+    p <- svycontrast(m, cmat)
+    ses.diffs <- matrix(0L, nrow = Nc, ncol = Nc, dimnames = list(names(P), names(P)))
+    ses.diffs[which(lower.tri(ses.diffs))] <- SE(p)
+    ses.diffs[which(upper.tri(ses.diffs))] <- SE(p)
+
+    ses.moecalc(ses = ses, ses.diffs = ses.diffs)
 }

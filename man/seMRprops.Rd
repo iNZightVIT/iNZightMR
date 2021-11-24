@@ -2,9 +2,15 @@
 % Please edit documentation in R/ses.moecalc.R
 \name{seMRprops}
 \alias{seMRprops}
+\alias{seMRprops.default}
+\alias{seMRprops.survey.design}
 \title{Multiple binary response}
 \usage{
-seMRprops(obj)
+seMRprops(obj, ...)
+
+\method{seMRprops}{default}(obj, ...)
+
+\method{seMRprops}{survey.design}(obj, f)
 }
 \arguments{
 \item{obj}{something that can be turned into a matrix}
@@ -15,6 +21,13 @@ an \code{ses.moecalc} object
 \description{
 SE's for multiple binary response
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{default}: Default method, for matrices
+
+\item \code{survey.design}: Method for survey design objects
+}}
+
 \examples{
 x <- data.frame(
  v1 = rbinom(20, 1, 0.8),

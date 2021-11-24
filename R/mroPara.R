@@ -32,16 +32,21 @@ mroPara <- function(obj, conf.levels = 1.96, nonparallel=NULL) {
         estP <- colMeans(obj)
         SesDiff <- seMRprops(obj)
 
+        covs <- cov(obj) / n
+        variance <- diag(covs) #*(n-1)/n
+
     } else {
         # handle survey design
-        n <- nrow(obj$data)
+        n <- nrow(obj[[1]])
         f <- eval(parse(text = sprintf("~%s", paste(obj$Labels, collapse = "+"))))
-        estP <- svymean(f, obj$design)
+        estP <- coef(svymean(f, obj$design))
         SesDiff <- seMRprops(obj$design, f)
+
+        sv <- svyvar(f, svy)
+        covs <- var(sv)
+        variance <- diag(covs)
     }
 
-    covs <- cov(obj) / n
-    variance <- diag(covs) #*(n-1)/n
     mromoecalc2 <- moecalc(x = SesDiff, est = estP)
     mromoecalc2$fit$df <- n
     multi <- multicomp(mromoecalc2)
