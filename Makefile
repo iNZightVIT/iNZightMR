@@ -15,6 +15,9 @@ revcheck:
 	@$(RCMD) -e "revdepcheck::revdep_check()"
 	@$(RCMD) -f "revdep/check.R"
 
+revcheck_reset:
+	@$(RCMD) -e "revdepcheck::revdep_reset()"
+
 crancheck: document
 	@$(R) CMD build .
 	@$(R) CMD check *.tar.gz
