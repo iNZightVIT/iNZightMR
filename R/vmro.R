@@ -183,6 +183,15 @@ plotcombn <- function(obj) {
     if (! inherits(obj, "data.frame") && ! inherits(obj, "mro"))
         stop("Invalid input. Must be 'data.frame' or 'mro'")
 
+    finaltable <- calcmissing(obj,  print = FALSE)
+    if (inherits(finaltable,  "non-missing")) {
+        plot.new()
+        plot.window(0:1, 0:1)
+        text(0.5, 0.5, "Dataset has no missing values!")
+        return(finaltable)
+    }
+
+
     dev.hold()
     on.exit(dev.flush())
 
@@ -199,11 +208,6 @@ plotcombn <- function(obj) {
         heights = c(lcm(1), lcm(1), lcm(1), lcm(5), lcm(1), 1, lcm(1)),
         widths = c(lcm(0.5), 1, lcm(0.1), lcm(3), lcm(0.5))
     )
-
-    #finaltable <- calcmissing(obj, "row", print = FALSE)
-    finaltable <- calcmissing(obj,  print = FALSE)
-    if (inherits(finaltable,  "non-missing"))
-        return(finaltable)
 
     x <- finaltable
     row.x <- nrow(x)

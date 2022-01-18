@@ -7,3 +7,5 @@
 ^appveyor\.yml$
 ^codecov\.yml$
 ^CRAN-RELEASE$
+^\.github$
+^\.git$

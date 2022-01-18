@@ -5,3 +5,7 @@ test_that("Row names are suppressed", {
     o <- capture.output(calcmissing(cas5k))
     expect_length(grep("^[0-9]", o), 0)
 })
+
+test_that("Datasets with no missing values produce plot", {
+    expect_silent(plotcombn(iris))
+})
