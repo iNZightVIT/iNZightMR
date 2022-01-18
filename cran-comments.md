@@ -12,3 +12,7 @@
 ## Downstream dependencies
 
 There are currently no downstream dependencies for this package.
+
+## CRAN check results
+
+There is one NOTE for macOS r-oldrel, missing suggested package 'iNZightPlots', however the binaries are available.
