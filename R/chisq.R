@@ -3,7 +3,7 @@ chisq.mro <- function(mropa) {
     x <- mropa$Mromoecalc$est
     mu <- mean(mropa$Mromoecalc$est)
     vm <- try(solve(VCm), silent = TRUE)
-    if (class(vm) == "try-error")
+    if (inherits(vm, "try-error"))
       return(NA)
     t(x - mu) %*% vm %*% (x - mu)
 }

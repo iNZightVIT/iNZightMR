@@ -4,11 +4,13 @@
 \alias{substrsplit}
 \title{Extract Common Name from variables}
 \usage{
-substrsplit(obj)
+substrsplit(obj, split_string = "")
 }
 \arguments{
 \item{obj}{It can be a vector or data frame, however, \code{substrsplit} is usually
 used in the \code{iNZightMR} function.}
+
+\item{split_string}{Specification of a string to allow splits on (e.g., use " " to only allow splitting at words).}
 }
 \value{
 A list with common character and unique variable name respectively
@@ -18,4 +20,8 @@ Help mro variables extract common name out
 }
 \examples{
 substrsplit(c("varx", "vary", "varz"))
+
+strings <- c("Do you like eating eggs?", "Do you like elephants?" , "Do you like elections?")
+substrsplit(strings)
+substrsplit(strings, split_string = " ")
 }

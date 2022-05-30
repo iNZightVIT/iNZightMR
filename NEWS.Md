@@ -1,3 +1,5 @@
+- add argument 'split_string' to `substringsplit()` to allow splitting at spaces (words) or some other character
+
 ## iNZightMR 2.2.6
 
 - `plotcombn()` prints a useful message if data contains no missing values (#26)

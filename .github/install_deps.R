@@ -1,6 +1,6 @@
 # R script
 github_deps <- c(
-    "iNZightVIT/iNZightPlots@2.12.4",
+    "iNZightVIT/iNZightPlots@dev",
     "iNZightVIT/iNZightTools@1.9",
     "iNZightVIT/iNZightMR@2.2.5"
 )

@@ -149,13 +149,17 @@ barplotMR.bymrocalc <- function(obj, g1.level = NULL, g2.level = "_MULTI",...) {
             s1$type <- droplevels(s1$type)
         }
 
+        # create a dummy dataset to get the layout correct
+        # (the '10' is arbitrary) ...
         x <- factor(rep(levels(s1$var)[1], nlevels(s1$type) * 10),
             levels = names(obj[[1]]$Variance)
         )
         g1 <- factor(unique(as.character(s1$type)),
             levels = unique(as.character(s1$type))
         )
+        d <- data.frame(x = x, g1 = g1)
         pl <- iNZightPlots::iNZightPlot(x, g1 = g1, g1.level = g1.level,
+            data = d,
             layout.only = TRUE,
             varnames = list(x = obj[[1]]$Topic, g1 = TYPE)
         )
@@ -295,7 +299,9 @@ barplotMR.bymrocalc <- function(obj, g1.level = NULL, g2.level = "_MULTI",...) {
             unique(as.character(s1$type2)),
             levels = unique(as.character(s1$type2))
         )
+        d <- data.frame(x = x, g1 = g1, g2 = g2)
         pl <- iNZightPlots::iNZightPlot(x, g1 = g1, g2 = g2, g1.level = g1.level,
+            data = d,
             layout.only=TRUE, g2.level = g2.level,
             varnames = list(x = obj[[1]]$Topic, g1 = TYPE1, g2 = TYPE2)
         )
@@ -434,8 +440,10 @@ barplotMR.between <- function(obj, ...) {
     y <- factor(unique(as.character(s2$type)),
         levels = unique(as.character(s2$type))
     )
+    d <- data.frame(x = x, y = y)
 
     pl <- iNZightPlots::iNZightPlot(x, y,
+        data = d,
         layout.only = TRUE,
         varnames = list(x = attr(obj, "Topic"), y = TYPE)
     )
@@ -567,7 +575,10 @@ barplotMR.b2 <- function(obj, g1.level = NULL, ...) {
     )
     g1 <- factor(unique(as.character(s2$type2)))
 
+    d <- data.frame(x = x, y = y, g1 = g1)
+
     pl <- iNZightPlots::iNZightPlot(x, y = y, g1 = g1,
+        data = d,
         layout.only = TRUE,
         g1.level = g1.level,
         varnames = list(x = attr(obj, "Topic"), y = TYPE1, g1 = TYPE2)
