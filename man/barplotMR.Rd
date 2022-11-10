@@ -33,19 +33,20 @@ each option along with confidence intervals and comparison intervals.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{mrocalc}: method for class \code{mrocalc}
+\item \code{barplotMR(mrocalc)}: method for class \code{mrocalc}
 
-\item \code{bymrocalc}: method for class \code{bymrocalc}
+\item \code{barplotMR(bymrocalc)}: method for class \code{bymrocalc}
 
-\item \code{between}: method for class \code{between}
+\item \code{barplotMR(between)}: method for class \code{between}
 
-\item \code{b2}: method for class \code{b2}
+\item \code{barplotMR(b2)}: method for class \code{b2}
+
 }}
-
 \examples{
 if (requireNamespace("iNZightPlots")) {
     mr <- iNZightMR(online ~ onlinegame + onlinevideo + onlinemusic,
-        data = census.at.school.5000)
+        data = census.at.school.5000
+    )
     barplotMR(mroPara(mr))
 
     barplotMR(byMRO(mr, ~gender, mroPara))

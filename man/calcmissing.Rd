@@ -31,12 +31,12 @@ Calculates the summary of missingness in a data set.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{data.frame}: Method for a dataframe
+\item \code{calcmissing(data.frame)}: Method for a dataframe
 
-\item \code{mro}: accepts a whole mr.object , which is first mro.mat, second element labels,
+\item \code{calcmissing(mro)}: accepts a whole mr.object , which is first mro.mat, second element labels,
 third element the input data frame.
-}}
 
+}}
 \examples{
 calcmissing(census.at.school.5000[,1:20])
 }
