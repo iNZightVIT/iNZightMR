@@ -14,20 +14,23 @@
 #' @examples
 #' if (requireNamespace("iNZightPlots")) {
 #'     mr <- iNZightMR(online ~ onlinegame + onlinevideo + onlinemusic,
-#'         data = census.at.school.5000)
+#'         data = census.at.school.5000
+#'     )
 #'     barplotMR(mroPara(mr))
 #'
 #'     barplotMR(byMRO(mr, ~gender, mroPara))
 #' }
-barplotMR <- function(obj, ...)
+barplotMR <- function(obj, ...) {
     UseMethod("barplotMR", obj)
+}
 
 
 #' @describeIn barplotMR method for class \code{mrocalc}
 #' @export
 barplotMR.mrocalc <- function(obj, ...) {
-    if (!requireNamespace("iNZightPlots"))
+    if (!requireNamespace("iNZightPlots")) {
         stop("Please install the iNZightPlots package to use this function.")
+    }
 
     s1 <- switcher(obj)
     s1$ErrBars <- validateRange2(s1$ErrBar)
@@ -44,11 +47,11 @@ barplotMR.mrocalc <- function(obj, ...) {
     opts <- gen$opts
     seekViewport("VP:locate.these.points")
 
-    p <- matrix(s1$est, nrow=1)
+    p <- matrix(s1$est, nrow = 1)
     nx <- ncol(p)
 
     widths <- 1
-    edges <- c(0,1)
+    edges <- c(0, 1)
 
     edges <- rep(edges * 0.9 + 0.05, each = 4)
     edges <- edges[3:(length(edges) - 2)]
@@ -72,7 +75,7 @@ barplotMR.mrocalc <- function(obj, ...) {
         id = id,
         gp = gpar(
             fill = "grey",
-            col = "#000000",  # fill = grey first time, red or whatever the second ...
+            col = "#000000", # fill = grey first time, red or whatever the second ...
             lwd = opts$bar.lwd
         )
     )
@@ -81,7 +84,7 @@ barplotMR.mrocalc <- function(obj, ...) {
         id = id,
         gp = gpar(
             fill = "red",
-            col = "#000000",  # fill = grey first time, red or whatever the second ...
+            col = "#000000", # fill = grey first time, red or whatever the second ...
             lwd = opts$bar.lwd
         )
     )
@@ -90,18 +93,19 @@ barplotMR.mrocalc <- function(obj, ...) {
     medpoint.mat <- matrix(xx, ncol = 4, byrow = T)
 
 
-    lapply(1:length(s1$compL),
+    lapply(
+        1:length(s1$compL),
         function(i) {
-          grid.abline(
-              intercept = unit(s1$compL[i], "native"),
-              slope = unit(0,"native"),
-              gp = gpar(col = "gold", lty = 2)
-          )
-          grid.abline(
-              intercept = unit(s1$compU[i], "native"),
-              slope = unit(0,"native"),
-              gp = gpar(col = "gold", lty = 2)
-          )
+            grid.abline(
+                intercept = unit(s1$compL[i], "native"),
+                slope = unit(0, "native"),
+                gp = gpar(col = "gold", lty = 2)
+            )
+            grid.abline(
+                intercept = unit(s1$compU[i], "native"),
+                slope = unit(0, "native"),
+                gp = gpar(col = "gold", lty = 2)
+            )
         }
     )
 
@@ -125,9 +129,10 @@ barplotMR.mrocalc <- function(obj, ...) {
 
 #' @describeIn barplotMR method for class \code{bymrocalc}
 #' @export
-barplotMR.bymrocalc <- function(obj, g1.level = NULL, g2.level = "_MULTI",...) {
-    if (!requireNamespace("iNZightPlots"))
+barplotMR.bymrocalc <- function(obj, g1.level = NULL, g2.level = "_MULTI", ...) {
+    if (!requireNamespace("iNZightPlots")) {
         stop("Please install the iNZightPlots package to use this function.")
+    }
 
     s1 <- switcher(obj)
 
@@ -142,8 +147,9 @@ barplotMR.bymrocalc <- function(obj, g1.level = NULL, g2.level = "_MULTI",...) {
         names(s1)[1] <- "type"
 
         if (!is.null(g1.level)) {
-            if (!g1.level %in% levels(s1$type))
-            return("Can't find correct level")
+            if (!g1.level %in% levels(s1$type)) {
+                return("Can't find correct level")
+            }
 
             s1 <- subset(s1, s1$type %in% g1.level)
             s1$type <- droplevels(s1$type)
@@ -158,7 +164,8 @@ barplotMR.bymrocalc <- function(obj, g1.level = NULL, g2.level = "_MULTI",...) {
             levels = unique(as.character(s1$type))
         )
         d <- data.frame(x = x, g1 = g1)
-        pl <- iNZightPlots::iNZightPlot(x, g1 = g1, g1.level = g1.level,
+        pl <- iNZightPlots::inzplot(~ x | g1,
+            g1.level = g1.level,
             data = d,
             layout.only = TRUE,
             varnames = list(x = obj[[1]]$Topic, g1 = TYPE)
@@ -196,15 +203,18 @@ barplotMR.bymrocalc <- function(obj, g1.level = NULL, g2.level = "_MULTI",...) {
 
 
             id <- rep(1:prod(dim(p)), each = 4)
-            colz <- if (is.null(gen$col.args$b.cols)) opts$bar.fill
-                else rep(gen$col.args$b.cols, nx)
+            colz <- if (is.null(gen$col.args$b.cols)) {
+                opts$bar.fill
+            } else {
+                rep(gen$col.args$b.cols, nx)
+            }
 
 
             grid.polygon(unit(xx, "native"), unit(ymax, "native"),
                 id = id,
                 gp = gpar(
                     fill = "grey",
-                    col = "#000000",  # fill = grey first time, red or whatever the second ...
+                    col = "#000000", # fill = grey first time, red or whatever the second ...
                     lwd = opts$bar.lwd
                 )
             )
@@ -213,12 +223,12 @@ barplotMR.bymrocalc <- function(obj, g1.level = NULL, g2.level = "_MULTI",...) {
                 id = id,
                 gp = gpar(
                     fill = "red",
-                    col = "#000000",  # fill = grey first time, red or whatever the second ...
+                    col = "#000000", # fill = grey first time, red or whatever the second ...
                     lwd = opts$bar.lwd
                 )
             )
 
-            medpoint.mat <- matrix(xx, ncol = 4,byrow = T)
+            medpoint.mat <- matrix(xx, ncol = 4, byrow = T)
 
             compL <- matrix(s1$compL, nrow = nlevels(s1[, 1]), byrow = TRUE)[i, ]
             compU <- matrix(s1$compU, nrow = nlevels(s1[, 1]), byrow = TRUE)[i, ]
@@ -226,11 +236,12 @@ barplotMR.bymrocalc <- function(obj, g1.level = NULL, g2.level = "_MULTI",...) {
             confU <- matrix(s1$confU, nrow = nlevels(s1[, 1]), byrow = TRUE)[i, ]
 
 
-            lapply(1:length(compL),
+            lapply(
+                1:length(compL),
                 function(i) {
                     grid.abline(
                         intercept = unit(compL[i], "native"),
-                        slope = unit(0,"native"),
+                        slope = unit(0, "native"),
                         gp = gpar(col = "gold", lty = 2)
                     )
                     grid.abline(
@@ -248,7 +259,7 @@ barplotMR.bymrocalc <- function(obj, g1.level = NULL, g2.level = "_MULTI",...) {
                 x1 = unit(rowMeans(medpoint.mat[, 2:3]), "native"),
                 y1 = unit(compU, "native"),
                 gp = gpar(
-                    col = "green",  # fill = grey first time, red or whatever the second ...
+                    col = "green", # fill = grey first time, red or whatever the second ...
                     lwd = opts$inf.lwd.comp
                 )
             )
@@ -259,11 +270,10 @@ barplotMR.bymrocalc <- function(obj, g1.level = NULL, g2.level = "_MULTI",...) {
                 x1 = unit(rowMeans(medpoint.mat[, 2:3]), "native"),
                 y1 = unit(confU, "native"),
                 gp = gpar(
-                    col = "black",  # fill = grey first time, red or whatever the second ...
+                    col = "black", # fill = grey first time, red or whatever the second ...
                     lwd = opts$inf.lwd.conf
                 )
             )
-
         }
     } else {
         TYPE1 <- names(s1)[2]
@@ -272,16 +282,18 @@ barplotMR.bymrocalc <- function(obj, g1.level = NULL, g2.level = "_MULTI",...) {
         names(s1)[1] <- "type2"
 
         if (!is.null(g1.level)) {
-            if (!g1.level %in% levels(s1$type1))
-            return("Can't find correct level")
+            if (!g1.level %in% levels(s1$type1)) {
+                return("Can't find correct level")
+            }
 
             s1 <- subset(s1, s1$type1 %in% g1.level)
             s1$type1 <- droplevels(s1$type1)
         }
 
         if (g2.level != "_MULTI") {
-            if (!g2.level %in% levels(s1$type2))
-            return("Can't find correct level")
+            if (!g2.level %in% levels(s1$type2)) {
+                return("Can't find correct level")
+            }
 
             s1 <- subset(s1, s1$type2 %in% g2.level)
             s1$type2 <- droplevels(s1$type2)
@@ -300,9 +312,10 @@ barplotMR.bymrocalc <- function(obj, g1.level = NULL, g2.level = "_MULTI",...) {
             levels = unique(as.character(s1$type2))
         )
         d <- data.frame(x = x, g1 = g1, g2 = g2)
-        pl <- iNZightPlots::iNZightPlot(x, g1 = g1, g2 = g2, g1.level = g1.level,
+        pl <- iNZightPlots::inzplot(~ x | g1 + g2,
+            g1.level = g1.level,
             data = d,
-            layout.only=TRUE, g2.level = g2.level,
+            layout.only = TRUE, g2.level = g2.level,
             varnames = list(x = obj[[1]]$Topic, g1 = TYPE1, g2 = TYPE2)
         )
 
@@ -316,7 +329,7 @@ barplotMR.bymrocalc <- function(obj, g1.level = NULL, g2.level = "_MULTI",...) {
 
         for (j in 1:nlevels(s1$type2)) {
             for (i in 1:nlevels(s1$type1)) {
-                k <- (j-1) * nlevels(s1$type1) + i
+                k <- (j - 1) * nlevels(s1$type1) + i
                 nameVP <- paste0("VP:locate.these.points", j, i)
                 seekViewport(nameVP)
                 p <- matrix(praw[k, ], nrow = 1)
@@ -340,15 +353,18 @@ barplotMR.bymrocalc <- function(obj, g1.level = NULL, g2.level = "_MULTI",...) {
 
 
                 id <- rep(1:prod(dim(p)), each = 4)
-                colz <- if (is.null(gen$col.args$b.cols)) opts$bar.fill
-                    else rep(gen$col.args$b.cols, nx)
+                colz <- if (is.null(gen$col.args$b.cols)) {
+                    opts$bar.fill
+                } else {
+                    rep(gen$col.args$b.cols, nx)
+                }
 
 
                 grid.polygon(unit(xx, "native"), unit(ymax, "native"),
                     id = id,
                     gp = gpar(
                         fill = "grey",
-                        col = "#000000",  # fill = grey first time, red or whatever the second ...
+                        col = "#000000", # fill = grey first time, red or whatever the second ...
                         lwd = opts$bar.lwd
                     )
                 )
@@ -357,7 +373,7 @@ barplotMR.bymrocalc <- function(obj, g1.level = NULL, g2.level = "_MULTI",...) {
                     id = id,
                     gp = gpar(
                         fill = "red",
-                        col = "#000000",  # fill = grey first time, red or whatever the second ...
+                        col = "#000000", # fill = grey first time, red or whatever the second ...
                         lwd = opts$bar.lwd
                     )
                 )
@@ -381,8 +397,9 @@ barplotMR.bymrocalc <- function(obj, g1.level = NULL, g2.level = "_MULTI",...) {
                     byrow = TRUE
                 )[k, ]
 
-                lapply(1:length(compL),
-                    function(i){
+                lapply(
+                    1:length(compL),
+                    function(i) {
                         grid.abline(
                             intercept = unit(compL[i], "native"),
                             slope = unit(0, "native"),
@@ -420,8 +437,9 @@ barplotMR.bymrocalc <- function(obj, g1.level = NULL, g2.level = "_MULTI",...) {
 #' @describeIn barplotMR method for class \code{between}
 #' @export
 barplotMR.between <- function(obj, ...) {
-    if (!requireNamespace("iNZightPlots"))
+    if (!requireNamespace("iNZightPlots")) {
         stop("Please install the iNZightPlots package to use this function.")
+    }
 
     s2 <- switcher(obj)
 
@@ -468,15 +486,18 @@ barplotMR.between <- function(obj, ...) {
 
     id <- rep(1:prod(dim(p)), each = 4)
     colz <-
-        if (is.null(gen$col.args$b.cols)) opts$bar.fill
-        else rep(gen$col.args$b.cols, nx)
+        if (is.null(gen$col.args$b.cols)) {
+            opts$bar.fill
+        } else {
+            rep(gen$col.args$b.cols, nx)
+        }
 
 
     grid.polygon(unit(xx, "native"), unit(yy, "native"),
         id = id,
         gp = gpar(
             fill = colz,
-            col = "#000000",  # fill = grey first time, red or whatever the second ...
+            col = "#000000", # fill = grey first time, red or whatever the second ...
             lwd = opts$bar.lwd
         )
     )
@@ -485,7 +506,8 @@ barplotMR.between <- function(obj, ...) {
     compL <- matrix(s2$compL, nrow = nx, byrow = TRUE)
     compU <- matrix(s2$compU, nrow = nx, byrow = TRUE)
 
-    lapply(1:ncol(group.range),
+    lapply(
+        1:ncol(group.range),
         function(j) {
             left <- group.range[1, j]
             right <- group.range[2, j]
@@ -495,17 +517,17 @@ barplotMR.between <- function(obj, ...) {
                 x1 = unit(right, "native"),
                 y1 = unit(compL[j, ], "native"),
                 gp = gpar(
-                    col = "gold",  # fill = grey first time, red or whatever the second ...
+                    col = "gold", # fill = grey first time, red or whatever the second ...
                     lty = 2
                 )
             )
             grid.segments(
                 x0 = unit(left, "native"),
-                y0 = unit(compU[j,], "native"),
+                y0 = unit(compU[j, ], "native"),
                 x1 = unit(right, "native"),
-                y1 = unit(compU[j,], "native"),
+                y1 = unit(compU[j, ], "native"),
                 gp = gpar(
-                    col = "gold",  # fill = grey first time, red or whatever the second ...
+                    col = "gold", # fill = grey first time, red or whatever the second ...
                     lty = 2
                 )
             )
@@ -520,7 +542,7 @@ barplotMR.between <- function(obj, ...) {
         x1 = unit(rowMeans(medpoint.mat[, 2:3]), "native"),
         y1 = unit(s2$compU, "native"),
         gp = gpar(
-            col = "green",  # fill = grey first time, red or whatever the second ...
+            col = "green", # fill = grey first time, red or whatever the second ...
             lwd = opts$inf.lwd.comp
         )
     )
@@ -531,7 +553,7 @@ barplotMR.between <- function(obj, ...) {
         x1 = unit(rowMeans(medpoint.mat[, 2:3]), "native"),
         y1 = unit(s2$confU, "native"),
         gp = gpar(
-            col = "black",  # fill = grey first time, red or whatever the second ...
+            col = "black", # fill = grey first time, red or whatever the second ...
             lwd = opts$inf.lwd.conf
         )
     )
@@ -541,8 +563,9 @@ barplotMR.between <- function(obj, ...) {
 #' @describeIn barplotMR method for class \code{b2}
 #' @export
 barplotMR.b2 <- function(obj, g1.level = NULL, ...) {
-    if (!requireNamespace("iNZightPlots"))
+    if (!requireNamespace("iNZightPlots")) {
         stop("Please install the iNZightPlots package to use this function.")
+    }
 
     s2 <- switcher(obj)
 
@@ -558,8 +581,9 @@ barplotMR.b2 <- function(obj, g1.level = NULL, ...) {
     names(s2)[1] <- "type2"
 
     if (!is.null(g1.level)) {
-        if (!g1.level %in% levels(s2$type2))
-        return("Can't find correct level")
+        if (!g1.level %in% levels(s2$type2)) {
+            return("Can't find correct level")
+        }
 
         s2 <- subset(s2, s2$type2 %in% g1.level)
         s2$type2 <- droplevels(s2$type2)
@@ -577,7 +601,8 @@ barplotMR.b2 <- function(obj, g1.level = NULL, ...) {
 
     d <- data.frame(x = x, y = y, g1 = g1)
 
-    pl <- iNZightPlots::iNZightPlot(x, y = y, g1 = g1,
+    pl <- iNZightPlots::iNZightPlot(x,
+        y = y, g1 = g1,
         data = d,
         layout.only = TRUE,
         g1.level = g1.level,
@@ -604,8 +629,11 @@ barplotMR.b2 <- function(obj, g1.level = NULL, ...) {
         yy <- c(tops)
 
         id <- rep(1:prod(dim(p)), each = 4)
-        colz <- if (is.null(gen$col.args$b.cols)) opts$bar.fill
-            else rep(gen$col.args$b.cols, nx)
+        colz <- if (is.null(gen$col.args$b.cols)) {
+            opts$bar.fill
+        } else {
+            rep(gen$col.args$b.cols, nx)
+        }
 
         compL <- matrix(
             matrix(s2$compL, nrow = nlevels(s2$type2), byrow = TRUE)[i, ],
@@ -628,7 +656,7 @@ barplotMR.b2 <- function(obj, g1.level = NULL, ...) {
             id = id,
             gp = gpar(
                 fill = colz,
-                col = "#000000",  # fill = grey first time, red or whatever the second ...
+                col = "#000000", # fill = grey first time, red or whatever the second ...
                 lwd = opts$bar.lwd
             )
         )
@@ -639,7 +667,8 @@ barplotMR.b2 <- function(obj, g1.level = NULL, ...) {
         upper.range <- matrix(compU, nrow = nx, byrow = TRUE)
 
 
-        lapply(1:ncol(group.range),
+        lapply(
+            1:ncol(group.range),
             function(k) {
                 left <- group.range[1, k]
                 right <- group.range[2, k]
@@ -672,13 +701,11 @@ barplotMR.b2 <- function(obj, g1.level = NULL, ...) {
         )
 
         grid.segments(
-            x0 = unit(rowMeans(medpoint.mat[,2:3]), "native"),
+            x0 = unit(rowMeans(medpoint.mat[, 2:3]), "native"),
             y0 = unit(confL, "native"),
-            x1 = unit(rowMeans(medpoint.mat[,2:3]), "native"),
+            x1 = unit(rowMeans(medpoint.mat[, 2:3]), "native"),
             y1 = unit(confU, "native"),
             gp = gpar(col = "black", lwd = opts$inf.lwd.conf)
         )
-
     }
-
 }
