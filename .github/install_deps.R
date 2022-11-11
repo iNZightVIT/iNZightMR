@@ -15,6 +15,10 @@ options(
     install.packages.compile.from.source = "never"
 )
 
+if (OS == "Linux" && !requireNamespace("units", quietly = TRUE)) {
+    system("sudo apt-get install libudunits2-dev")
+}
+
 if (OS != "Linux" && !requireNamespace("XML", quietly = TRUE)) {
     install.packages("XML", type = "binary")
 }
