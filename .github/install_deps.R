@@ -15,7 +15,9 @@ options(
     install.packages.compile.from.source = "never"
 )
 
-if (OS == "Linux" && !requireNamespace("units", quietly = TRUE)) {
+if (OS == "Linux" &&
+    !requireNamespace("units", quietly = TRUE) &&
+    getRversion() >= "4.3") {
     system("sudo apt-get install libudunits2-dev")
 }
 
