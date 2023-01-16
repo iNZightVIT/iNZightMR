@@ -9,3 +9,5 @@
 ^CRAN-RELEASE$
 ^\.github$
 ^\.git$
+^docs$
+^README\.Rmd$

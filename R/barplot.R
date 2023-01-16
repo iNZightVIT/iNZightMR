@@ -13,6 +13,7 @@
 #' @export
 #' @examples
 #' if (requireNamespace("iNZightPlots")) {
+#'     require(iNZightPlots)
 #'     mr <- iNZightMR(online ~ onlinegame + onlinevideo + onlinemusic,
 #'         data = census.at.school.5000
 #'     )

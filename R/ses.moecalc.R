@@ -19,12 +19,12 @@ seModel <- function(model, idx, base = TRUE) {
     covs <- vcov(model)[idx, idx, drop = FALSE]
     vars <- diag(covs)
     ses <- sqrt(vars)
-    ses.diffs <- outer(vars, vars, '+') - 2 * covs
+    ses.diffs <- outer(vars, vars, "+") - 2 * covs
     diag(ses.diffs) <- 0
     ses.diffs <- sqrt(ses.diffs)
     if (base) {
-      ses.diffs <- rbind(c(0, ses), cbind(ses, ses.diffs))
-      ses <- c(0, ses)
+        ses.diffs <- rbind(c(0, ses), cbind(ses, ses.diffs))
+        ses <- c(0, ses)
     }
     ses.moecalc(ses, ses.diffs)
 }
@@ -38,15 +38,15 @@ seModel <- function(model, idx, base = TRUE) {
 #' @author Junjie Zeng
 #' @export
 #' @examples
-#' seCovs(cov(iris[,-5]))
+#' seCovs(cov(iris[, -5]))
 seCovs <- function(covs, addbase = FALSE) {
     # for use when covariance matrix is given (e.g. cal from bootstrap)
     vars <- diag(covs)
     ses <- sqrt(vars)
-    ses.diffs <- outer(vars, vars, '+') - 2 * covs
+    ses.diffs <- outer(vars, vars, "+") - 2 * covs
     diag(ses.diffs) <- 0
     ses.diffs <- sqrt(ses.diffs)
-    if (addbase) { #if we have a missing baseline catecory, put it in at front
+    if (addbase) { # if we have a missing baseline catecory, put it in at front
         ses.diffs <- rbind(c(0, ses), cbind(ses, ses.diffs))
         ses <- c(0, ses)
     }
@@ -65,13 +65,15 @@ seCovs <- function(covs, addbase = FALSE) {
 #' phat <- table(iris$Species) / nrow(iris)
 #' seMNprops(nrow(iris), phat)
 seMNprops <- function(n, phat) {
-    if (length(n) != 1)
+    if (length(n) != 1) {
         stop("Requires length(n)=1")
+    }
 
-    if (abs(sum(phat) - 1) > .001)
+    if (abs(sum(phat) - 1) > .001) {
         stop("proportions must sum to 1")
+    }
 
-    ses.diffs <- sqrt((outer(phat, phat, '+') - (outer(phat, phat, '-'))^2) / n)
+    ses.diffs <- sqrt((outer(phat, phat, "+") - (outer(phat, phat, "-"))^2) / n)
     diag(ses.diffs) <- 0
     ses <- sqrt(phat * (1 - phat) / n)
 
@@ -88,15 +90,17 @@ seMNprops <- function(n, phat) {
 #' @examples
 #' seBinprops(c(50, 30), c(0.3, 0.7))
 seBinprops <- function(ns, phats) {
-    if ((any(phats > 1)) | (any(phats < 0)))
+    if ((any(phats > 1)) | (any(phats < 0))) {
         stop("proportions must lie between 0 and 1")
+    }
 
-    if (length(ns) != length(phats))
+    if (length(ns) != length(phats)) {
         stop("sample sizes and proportions must have same length")
+    }
 
     temp <- phats * (1 - phats) / ns
     ses <- sqrt(temp)
-    ses.diffs <- sqrt(outer(temp, temp, '+'))
+    ses.diffs <- sqrt(outer(temp, temp, "+"))
     diag(ses.diffs) <- 0
 
     ses.moecalc(ses, ses.diffs)
@@ -112,7 +116,7 @@ seBinprops <- function(ns, phats) {
 #' seIndepSes(c(0.02, 0.05, 0.1))
 seIndepSes <- function(ses) {
     temp <- ses^2
-    ses.diffs <- sqrt(outer(temp, temp, '+'))
+    ses.diffs <- sqrt(outer(temp, temp, "+"))
     ses.moecalc(ses, ses.diffs)
 }
 
@@ -124,9 +128,9 @@ seIndepSes <- function(ses) {
 #' @export
 #' @examples
 #' x <- data.frame(
-#'  v1 = rbinom(20, 1, 0.8),
-#'  v2 = rbinom(20, 1, 0.3),
-#'  v3 = rbinom(20, 1, 0.5)
+#'     v1 = rbinom(20, 1, 0.8),
+#'     v2 = rbinom(20, 1, 0.3),
+#'     v3 = rbinom(20, 1, 0.5)
 #' )
 #' seMRprops(x)
 seMRprops <- function(obj) {
