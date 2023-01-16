@@ -1,13 +1,17 @@
-## iNZightMR 2.2.6
+# iNZightMR 2.2.7
+
+- add argument 'split_string' to `substringsplit()` to allow splitting at spaces (words) or some other character
+
+# iNZightMR 2.2.6
 
 - `plotcombn()` prints a useful message if data contains no missing values (#26)
 
-## iNZightMR 2.2.5
+# iNZightMR 2.2.5
 
 - specify `stringsAsFactors = TRUE` for upcoming R 4.0.0
 - rownames are suppressed when printing output of calcmissing()
 
-## iNZightMR 2.2.4
+# iNZightMR 2.2.4
 
 **Release date**: 25 February 2020
 
@@ -15,21 +19,21 @@
 - Improved documentation
 - Suppress printing of rownames in `calcmissing()` (but keep Total)
 
-## iNZightMR 2.2-3
+# iNZightMR 2.2-3
 
 **Release date**: 27 October 2017
 
 - Add LICENCE
 - Fix bug in label orders in subsetted barplots
 
-## iNZightMR 2.2-2
+# iNZightMR 2.2-2
 
 **Release date**: 06 June 2017
 
 - Comment functions
 - Pass CRAN checks
 
-## iNZightMR 2.2-1
+# iNZightMR 2.2-1
 
 **Release date**: 19 November 2016
 
@@ -41,14 +45,14 @@
 
 - Mostly just changes to the `NAMESPACE`, which involved renaming of some functions.
 
-## iNZightMR 2.1.1-1
+# iNZightMR 2.1.1-1
 
 **Release date**: 26 November 2015
 
 - fix a bug where bar plot labels were printed alphabetically instead
   of in the order the bars themselves were drawn.
 
-## iNZightMR 2.1.1
+# iNZightMR 2.1.1
 
 **Release date**: 19 October 2015
 

@@ -23,10 +23,11 @@ Constructs a multiple response object (MRO) subset by another explanatory variab
 }
 \examples{
 mr <- iNZightMR(online ~ onlinegame + onlinevideo + onlinemusic,
-    data = census.at.school.5000)
+    data = census.at.school.5000
+)
 
 byMRO(mr, ~gender, mroPara)
-byMRO(mr, ~gender + handed, mroPara)
+byMRO(mr, ~ gender + handed, mroPara)
 }
 \seealso{
 \link{mroPara}

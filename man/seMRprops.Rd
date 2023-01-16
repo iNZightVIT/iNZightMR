@@ -17,9 +17,9 @@ SE's for multiple binary response
 }
 \examples{
 x <- data.frame(
- v1 = rbinom(20, 1, 0.8),
- v2 = rbinom(20, 1, 0.3),
- v3 = rbinom(20, 1, 0.5)
+    v1 = rbinom(20, 1, 0.8),
+    v2 = rbinom(20, 1, 0.3),
+    v3 = rbinom(20, 1, 0.5)
 )
 seMRprops(x)
 }

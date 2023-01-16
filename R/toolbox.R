@@ -3,22 +3,52 @@
 #' @title Extract Common Name from variables
 #' @param obj It can be a vector or data frame, however, \code{substrsplit} is usually
 #' used in the \code{iNZightMR} function.
+#' @param split_string Specification of a string to allow splits on (e.g., use " " to only allow splitting at words).
 #' @return A list with common character and unique variable name respectively
 #' @export
 #' @examples
 #' substrsplit(c("varx", "vary", "varz"))
-substrsplit <- function(obj) {
+#'
+#' strings <- c("Do you like eating eggs?", "Do you like elephants?" , "Do you like elections?")
+#' substrsplit(strings)
+#' substrsplit(strings, split_string = " ")
+substrsplit <- function(obj, split_string = "") {
     str <- names(obj) # if obj is not a vector, str will be NULL
     if (is.vector(obj))
         str <- obj
 
-    n <- max(nchar(str))
-    i <- 0
-    while (length(unique(substr(str, 1, i))) == 1) {
-        i <- i + 1
+    xs <- strsplit(str, split_string, fixed = TRUE)
+    n <- min(sapply(xs, length))
+    if (n == 1) {
+        return(list(Commonstr = "", Varname = str))
     }
-    commonstr <- unique(substr(str, 1, i - 1))
-    varname <- substr(str, i, n)
+
+    xi <- apply(sapply(xs, function(x) x[seq_len(n)]),
+        1L,
+        function(x) length(unique(x))
+    )
+    xii <- which(xi > 1L)
+    if (length(xii)) i <- min(xii) - 1L else i <- length(xi)
+
+    # i <- 0
+    # n <- max(nchar(str))
+    # while (length(unique(substr(str, 1, i))) == 1) {
+    # while (length(unique(sapply(xs, function(x) paste(x[seq_len(i + 1)]))))) {
+    #     i <- i + 1
+    # }
+
+    if (i == 0) {
+        commonstr <- ""
+        varname <- str
+    } else {
+        commonstr <- paste(xs[[1]][1:i], collapse = split_string)
+        varname <- sapply(xs, function(x)
+            paste(x[-(1:i)], collapse = split_string)
+        )
+    }
+
+    # commonstr <- unique(substr(str, 1, i - 1))
+    # varname <- substr(str, i, n)
 
     list(
         Commonstr = commonstr,
