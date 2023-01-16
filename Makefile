@@ -40,5 +40,4 @@ releasePRs:
 	@gh pr create -a "@me" -b "" -B dev -l "release" -p "Tom" -t "Release $(BRANCH) into dev"
 
 site: README.md document install
-	@cp NEWS.Md NEWS.md
 	@$(RCMD) -e "pkgdown::build_site()"

@@ -44,6 +44,7 @@ each option along with confidence intervals and comparison intervals.
 }}
 \examples{
 if (requireNamespace("iNZightPlots")) {
+    require(iNZightPlots)
     mr <- iNZightMR(online ~ onlinegame + onlinevideo + onlinemusic,
         data = census.at.school.5000
     )
