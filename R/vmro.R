@@ -197,7 +197,7 @@ plotcombn <- function(obj) {
         stop("Invalid input. Must be 'data.frame' or 'mro'")
     }
 
-    finaltable <- calcmissing(obj, print = FALSE)
+    finaltable <- calcmissing(obj)$combinations
     if (inherits(finaltable, "non-missing")) {
         plot.new()
         plot.window(0:1, 0:1)
