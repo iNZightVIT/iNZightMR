@@ -1,3 +1,5 @@
+- refactor `calcmissing()` to return an object with print methods, instead of bizarre and confusing `print` and `final` arguments
+
 # iNZightMR 2.2.7
 
 - add argument 'split_string' to `substringsplit()` to allow splitting at spaces (words) or some other character
