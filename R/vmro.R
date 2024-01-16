@@ -7,8 +7,6 @@ rm.na <- function(variable) {
 #' @title Calculate missing observation summary
 #' @param obj An object
 #' @param MRO.case does something with rownames
-# #' @param print logical, should we print the thing?
-# #' @param final logical, if `TRUE` only the result table is returned
 #' @param ... additional arguments
 #' @return Missing value object
 #' @author Junjie Zeng
@@ -23,8 +21,7 @@ calcmissing <- function(obj, ...) {
 
 #' @describeIn calcmissing Method for a dataframe
 #' @export
-calcmissing.data.frame <- function(obj, MRO.case = FALSE,
-                                   print = TRUE, final = TRUE, ...) {
+calcmissing.data.frame <- function(obj, MRO.case = FALSE, ...) {
     data <- obj
     sortby <- "row"
 
@@ -197,13 +194,14 @@ plotcombn <- function(obj) {
         stop("Invalid input. Must be 'data.frame' or 'mro'")
     }
 
-    finaltable <- calcmissing(obj)$combinations
+    finaltable <- calcmissing(obj)
     if (inherits(finaltable, "non-missing")) {
         plot.new()
         plot.window(0:1, 0:1)
         text(0.5, 0.5, "Dataset has no missing values!")
         return(finaltable)
     }
+    finaltable <- finaltable$combinations
 
 
     dev.hold()
