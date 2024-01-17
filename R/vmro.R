@@ -7,14 +7,12 @@ rm.na <- function(variable) {
 #' @title Calculate missing observation summary
 #' @param obj An object
 #' @param MRO.case does something with rownames
-#' @param print logical, should we print the thing?
-#' @param final logical, is this final?
 #' @param ... additional arguments
 #' @return Missing value object
 #' @author Junjie Zeng
 #' @export
 #' @examples
-#' calcmissing(census.at.school.5000[,1:20])
+#' calcmissing(census.at.school.5000[, 1:20])
 #' @seealso plotcombn
 calcmissing <- function(obj, ...) {
     UseMethod("calcmissing")
@@ -23,8 +21,7 @@ calcmissing <- function(obj, ...) {
 
 #' @describeIn calcmissing Method for a dataframe
 #' @export
-calcmissing.data.frame <- function(obj, MRO.case = FALSE,
-                                   print = TRUE, final = TRUE, ...) {
+calcmissing.data.frame <- function(obj, MRO.case = FALSE, ...) {
     data <- obj
     sortby <- "row"
 
@@ -32,9 +29,8 @@ calcmissing.data.frame <- function(obj, MRO.case = FALSE,
 
     if (!any(index.column)) {
         out <- "Data Clean"
-        class(out) <- "non-missing"  # build class here for future use.
+        class(out) <- "non-missing" # build class here for future use.
         return(out)
-
     }
 
     x <- data[, index.column]
@@ -92,49 +88,60 @@ calcmissing.data.frame <- function(obj, MRO.case = FALSE,
     numMiss <- x1[c(index, j)]
     percMiss <- round(numMiss / numMiss[j], 3)
 
-    TolTab <- rbind(numMiss, percMiss)
-    if (MRO.case)
+    TolTab <- rbind(count = numMiss, percentage = percMiss)
+    if (MRO.case) {
         rownames(TolTab) <- c("nSelect", "%Select")
+    }
     colnames(TolTab) <- Name
     TolTab <- as.data.frame(TolTab, stringsAsFactors = TRUE)
     TolTab[2, ] <- paste0(round(TolTab[2, ] * 100, 2), "%")
     TolTab[1, ] <- as.character(TolTab[1, ])
 
     colnames(finaltable)[j] <- "Freq"
-    class(finaltable) <- c("calcmissing", class(finaltable))
+    class(finaltable) <- c("missing_combn", class(finaltable))
 
-    if (print) {
-        print(TolTab)
-        cat("\n")
-        print(finaltable)
-        ret <- finaltable
-    } else {
-        out1 <- capture.output(TolTab)
-        out2 <- "\n"
-        out3 <- capture.output(print(finaltable))
-        #     data.frame(
-        #         finaltable,
-        #         Percentage = 100 *
-        #             round(finaltable[, "Freq"] / max(finaltable[, "Freq"]), 3),
-        #         stringsAsFactors = TRUE
-        #     )
-        # )
-        ret <- c(out1, out2, out3)
-    }
+    class(TolTab) <- c("missing_summary", class(TolTab))
 
-    if (final)
-        return(invisible(finaltable))
-    else
-        return(invisible(ret))
+    structure(
+        list(total = TolTab, combinations = finaltable),
+        class = "calcmissing"
+    )
 }
 
-print.calcmissing <- function(x, ...) {
+#' @export
+print.calcmissing <- function(x, what = c("both", "total", "combinations"), ...) {
+    what <- match.arg(what)
+
+    if (what == "both") {
+        print(x$total)
+        cat("\n\n")
+        print(x$combinations)
+    }
+    if (what == "total") {
+        print(x$total)
+    }
+    if (what == "combinations") {
+        print(x$combinations)
+    }
+
+    invisible(x)
+}
+
+#' @export
+print.missing_summary <- function(x, ...) {
+    cat("# Number and percent of missing variables in each variable\n\n")
+    print.data.frame(x)
+    invisible(x)
+}
+
+#' @export
+print.missing_combn <- function(x, ...) {
     tbl <- capture.output(
         print.data.frame(
             data.frame(
                 x,
                 Percentage = 100 *
-                    round(x[,"Freq"] / max(x[, "Freq"]), 3),
+                    round(x[, "Freq"] / max(x[, "Freq"]), 3),
                 stringsAsFactors = TRUE
             )
         )
@@ -152,7 +159,10 @@ print.calcmissing <- function(x, ...) {
         if (mnum[[i]] == -1) next
         tbl[i] <- gsub("^[0-9]+", sp[i], tbl[i])
     }
+    cat("# Combinations of missing values:\n\n")
     cat(tbl, sep = "\n")
+
+    invisible(x)
 }
 
 #' @describeIn calcmissing accepts a whole mr.object , which is first mro.mat, second element labels,
@@ -173,23 +183,25 @@ calcmissing.mro <- function(obj, ...) {
 #' @author Junjie Zeng
 #' @export
 #' @examples
-#' plotcombn(census.at.school.5000[,10:25])
+#' plotcombn(census.at.school.5000[, 10:25])
 plotcombn <- function(obj) {
     Subtitle <- NULL
     if (inherits(obj, "Sub")) {
         Subtitle <- class(obj)[3]
         class(obj) <- "mro"
     }
-    if (! inherits(obj, "data.frame") && ! inherits(obj, "mro"))
+    if (!inherits(obj, "data.frame") && !inherits(obj, "mro")) {
         stop("Invalid input. Must be 'data.frame' or 'mro'")
+    }
 
-    finaltable <- calcmissing(obj,  print = FALSE)
-    if (inherits(finaltable,  "non-missing")) {
+    finaltable <- calcmissing(obj)
+    if (inherits(finaltable, "non-missing")) {
         plot.new()
         plot.window(0:1, 0:1)
         text(0.5, 0.5, "Dataset has no missing values!")
         return(finaltable)
     }
+    finaltable <- finaltable$combinations
 
 
     dev.hold()
@@ -255,21 +267,22 @@ plotcombn <- function(obj) {
     text(col.num^(1 / 10), 1.2, "% Present", cex = 2)
     rect(xmed - 0.3, 0, xmed + 0.3, 1, col = "gray")
     rect(xmed - 0.3, 0, xmed + 0.3, p2, col = "red")
-    if (col.num <= 10)
+    if (col.num <= 10) {
         axis(1, xmed, colnames(x.fit), tick = FALSE)
-    else
+    } else {
         text(xmed, -0.025,
             srt = 65,
             adj = 1,
             labels = colnames(x.fit),
             xpd = NA
         )
+    }
 
     ## 3rd blue bars, the relative length
     cons <- min(row.num, 30)
     p3 <- p3[1:cons]
     bb <- p3[length(p3):1]
-    bb <- log1p(bb)  ## for any size data, the more the size the larger chance the first row leads a lot than others
+    bb <- log1p(bb) ## for any size data, the more the size the larger chance the first row leads a lot than others
     ## we use log1p() to avoid the exponential increasing for the proportion
     ## in the same time give more weight to those proportion with too little value.
     bb <- seq(0.1, 0.2, len = length(bb)) + bb / max(bb)
@@ -291,15 +304,18 @@ plotcombn <- function(obj) {
 
     # 4th plot--title control
     plot.new()
-    if (inherits(obj, "data.frame"))
+    if (inherits(obj, "data.frame")) {
         text(.5, .5, "Missing Value Plot", cex = 1.5, font = 2)
-    if (is.null(Subtitle) && inherits(obj, "mro"))
+    }
+    if (is.null(Subtitle) && inherits(obj, "mro")) {
         text(.5, .5, "Combination Plot", cex = 1.5, font = 2)
-    if (! is.null(Subtitle) && inherits(obj, "mro"))
+    }
+    if (!is.null(Subtitle) && inherits(obj, "mro")) {
         text(.5, .3, paste("Combination Plot", Subtitle, sep = "---"),
             cex = 1.5,
             font = 1
         )
+    }
 
     # 5th plot -- legend control
     plot.new()

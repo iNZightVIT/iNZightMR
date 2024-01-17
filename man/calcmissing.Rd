@@ -8,7 +8,7 @@
 \usage{
 calcmissing(obj, ...)
 
-\method{calcmissing}{data.frame}(obj, MRO.case = FALSE, print = TRUE, final = TRUE, ...)
+\method{calcmissing}{data.frame}(obj, MRO.case = FALSE, ...)
 
 \method{calcmissing}{mro}(obj, ...)
 }
@@ -18,10 +18,6 @@ calcmissing(obj, ...)
 \item{...}{additional arguments}
 
 \item{MRO.case}{does something with rownames}
-
-\item{print}{logical, should we print the thing?}
-
-\item{final}{logical, is this final?}
 }
 \value{
 Missing value object
@@ -38,7 +34,7 @@ third element the input data frame.
 
 }}
 \examples{
-calcmissing(census.at.school.5000[,1:20])
+calcmissing(census.at.school.5000[, 1:20])
 }
 \seealso{
 plotcombn
