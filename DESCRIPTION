@@ -40,7 +40,7 @@ RoxygenNote: 7.2.3
 Config/Needs/dependencies:
     tmelliott/surveyspec@develop,
     iNZightVIT/iNZightTools@1.13.0,
-    iNZightVIT/iNZightMR@2.2.7,
+    iNZightVIT/iNZightPlots@2.15.4,
     rcmdcheck,
     curl
 Config/Needs/coverage:
