@@ -1,0 +1,9 @@
+url: https://inzightvit.github.io/iNZightMR/
+
+template:
+  package: iNZightMR
+  bootstrap: 5
+
+authors:
+  Tom Elliott:
+    href: https://tomelliott.co.nz

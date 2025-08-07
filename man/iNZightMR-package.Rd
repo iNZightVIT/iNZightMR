@@ -13,6 +13,7 @@ iNZight software package.
 Useful links:
 \itemize{
   \item \url{https://inzight.nz}
+  \item \url{https://inzightvit.github.io/iNZightMR/}
   \item Report bugs at \url{https://github.com/iNZightVIT/iNZightMR/issues}
 }
 

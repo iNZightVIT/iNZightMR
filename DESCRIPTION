@@ -14,7 +14,7 @@ Authors@R: c(
     )
 BugReports: https://github.com/iNZightVIT/iNZightMR/issues
 Contact: inzight_support@stat.auckland.ac.nz
-URL: https://inzight.nz
+URL: https://inzight.nz, https://inzightvit.github.io/iNZightMR/
 Depends:
     R (>= 2.13)
 Imports:
