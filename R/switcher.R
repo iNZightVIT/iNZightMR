@@ -3,12 +3,12 @@
 # #' @param obj mro family
 # #' @param ... additional arguments
 # #' @return a dataframe
-switcher <- function(obj,...) {
+switcher <- function(obj, ...) {
     UseMethod("switcher")
 }
 
 
-# #' @describeIn switcher For mrocalc case
+#' @export
 switcher.mrocalc <- function(obj, ...) {
     copy <- obj
     var <- copy$Mromoecalc$xlevels$Level
@@ -21,12 +21,13 @@ switcher.mrocalc <- function(obj, ...) {
 }
 
 # #' @describeIn switcher For bymrocalc case
+#' @export
 switcher.bymrocalc <- function(obj, ...) {
     if (length(dimnames(obj)) > 1) {
         len <- sapply(dimnames(obj), length)
         tot <- len[1] * len[2]
         dn <- dimnames(obj)
-        idon.temp <- obj[[which(!sapply(obj,is.null))[1]]]
+        idon.temp <- obj[[which(!sapply(obj, is.null))[1]]]
         idon.temp.names <- idon.temp$Mromoecalc$xlevels$Level
         temp3 <- data.frame(stringsAsFactors = TRUE)
         for (k in 1:tot) {
@@ -86,8 +87,8 @@ switcher.bymrocalc <- function(obj, ...) {
 }
 
 # #' @describeIn switcher For between case
+#' @export
 switcher.between <- function(obj, ...) {
-
     index <- which((seq_along(obj) %% 2) > 0)
     copy <- obj[index]
     tot <- length(copy)
@@ -106,13 +107,14 @@ switcher.between <- function(obj, ...) {
         rownames(temp2) <- NULL
         target <- rbind(target, temp2)
     }
-    names(target)[1] <- attr(obj,"type1")
+    names(target)[1] <- attr(obj, "type1")
     id <- is.na(target$est)
     target$est[id] <- 0
     target
 }
 
 # #' @describeIn switcher For between and b2 case
+#' @export
 switcher.b2 <- function(obj, ...) {
     copy <- lapply(obj, switcher)
     tot <- length(copy)

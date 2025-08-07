@@ -1,7 +1,7 @@
 Package: iNZightMR
 Type: Package
 Title: Tools for Exploring Multiple Response Data
-Version: 2.3.0
+Version: 2.3.1
 Authors@R: c(
     person("Tom", "Elliott", role = c("aut", "cre"),
         email = "tom.elliott@auckland.ac.nz",
@@ -14,7 +14,7 @@ Authors@R: c(
     )
 BugReports: https://github.com/iNZightVIT/iNZightMR/issues
 Contact: inzight_support@stat.auckland.ac.nz
-URL: https://inzight.nz
+URL: https://inzight.nz, https://inzightvit.github.io/iNZightMR/
 Depends:
     R (>= 2.13)
 Imports:
@@ -36,7 +36,7 @@ Description: Interaction and analysis of multiple response data,
 License: GPL-3
 Encoding: UTF-8
 Language: en-GB
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 Config/Needs/dependencies:
     tmelliott/surveyspec@develop,
     iNZightVIT/iNZightTools@1.13.0,
