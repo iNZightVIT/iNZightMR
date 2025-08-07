@@ -7,6 +7,5 @@
 #' @author Junjie Zeng, Tom Elliott
 #' @keywords iNZight multiple response
 #'
-#' @docType package
 #' @name iNZightMR-package
-NULL
+"_PACKAGE"

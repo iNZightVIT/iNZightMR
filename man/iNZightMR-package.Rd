@@ -9,6 +9,14 @@ The iNZightMR package provides a suite of functions which can be used
 in the analysis of multiple response data. It is used in the
 iNZight software package.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://inzight.nz}
+  \item Report bugs at \url{https://github.com/iNZightVIT/iNZightMR/issues}
+}
+
+}
 \author{
 Junjie Zeng, Tom Elliott
 }

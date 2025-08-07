@@ -31,18 +31,22 @@ moecalc <- function(x, factorname = NULL, levelnames = NULL, coef.idx = NULL,
     if (!any(class(obj) == "ses.moecalc")) {
         modelcall <- obj$call
 
-        if(!xor(is.null(factorname), is.null(coef.idx)))
+        if (!xor(is.null(factorname), is.null(coef.idx))) {
             stop("must have factorname or coefficient index only")
+        }
 
-        if (length(unlist(strsplit(factorname, ":"))) > 2)
+        if (length(unlist(strsplit(factorname, ":"))) > 2) {
             stop("Interactions must not have more than 2 terms")
+        }
 
-        if (is.null(coef.idx))
+        if (is.null(coef.idx)) {
             coef.idx <- coefidx(obj, factorname)
+        }
 
         est <- obj$coefficients[coef.idx]
-        if (base)
+        if (base) {
             est <- c(0, est)
+        }
 
         temp <- seModel(obj, coef.idx, base)
         ses <- temp$ses
@@ -52,8 +56,9 @@ moecalc <- function(x, factorname = NULL, levelnames = NULL, coef.idx = NULL,
         if (!is.null(factorname)) {
             ## by factorname
             isfactor <- chkfactor(obj, factorname)
-            if (sum(isfactor) == 1)
-                levelnames <- obj$xlevels[[ names(isfactor)[which(isfactor)] ]]
+            if (sum(isfactor) == 1) {
+                levelnames <- obj$xlevels[[names(isfactor)[which(isfactor)]]]
+            }
 
             if (sum(isfactor) == 2) {
                 ## For now, don't do anything
@@ -73,12 +78,12 @@ moecalc <- function(x, factorname = NULL, levelnames = NULL, coef.idx = NULL,
         } else {
             ## by coef.idx
             levelnames <- names(obj$coefficients)[coef.idx]
-            if (base)
+            if (base) {
                 levelnames <- c(basename, levelnames)
+            }
         }
         out <- paste("confidence interval of baseline is 0")
         warning(out)
-
     } else {
         if (!is.null(est)) {
             levelnames <- names(est)
@@ -93,8 +98,9 @@ moecalc <- function(x, factorname = NULL, levelnames = NULL, coef.idx = NULL,
     xlevels <- makexlv(factorname, levelnames, n)
     factorname <- names(xlevels)[1]
     levelnames <- xlevels[[factorname]]
-    if (!is.null(est))
+    if (!is.null(est)) {
         names(est) <- levelnames
+    }
 
     ## Margins of error for differences
     if (any(class(obj) == "ses.moecalc")) {
@@ -105,21 +111,23 @@ moecalc <- function(x, factorname = NULL, levelnames = NULL, coef.idx = NULL,
     dimnames(moe.diffs) <- list(levelnames, levelnames)
 
     k <- ncol(moe.diffs)
-    if (nrow(moe.diffs) != k | !is.matrix(moe.diffs) | k <= 1)
+    if (nrow(moe.diffs) != k | !is.matrix(moe.diffs) | k <= 1) {
         stop("moe.diffs must be square matrix")
+    }
 
     if (k >= 3) { # get ErrBars by solving least squares problem
         keep <- col(moe.diffs) > row(moe.diffs) # Upper triangle, above diag.
         k2 <- sum(keep) # number of unique moe.diffs for diffs without redundancies
         if (!any(class(obj) == "ses.moecalc")) {
-            #%%%## Multiple comparisons adjustment
+            # %%%## Multiple comparisons adjustment
             multiplier <- qtukey(0.95, k, obj$df.residual) / sqrt(2)
             moe.diffs <- moe.diffs * multiplier
         }
         Xr <- row(moe.diffs)[keep] # (going down cols)
         Xc <- col(moe.diffs)[keep]
         ## each row of X contains 2 ones, representing a pair of levels to split moe between
-        X <- outer(1:k2, 1:k,
+        X <- outer(
+            1:k2, 1:k,
             function(x, y) {
                 y == Xr[x] | y == Xc[x]
             }
@@ -129,16 +137,17 @@ moecalc <- function(x, factorname = NULL, levelnames = NULL, coef.idx = NULL,
     } else {
         # k=2 have infinite number of solutions. Make bar lengths proportional to ci
         if (!is.null(ci)) {
-            if (length(ci) != 2)
+            if (length(ci) != 2) {
                 stop("When dimension=2, must have length(ci)=2")
+            }
 
             ErrBars <- moe.diffs[1, 2] * ci / sum(ci)
         } else {
-            ErrBars <- moe.diffs[1, 2] * 0.5 * c(1,1)
+            ErrBars <- moe.diffs[1, 2] * 0.5 * c(1, 1)
         }
     }
 
-    moe.diffs.approx <- outer(ErrBars,ErrBars,'+')
+    moe.diffs.approx <- outer(ErrBars, ErrBars, "+")
     diag(moe.diffs.approx) <- 0
 
     names(ErrBars) <- levelnames
@@ -149,9 +158,10 @@ moecalc <- function(x, factorname = NULL, levelnames = NULL, coef.idx = NULL,
     signiferr <- NULL
 
     if (!is.null(est)) {
-        if (length(est) != k)
+        if (length(est) != k) {
             stop("length(est) must=ncol(moe.diffs)")
-        est.diffs <- outer(est, est, '-')
+        }
+        est.diffs <- outer(est, est, "-")
         ciL <- est.diffs - moe.diffs
         ciU <- est.diffs + moe.diffs
         ciL.approx <- est.diffs - moe.diffs.approx
@@ -161,8 +171,9 @@ moecalc <- function(x, factorname = NULL, levelnames = NULL, coef.idx = NULL,
         signiftrue <- (sign(ciL) + sign(ciU) == 0)
         signifapprox <- (sign(ciL.approx) + sign(ciU.approx) == 0)
         signiferr <- signiftrue - signifapprox
-        if (!is.null(ci))
-            diag(moe.diffs) <- ci # put ci of estimates on redundant diagonal
+        if (!is.null(ci)) {
+            diag(moe.diffs) <- ci
+        } # put ci of estimates on redundant diagonal
     }
 
     confL <- confU <- compL <- compU <- NULL
@@ -197,8 +208,9 @@ moecalc <- function(x, factorname = NULL, levelnames = NULL, coef.idx = NULL,
     )
     class(ret) <- "moecalc"
 
-    if(abs(ret$MaxErrProp) >= 1)
+    if (abs(ret$MaxErrProp) >= 1) {
         warningErrProp(ret)
+    }
 
     ret
 }
@@ -230,14 +242,16 @@ summary.moecalc <- function(object, ...) {
         )
         colnames(coeff) <- c("Est", "ErrBar", "compL", "compU", "confL", "confU")
         rownames(coeff) <- levelnames
-    } else{
+    } else {
         coeff <- obj
     }
 
     conflict <- NULL
-    if (!is.null(obj$signiferr))
-        if (any(obj$signiferr != 0))
+    if (!is.null(obj$signiferr)) {
+        if (any(obj$signiferr != 0)) {
             conflict <- typeofconflict(obj$signiferr)
+        }
+    }
 
     x <- list(
         coeff = coeff,
@@ -262,30 +276,33 @@ print.summary.moecalc <- function(x, ...) {
     print(obj$coeff)
     out <- paste0(
         "\nMax error betw. approx. and true moe is ",
-        obj$MaxErrProp, "%")
+        obj$MaxErrProp, "%"
+    )
     cat(out, "\n")
 
-    if (!is.null(obj$conflict))
+    if (!is.null(obj$conflict)) {
         warningConflict(obj$xlevels, obj$conflict)
+    }
 }
 
 
 #' @export
 plot.moecalc <- function(x, horiz = FALSE, xlevels = NULL, ...) {
-
     ## Disable confidence intervals for now
     conf <- FALSE
 
     obj <- x
-    if (is.null(obj$est))
+    if (is.null(obj$est)) {
         stop("No estimates, cannot plot interval")
+    }
 
     def.par <- par(no.readonly = TRUE)
     on.exit(par(def.par))
     n <- length(obj$est)
 
-    if  (is.null(xlevels))
+    if (is.null(xlevels)) {
         xlevels <- obj$xlevels
+    }
     factorname <- names(xlevels)[1]
     levelnames <- xlevels[[factorname]]
 
@@ -296,7 +313,7 @@ plot.moecalc <- function(x, horiz = FALSE, xlevels = NULL, ...) {
         isInteraction <- TRUE
         twoFactors <- unlist(strsplit(factorname, ":"))
         ## Number of panels needed
-        nPanels <- length(levels(obj$fit$model[,twoFactors[1]])) - 1
+        nPanels <- length(levels(obj$fit$model[, twoFactors[1]])) - 1
         sqrt.nPanels <- sqrt(nPanels)
 
         ## Make the plot array as square as possible
@@ -320,8 +337,9 @@ plot.moecalc <- function(x, horiz = FALSE, xlevels = NULL, ...) {
         )
     }
 
-    if (isInteraction)
+    if (isInteraction) {
         opar <- par(mar = c(2.5, 4.1, 2.1, 2.1))
+    }
 
     comparisonCol <- "red"
     confidenceCol <- "black"
@@ -348,11 +366,12 @@ plot.moecalc <- function(x, horiz = FALSE, xlevels = NULL, ...) {
                 lty = "dotted",
                 col = "grey"
             )
-            if (conf)
+            if (conf) {
                 segments(obj$confL, 1:n, obj$confU, 1:n,
                     lwd = confidenceLwd,
                     col = confidenceCol
                 )
+            }
             segments(obj$compL, 1:n, obj$compU, 1:n,
                 lwd = comparisonLwd,
                 col = comparisonCol
@@ -372,11 +391,11 @@ plot.moecalc <- function(x, horiz = FALSE, xlevels = NULL, ...) {
                     obj$compU[indices]
                 )
                 plot(xlim, ylim, type = "n", axes = F, ylab = "", xlab = "")
-                ylabs <- levels(obj$fit$model[,twoFactors[1]])
+                ylabs <- levels(obj$fit$model[, twoFactors[1]])
                 axis(2, at = 1:(nLevelsPerPanel + 1), labels = ylabs)
                 axis(1)
                 box()
-                mtext(levels(obj$fit$model[,twoFactors[2]])[i+1], 3,
+                mtext(levels(obj$fit$model[, twoFactors[2]])[i + 1], 3,
                     cex = .75,
                     line = .5
                 )
@@ -436,11 +455,12 @@ plot.moecalc <- function(x, horiz = FALSE, xlevels = NULL, ...) {
                 lty = "dotted",
                 col = "grey"
             )
-            if (conf)
+            if (conf) {
                 segments(1:n, obj$confL, 1:n, obj$confU,
                     lwd = confidenceLwd,
                     col = confidenceCol
                 )
+            }
 
             segments(1:n, obj$compL, 1:n, obj$compU,
                 lwd = comparisonLwd,
@@ -460,11 +480,11 @@ plot.moecalc <- function(x, horiz = FALSE, xlevels = NULL, ...) {
                     obj$compU[indices]
                 )
                 plot(xlim, ylim, type = "n", axes = F, ylab = "", xlab = "")
-                xlabs <- levels(obj$fit$model[,twoFactors[1]])
+                xlabs <- levels(obj$fit$model[, twoFactors[1]])
                 axis(1, at = 1:(nLevelsPerPanel + 1), labels = xlabs)
                 axis(2)
                 box()
-                mtext(levels(obj$fit$model[,twoFactors[2]])[i+1], 3,
+                mtext(levels(obj$fit$model[, twoFactors[2]])[i + 1], 3,
                     cex = .75,
                     line = .5
                 )
@@ -506,7 +526,7 @@ plot.moecalc <- function(x, horiz = FALSE, xlevels = NULL, ...) {
                 )
                 points(1:(nLevelsPerPanel + 1), obj$est[indices], pch = 19)
                 ## Thick black bar on baseline bar
-                lines(1 + c(-1,1) * 0.1, rep(0, 2), lwd = 3)
+                lines(1 + c(-1, 1) * 0.1, rep(0, 2), lwd = 3)
             }
         }
     }
@@ -549,7 +569,8 @@ plot.moecalc <- function(x, horiz = FALSE, xlevels = NULL, ...) {
         xjust <- 0
         legendCex <- 1
     }
-    legend(x = legendX, y = legendY, legendNames,
+    legend(
+        x = legendX, y = legendY, legendNames,
         col = legendCols,
         lwd = legendLwds,
         bty = "n",
@@ -558,12 +579,14 @@ plot.moecalc <- function(x, horiz = FALSE, xlevels = NULL, ...) {
         cex = legendCex
     )
 
-    if (obj$MaxErrProp >= 1)
+    if (obj$MaxErrProp >= 1) {
         warningErrProp(obj)
+    }
 }
 
 warningErrProp <- function(obj) {
-    out <- paste0("Max error betw. approx. and true moe is ",
+    out <- paste0(
+        "Max error betw. approx. and true moe is ",
         obj$MaxErrProp, "%"
     )
     warning(out, call. = FALSE)
@@ -580,13 +603,15 @@ warningConflict <- function(xlevels, conflict) {
     isovlp <- (x$type != 1)
     if (any(isovlp)) {
         cat(" should overlap between factor", factorname, ":\n")
-        for(i in isovlp)
-        cat(" ", levelnames[x$idx.r[i]], "and", levelnames[x$idx.c[i]], "\n")
+        for (i in isovlp) {
+            cat(" ", levelnames[x$idx.r[i]], "and", levelnames[x$idx.c[i]], "\n")
+        }
     }
     if (any(!isovlp)) {
         cat(" should not overlap between factor:\n")
-        for(i in !isovlp)
-        cat(" ", levelnames[x$idx.r[i]], "and", levelnames[x$idx.c[i]], "\n")
+        for (i in !isovlp) {
+            cat(" ", levelnames[x$idx.r[i]], "and", levelnames[x$idx.c[i]], "\n")
+        }
     }
 }
 
@@ -629,8 +654,9 @@ chkfactor <- function(model, labelnames) {
             labelnames.idx <- attr(term, "term.labels") %in% labelnames
         }
     }
-    if(sum(labelnames.idx)!=1)
+    if (sum(labelnames.idx) != 1) {
         stop("not only one labelnames is matched")
+    }
 
     vars.idx <- (attr(term, "factors")[, labelnames] != 0)
     vars <- names(vars.idx)[vars.idx]
@@ -640,13 +666,16 @@ chkfactor <- function(model, labelnames) {
 
 ## generate xlevels by factorname, levelnames or number of levels
 makexlv <- function(factorname = NULL, levelnames = NULL, n = NULL) {
-    if (all(is.null(c(factorname, levelnames, n))))
+    if (all(is.null(c(factorname, levelnames, n)))) {
         return(NULL)
+    }
 
-    if (is.null(factorname))
+    if (is.null(factorname)) {
         factorname <- "Level"
-    if (!is.null(n) && is.null(levelnames))
+    }
+    if (!is.null(n) && is.null(levelnames)) {
         levelnames <- 1:n
+    }
 
     temp <- list(levelnames)
     names(temp) <- factorname
@@ -659,8 +688,9 @@ multicomp <- function(x, ...) {
     UseMethod("multicomp")
 }
 
+#' @export
 multicomp.moecalc <- function(x, ...) {
-    if (! is.null(x$est)) {
+    if (!is.null(x$est)) {
         cols <- c("Estimate", "Lower", "Upper", "p-value (unadj.)")
         levelnames <- x$xlevels[[1]]
         k <- length(levelnames)
@@ -672,7 +702,7 @@ multicomp.moecalc <- function(x, ...) {
 
         for (i in 1:(k - 1)) {
             for (j in (i + 1):k) {
-                est <- - x$est.diffs[j, i]
+                est <- -x$est.diffs[j, i]
                 bounds <- est + c(-1, 1) * x$moe.diffs[j, i]
                 # TODO: Adjust p-values for multiple comparisons using Tukey or Bonf
                 pval <- pt(abs(est / x$ses.diffs[j, i]), df = df, lower.tail = FALSE)
@@ -691,6 +721,7 @@ multicomp.moecalc <- function(x, ...) {
     }
 }
 
+#' @export
 print.multicomp <- function(x, ...) {
     printCoefmat(x, P.values = TRUE, has.Pvalue = TRUE, ...)
     invisible(x)

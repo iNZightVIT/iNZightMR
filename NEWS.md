@@ -1,3 +1,7 @@
+# iNZightMR 2.3.1
+
+- add mising S3 exports
+
 # iNZightMR 2.3.0
 
 - refactor `calcmissing()` to return an object with print methods, instead of bizarre and confusing `print` and `final` arguments
