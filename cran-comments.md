@@ -1,7 +1,6 @@
 ## Test environments
 
-- local ubuntu 22.10, R 4.2.3
-- ubuntu 20.04 (github actions), R release and devel
+- ubuntu 22.04 (github actions), R release and devel
 - macos (github actions), R release
 - windows (win-builder) R release and devel
 

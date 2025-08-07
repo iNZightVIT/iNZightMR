@@ -12,3 +12,4 @@
 ^docs$
 ^README\.Rmd$
 ^wordlist$
+^_pkgdown\.yml$
